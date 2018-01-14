@@ -3,19 +3,58 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import index from '../components/index.vue'
 
+
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
-    {
-      path:'/index',
-      name:'首页',
-      component:index
+
+const routes = [
+  {
+    path: '/',
+    name: 'Hello',
+    component: Hello
+  },
+  {
+    path: '/index',
+    name: 'index',
+    component: index,
+    meta: {
+      requireAuth: true
     }
-  ]
+  },
+  {
+    path: '/record',
+    name: 'record',
+    component: resolve => require(['@/components/record.vue'], resolve)
+  },
+  {
+    path:'/journal',
+    name:'journal',
+    component:resolve => require(['@/components/journal.vue'], resolve)
+  },
+  {
+    path:'/journalList',
+    name:'journalList',
+    component:resolve => require(['@/components/journalList.vue'],resolve)
+  }
+]
+
+const router = new Router({
+    routes
+});
+
+router.beforeEach((to, from, next) => {
+  //to and from are Route Object,next() must be called to resolve the hook
+    if(to.matched.some(r => r.meta.requireAuth)){
+      if(sessionStorage.getItem('userInfo')){
+          next();
+      }else{
+        next({
+          path:'/'
+        })
+      }
+    }else{
+      next();
+    }
 })
+
+export default router;

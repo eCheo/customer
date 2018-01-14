@@ -3,9 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import axios from './router/http'
 
 
 Vue.prototype.$axios = axios;
@@ -17,6 +17,7 @@ Vue.use(iView)
 new Vue({
   el: '#app',
   router,
+  axios,
   template: '<App/>',
   components: { App }
 })

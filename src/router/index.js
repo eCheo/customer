@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import index from '../components/index.vue'
+import indexadmin from '../components/indexadmin.vue'
 
 
 Vue.use(Router)
@@ -22,9 +23,22 @@ const routes = [
     }
   },
   {
+    path:'/indexadmin',
+    name:'indexadmin',
+    component: indexadmin,
+    meta:{
+      requireAuth:true
+    }
+  },
+  {
     path: '/record',
     name: 'record',
     component: resolve => require(['@/components/record.vue'], resolve)
+  },
+  {
+    path: '/recordadmin',
+    name: 'recordadmin',
+    component: resolve => require(['@/components/recordadmin.vue'], resolve)
   },
   {
     path:'/journal',

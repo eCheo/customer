@@ -72,11 +72,12 @@ export default {
                         if (response.data.success) {
                     
                             sessionStorage.setItem('userInfo',this.name);
-                            this.$router.push({
-                                path: '/index'
+                            if(response.data.data=='客户管理员'){
+                                this.$router.push({path: '/indexadmin'});
+                            }else{
+                                this.$router.push({path: '/index'});
                             }
 
-                            );
                         } else {
                             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
                             this.$Message.error(response.data.message);

@@ -185,11 +185,11 @@ export default {
 }
 
 .login {
-    padding: 30px;
-    width: 800px;
-    height: 560px;
-    position: relative;
-    bottom: 100%;
+    padding: 50px;
+    width: 60%;
+    height: 100%;
+    position: absolute;
+    top: 0;
     left: 20%;
     z-index: 0;
 }

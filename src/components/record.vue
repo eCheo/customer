@@ -21,13 +21,13 @@
                     <div class="r_top r_top1">
                         <div class="r_one">
                             <div class="one_left">
-                                <Input v-model="time" disabled>
+                                <Input v-model="time" readonly>
                                 <span slot="prepend">备案时间</span>
                                 </Input>
                             </div>
                             <div class="one_right">
                                 <label>到期时间</label>
-                                <DatePicker v-model="overdueTime" type="datetime" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
+                                <DatePicker v-model="overdueTime" type="date" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
                             </div>
                         </div>
                     </div>
@@ -78,42 +78,42 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.contactName" @on-blur='addContract'>
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.position" @on-blur='addContract'>
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.phone" @on-blur='addContract'>
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.QQ" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.QQ" @on-blur='addContract'>
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weixin" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.weiXin" @on-blur='addContract'>
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.landLine" @on-blur='addContract'>
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -237,7 +237,7 @@ export default {
             contractList: [],   //存放联系方式的集合
             contract: { //接收联系方式的对象
                 phone: "",
-                weixin: "",
+                weiXin: "",
                 QQ: "",
                 position: "",
                 contactName: "",
@@ -317,7 +317,7 @@ export default {
 
 
         },
-        addContract(type) {
+        addContract() {
             this.contractList[this.index] = this.contract
         },
         clearValue() {

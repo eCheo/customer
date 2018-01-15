@@ -132,22 +132,21 @@
 }
 
 .i_button{
-    position: relative;
-    top: -880px;
-    left:293px;
-    width: 150px;
+    position: absolute;
+    top: 25%;
+    left:31%;
     padding-top: 20px;
     color: #0766A3;
 }
 .i_button img{
-    width: 60%;
+    width: 100%;
 }
 
 .i_button span{
     position: relative;
     top: -30px;
     text-align: center;
-    width:100px;
+    width:100%;
     display: block;
 }
 .ivu-table-body,
@@ -157,4 +156,5 @@
 
 .i_but{
     cursor: pointer;height:30px;margin-bottom:10px;
+        width: 80%;
 }

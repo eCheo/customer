@@ -1,0 +1,251 @@
+.minR{
+    background: url("/static/img/backgroundImg.png") no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    min-width: 1200px;
+    font-family: yayuan;
+    letter-spacing:1px;
+    font-size: 10px;
+}
+
+.total{
+    position: absolute;
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+}
+
+@font-face{
+    font-family: yayuan;
+    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
+}
+
+.r_left{
+    overflow: hidden;
+    width: 50%;
+}
+
+.r_left img{
+    height: 670px;
+}
+
+.left_font{
+    position: relative;
+    top:-650px;
+    left:10px;
+    color: #fff;
+    width: 100px;
+}
+
+.r_log{
+    position: relative;
+    top: -680px;
+    left: 130px;
+    width: 150px;
+    height: 60px;
+}
+.r_log img{
+    width: 100%;
+    height: 100%;
+}
+
+.r_top{
+    position: relative;
+    top: -780px;
+    left: 170px;
+    width: 380px;
+}
+
+.r_top2{
+    position: relative;
+    top: -20px;
+   left: 47px;
+    width:380px;
+    margin-top: 20px;
+     border-bottom: 8px solid #0766A3;
+    border-radius: 3px;
+     background: #F9F9F9;
+     
+    -moz-box-shadow:0px -1px 8px #333333; -webkit-box-shadow:0px -1px 8px #333333; box-shadow:0px -1px 8px #333333;
+}
+
+.r_one{
+    position: relative;
+    top: 0;
+    left: 0;
+    background: #F9F9F9;
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid #0766A3;
+    border-radius: 3px;
+    -moz-box-shadow:0px -1px 8px #333333; -webkit-box-shadow:0px -1px 8px #333333; box-shadow:0px -1px 8px #333333;
+}
+
+.ivu-input-group-prepend{
+    background:repeating-linear-gradient(#2B9BD6,#1B81C8);
+    background:-webkit-repeating-linear-gradient(#2B9BD6,#1B81C8);
+    background:-moz-repeating-linear-gradient(#0766A3,#2590D1);
+    color: #fff;
+    width:16%;
+}
+
+
+
+.one_left{
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    width: 50%;
+
+}
+
+.one_left input{
+    height: 2.34em;
+    border: 1px solid #7FC875;
+    margin-left: -3px;
+  
+}
+.one_right{
+    padding-top: 5px;
+    width: 50%;
+}
+
+.one_right label{
+    width: 30%;
+    height: 27px;
+    background:#2590D1;
+    color: #fff;
+    border-radius:3px;
+    line-height: 28px;
+    text-align: center;
+    float: left;
+}
+
+.one_right input{
+    height: 2.34em;
+    border: 1px solid #7FC875;
+   
+}
+
+.r_top1{
+    margin-top: 20px;
+     border-bottom: 8px solid #0766A3;
+    border-radius: 3px;
+     background: #F9F9F9;
+    -moz-box-shadow:0px -1px 8px #333333; -webkit-box-shadow:0px -1px 8px #333333; box-shadow:0px -1px 8px #333333;
+}
+.r_one1{
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 30px;
+}
+.one_left1{
+    width: 100%;
+    
+}
+.one_left1 input{
+    width:76%;
+    height: 2.34em;
+    border: 1px solid #7FC875;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: 0;
+    text-decoration: none;
+    margin-left: -3px;
+}
+
+.one_left1 label{
+    display: inline-block;
+    width: 16%;
+    height: 25px;
+    background:#2590D1;
+    color: #fff;
+    border-radius:3px;
+    line-height: 20px;
+    text-align: center;
+   
+}
+
+
+#bg{
+    height:50px;
+    background: #7FC875;
+}
+
+.textarea{
+    position: relative;
+    left: 15%;
+}
+.pen{
+    position: relative;
+    top: -100px;
+    left: -2%;
+    width: 200px;
+    height: 280px;
+}
+.pen img{
+    width: 100%;
+    height: 100%;
+}
+.clip{
+    position: relative;
+    top: -430px;
+    left: 85%;
+    width: 150px;
+    height: 200px;
+}
+.clip img{
+    width: 100%;
+    height: 100%;
+}
+
+.but_list{
+    position: absolute;
+    top:20%;
+    left: 42.2%;
+}
+
+.div_but{
+   cursor: pointer;
+   width: 80px;
+   height:30px;
+   margin-bottom:10px;
+}
+.div_but img{
+    width: 100%;
+    height: 100%;
+}
+
+.div_but span{
+     position: relative;
+    top: -30px;
+    left: -5px;
+    text-align: center;
+    width:100px;
+    display: block;
+    color: #2871A0;
+}
+
+.r_but{
+    position: relative;
+    top: -760px;
+    left: 18%;
+    margin-bottom: 60px;
+}
+.box{
+    padding-top: 7%;
+}
+
+.pens{
+    margin-top: 50%;
+}

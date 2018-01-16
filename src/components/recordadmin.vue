@@ -176,7 +176,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="div_but" @click="create">
+                            <div class="div_but" @click="pass">
                                 <img src="/static/img/button_03.png">
                                 <span>
                                     通过
@@ -234,7 +234,6 @@
 
         </div>
     </div>
-
 </template>
 
 <script>
@@ -499,6 +498,21 @@ export default {
           }
         });
     },
+    rejectinfo(){
+        this.$Modal.confirm({
+            title:'驳回信息',
+            content:'<p>666666</p><p>666666</p><p>666666</p>',
+            width: 70,
+        });
+    },
+    pass(){
+        var id = JSON.parse(sessionStorage.getItem("id"));
+        this.$axios.post('/api/front/record/adopt.json',{
+            id:id
+        }).then(res=>{
+            console.log(res.data);
+        })
+    },
     reject() {
       var id = JSON.parse(sessionStorage.getItem("id"));
       let reject = "";
@@ -523,12 +537,14 @@ export default {
           });
         },
         onOk() {
-          this.$axios.post("/api/front/record/reject.json", {
-                id: id,
-                reject: reject
+          this.$axios
+            .post("/api/front/record/reject.json", {
+              id: id,
+              reject: reject
             })
             .then(res => {
-                console.log(res.data.data)
+              console.log(res.data.data);
+              this.$Message.error("系统异常，请联系管理员");
             });
         }
       });

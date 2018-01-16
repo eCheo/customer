@@ -510,7 +510,7 @@ export default {
         this.$axios.post('/api/front/record/adopt.json',{
             id:id
         }).then(res=>{
-            console.log(res.data);
+            this.$Message.error("通过请求");
         })
     },
     reject() {
@@ -544,7 +544,7 @@ export default {
             })
             .then(res => {
               console.log(res.data.data);
-              this.$Message.error("系统异常，请联系管理员");
+              this.$Message.error("驳回成功");
             });
         }
       });

@@ -182,13 +182,21 @@ export default {
         },
         condition(current) {
             this.loading = true;
+            this.$axios.get('/api/metadata/getByEnumClassSimpleName.json',{
+                params:{
+                    enumClassSimpleName:'RecordStatus'
+                }
+            }).then(res=>{
+                console.log(res)
+            })
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                 params: {
                     page: current,
                     size: 9,
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
-                    LIKE_entryName: this.LIKE_entryName
+                    LIKE_entryName: this.LIKE_entryName,
+                    EQ_recordStatus:"trial"
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;

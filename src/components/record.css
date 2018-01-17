@@ -182,6 +182,12 @@
     background:url('/static/img/add_button_03.png') no-repeat;
     background-size: cover;
 }
+.item_img1{
+     width: 30px;
+    height: 22px;
+    background:url('/static/img/delect_03.png') no-repeat;
+    background-size: cover;
+}
 .r_item img{
     width: 100%;
     height: 100%;

@@ -105,7 +105,7 @@
                     <img src="/static/img/logo.png">
                 </div>
                 <div class="tab">
-                    <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
+                    <Table :row-class-name="rowClassName" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                 </div>
                 <div class="page">
                     <Page :total="total" @on-change="condition"></Page>
@@ -161,7 +161,8 @@ export default {
             LIKE_corporateName: '',
             mediaForm: [],
             LIKE_entryName: '',
-            EQ_mediaForm: ''
+            EQ_mediaForm: '',
+            statusName:''
         }
     },
     methods: {
@@ -230,6 +231,15 @@ export default {
         },
         find() {
             this.$axios.get('/api/front/record/findByConditionAdminPage.json')
+        },
+        rowClassName(row,index){
+            sessionStorage.setItem('state',row.recordStatus.name)
+            if(row.recordStatus.message == "驳回"){
+                return 'demo-table-info-row';
+            }
+                return '';
+            
+           
         }
     },
     mounted() {

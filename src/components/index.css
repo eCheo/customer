@@ -158,3 +158,8 @@
     cursor: pointer;height:30px;margin-bottom:10px;
         width: 80%;
 }
+
+.ivu-table  .demo-table-info-row td{
+    background-color: #EA2000;
+    color: #fff;
+}

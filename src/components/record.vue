@@ -46,7 +46,7 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select v-model="recordDto.mediaForm" @on-change="inputChange" style="width:82.3%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;">
+                                <Select v-model="recordDto.mediaForm" style="width:82.3%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName">
+                                <Input v-model="recordDto.entryName" @on-change="inputChange">
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
@@ -121,6 +121,10 @@
                         </div>
                         <ul class="r_list">
                             <li class="r_item">
+                                <div class="item_img1" @click="delect">
+                                </div>
+                            </li>
+                            <li class="r_item">
                                 <div class="item_img" @click="addList">
                                 </div>
                             </li>
@@ -155,7 +159,7 @@
                             <div class="div_but">
                                 <img src="/static/img/button_03.png">
                                 <span>
-                                    备案数量
+                                    驳回原因
                                 </span>
                             </div>
                         </li>
@@ -163,12 +167,12 @@
                             <div class="div_but">
                                 <img src="/static/img/button_03.png">
                                 <span>
-                                    备案数量
+                                    成交
                                 </span>
                             </div>
                         </li>
                         <li>
-                            <div class="div_but" @click="create">
+                            <div class="div_but" @click="state">
                                 <img src="/static/img/button_03.png">
                                 <span>
                                     提交Filling
@@ -242,9 +246,11 @@ export default {
                 position: "",
                 contactName: "",
                 landLine: "",
+                id: ''
             },
             mediaFormList: [],
             recordDto: {    //接收表单的数据
+                id: '',
                 corporateName: '',  //公司名称
                 corporateAddress: '',   // 公司地址
                 entryName: '',          //项目名称
@@ -262,9 +268,25 @@ export default {
             imgName: '',
             visible: false,
             isShow: false,
-            customerName:'',
-            dtoName:'',
-            roleName:''
+            customerName: '',
+            dtoName: '',
+            roleName: '',
+            dtoDetailDtoList: {
+                dtoDetailDto: {
+                    updateList: [],
+                    deleteList: []
+                },
+                id: '',
+                corporateName: "",
+                corporateAddress: '',
+                entryName: '',
+                projectAddress: '',
+                customerCard: '',
+                mediaForm: '',
+                docking: '',
+                pickUp: '',
+                remarks: ''
+            },
         }
     },
     mounted() {
@@ -273,25 +295,24 @@ export default {
          * 职位
          * 部门
          */
-         this.customerName = sessionStorage.getItem("name");
-         this.roleName = sessionStorage.getItem("role");
-         this.dtoName = sessionStorage.getItem("dto");
+        this.customerName = sessionStorage.getItem("name");
+        this.roleName = sessionStorage.getItem("role");
+        this.dtoName = sessionStorage.getItem("dto");
 
         this.getMediaForm();
         this.getTime();
         this.uploadList = this.$refs.upload.fileList;
         let id = sessionStorage.getItem("id");
-        if(id){
+        if (id) {
             this.findByIdView();
-            
         }
-      
     },
-    beforeUpdate () {
-          let id = sessionStorage.getItem("id");
-        if(id){
+    beforeUpdate() {
+        let id = sessionStorage.getItem("id");
+        if (id) {
             this.isShow = false;
         }
+
     },
     methods: {
         addList() {
@@ -311,22 +332,20 @@ export default {
                     img1: '/static/img/numGreen.jpg',
                     img2: '/static/img/numBack.jpg'
                 });
+                this.contractList.push({});
                 this.clearValue();//清空數據
             }
-
-
-
         },
-        addContract() {
-            this.contractList[this.index] = this.contract
-        },
+        // addContract() {
+        //     this.contractList[this.index] = this.contract
+        // },
         clearValue() {
             this.contract = {};
         },
         chenge(index) {
-            if (this.contractList.length == this.index) {
-                this.contractList.push({});
-            }
+            // if (this.contractList.length == this.index) {
+            //     this.contractList.push({});
+            // }
             this.index = index;
             this.contract = this.contractList[index];
         },
@@ -350,6 +369,7 @@ export default {
             this.$axios.post('/api/front/record/create.json',
                 this.recordDto
             ).then(res => {
+
                 if (!res.data.success)
                     this.$Message.error(res.data.message + "_(:3」∠)_");
                 else if (res.data.success)
@@ -412,12 +432,12 @@ export default {
         },
         inputChange() {
             var corporateName = this.recordDto.corporateName,
-                mediaForm = this.recordDto.mediaForm;
-            if (corporateName != "" && mediaForm != "") {
+                mediaForm = this.recordDto.entryName;
+            if (corporateName != "" && entryName != "") {
                 this.$axios.get('/api/front/record/findByConditionList.json', {
                     params: {
                         EQ_corporateName: corporateName,
-                        EQ_mediaForm: mediaForm
+                        EQ_entryName: entryName
                     }
                 }).then(res => {
                     if (res.data.data.length > 0) {
@@ -435,8 +455,22 @@ export default {
                     id: id
                 }
             }).then(res => {
+                //赋值默认联系人
+                this.contract.contactName =
+                    res.data.data.contactNumberDtos[0].contactName;
+                this.contract.position = res.data.data.contactNumberDtos[0].position;
+                this.contract.phone = res.data.data.contactNumberDtos[0].phone;
+                this.contract.QQ = res.data.data.contactNumberDtos[0].qq;
+                this.contract.weixin = res.data.data.contactNumberDtos[0].weixin;
+                this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
+
+                //复制联系人集合
+                this.contractList = res.data.data.contactNumberDtos;
                 this.recordDto = res.data.data;
                 this.recordDto.mediaForm = res.data.data.mediaForm.name;
+                console.log(this.contract);
+                console.log(this.recordDto.contactNumberDtos);
+                this.contractList = res.data.data.contactNumberDtos;
                 var arry = res.data.data.customerCard;
                 if (arry != null && arry.length > 0) {
                     var car = arry.split(",");
@@ -444,7 +478,7 @@ export default {
                         this.uploadList.push({
                             response: {
                                 data: {
-                                    id: car[i],
+                                    id: car[i]
                                 }
                             },
                             status: "finished"
@@ -452,15 +486,75 @@ export default {
                     }
                 }
                 var contactNumberLength = res.data.data.contactNumberDtos.length;
-                for (var j = 0; j < contactNumberLength; j++) {
+                for (var j = 0; j < contactNumberLength - 1; j++) {
                     this.navList.push({
                         img1: '/static/img/numGreen.jpg',
                         img2: '/static/img/numBack.jpg'
                     })
                 }
-                
+
 
             })
+        },
+        update() {
+            // this.dtoDetailDtoList = this.recordDto;
+
+
+
+
+            this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
+            this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
+            this.dtoDetailDtoList.entryName = this.recordDto.entryName;
+            this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
+            this.dtoDetailDtoList.customerCard = this.recordDto.customerCard;
+            this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
+            this.dtoDetailDtoList.docking = this.recordDto.docking;
+            this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
+            this.dtoDetailDtoList.remarks = this.recordDto.remarks;
+            this.dtoDetailDtoList.id = this.recordDto.id;
+
+
+
+
+            this.dtoDetailDtoList.dtoDetailDto.updateList = this.contractList;
+            console.log(this.dtoDetailDtoList);
+            this.$axios.post('/api/front/record/update.json',
+                this.dtoDetailDtoList
+            ).then(res => {
+                if (res.data.success == false) {
+                    this.$Message.error("修改失败");
+                } else {
+                    this.$Message.success("修改成功");
+                }
+            })
+        },
+        state() {
+            var state = sessionStorage.getItem('state');
+            if (state == "reject") {
+                this.show = true;
+                this.update();
+            } else {
+                this.create();
+            }
+        },
+        delect() {
+            if (this.navList.length == 1) {
+                this.$Message.error("还是留一个吧");
+                return;
+            }
+            this.$Modal.confirm({
+                title: '删除操作',
+                content: '确定要删除吗？',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    this.chenge(this.contractList.length - 2);
+                    this.navList.pop();
+                    this.contractList.pop();
+                }
+            });
+
+
         }
     }
 

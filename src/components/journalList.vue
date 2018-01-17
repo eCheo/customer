@@ -106,16 +106,15 @@ export default {
                     title: '日期',
                     key: 'remindDate',
                     render: (h, params) => {
-                        var formatDate = function(date) {
-                            date = params.row.remindDate;
+                           var date = params.row.remindDate;
+                           date = new Date(date);
                             var y = date.getFullYear();
                             var m = date.getMonth() + 1;
                             m = m < 10 ? '0' + m : m;
                             var d = date.getDate();
                             d = d < 10 ? ('0' + d) : d;
-                            return y + '-' + m + '-' + d;
-                        };
-                        return fromatDate(date);
+                           var time = y + '-' + m + '-' + d;
+                        return time;
                     }
                 }
             ],

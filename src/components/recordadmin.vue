@@ -22,12 +22,12 @@
                         <div class="r_one">
                             <div class="one_left">
                                 <Input v-model="time" disabled>
-                                <span slot="prepend">备案时间</span>
+                                <span slot="prepend">{{timeType===2?'生效':'备案'}}时间</span>
                                 </Input>
                             </div>
                             <div class="one_right">
                                 <label>到期时间</label>
-                                <DatePicker v-model="overdueTime" type="datetime" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
+                                <DatePicker readonly v-model="overdueTime" type="datetime" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
                             </div>
                         </div>
                     </div>
@@ -151,15 +151,15 @@
                         </div>
                     </div>
                     <ul class="but_list">
-                        <li>
-                            <div class="div_but">
+                        <li v-if="recordStatus.code==='trial'">
+                            <div class="div_but" @click="transfer">
                                 <img src="/static/img/button_03.png">
                                 <span>
                                     转交
                                 </span>
                             </div>
                         </li>
-                        <li>
+                        <li v-if="recordStatus.code==='reject'">
                             <div class="div_but" @click="reject">
                                 <img src="/static/img/button_03.png">
                                 <span>
@@ -167,15 +167,15 @@
                                 </span>
                             </div>
                         </li>
-                        <li>
-                            <div class="div_but" @click="create">
+                        <li v-if="recordStatus.code==='dealApply'||recordStatus.code==='dealCut'">
+                            <div class="div_but" @click="deal">
                                 <img src="/static/img/button_03.png">
                                 <span>
                                     成交
                                 </span>
                             </div>
                         </li>
-                        <li>
+                        <li v-if="recordStatus.code==='trial'">
                             <div class="div_but" @click="pass">
                                 <img src="/static/img/button_03.png">
                                 <span>
@@ -283,7 +283,15 @@ export default {
       isShow: false,
       customerName: "",
       dtoName: "",
-      roleName: ""
+      roleName: "",
+      recordStatus:{
+          code:"",
+          message:"",
+          name:""
+      },
+      effectTime:'',
+      terminationTime:'',
+      timeType:0
     };
   },
   mounted() {
@@ -394,8 +402,8 @@ export default {
     },
     getTime() {
       this.$axios.get("/api/front/record/getTime.json", {}).then(res => {
-        this.time = res.data.data.time;
-        this.overdueTime = res.data.data.overdueTime;
+        //this.time = res.data.data.time;
+        //this.overdueTime = res.data.data.overdueTime;
       });
     },
     handleSuccess(res) {
@@ -462,8 +470,7 @@ export default {
           }
         })
         .then(res => {
-          this.contract.contactName =
-            res.data.data.contactNumberDtos[0].contactName;
+          this.contract.contactName =res.data.data.contactNumberDtos[0].contactName;
           this.contract.position = res.data.data.contactNumberDtos[0].position;
           this.contract.phone = res.data.data.contactNumberDtos[0].phone;
           this.contract.QQ = res.data.data.contactNumberDtos[0].qq;
@@ -472,6 +479,15 @@ export default {
           this.contractList = res.data.data.contactNumberDtos;
           this.recordDto = res.data.data;
           this.recordDto.mediaForm = res.data.data.mediaForm.name;
+          this.overdueTime=res.data.data.expireTime;
+          this.recordStatus.code=res.data.data.recordStatus.code;
+          if(this.recordStatus.code=='dealCut'){
+            this.timeType=2
+            this.time=res.data.data.contractEffectTime
+          }else{
+            this.timeType=1
+            this.time=res.data.data.time
+          }
           if (
             res.data.data.customerCard != null &&
             res.data.data.customerCard.length > 0
@@ -505,12 +521,75 @@ export default {
             width: 70,
         });
     },
+    transfer(){
+        var id = JSON.parse(sessionStorage.getItem("id"));
+        this.$axios.post('/api/front/record/transfer.json',{
+            id:id
+        }).then(res=>{
+            this.$Message.success("转交成功");
+            history.go(-1);
+        })
+    },
     pass(){
         var id = JSON.parse(sessionStorage.getItem("id"));
         this.$axios.post('/api/front/record/adopt.json',{
             id:id
         }).then(res=>{
-            this.$Message.error("通过请求");
+            this.$Message.success("通过请求");
+            history.go(-1);
+        })
+    },
+    deal(){
+        let effectTime='';
+        let terminationTime='';
+        this.$Modal.confirm({
+            title:'选择成交日期',
+            width:40,
+            // render: h=>{
+            //     return h('DatePicker',{
+            //         type:'datetime',
+            //         value:this.effectTime,
+            //         on: {
+            //             input: val => {
+            //                 this.effectTime = val;
+            //                 effectTime = val;
+            //             }
+            //         }
+            //     })
+            // },
+            render: h=>{
+                return h('div',{},[
+                    h('DatePicker',{
+                        type:'datetime',
+                        value:this.effectTime,
+                        on: {
+                            input: val => {
+                                effectTime = val;
+                            }
+                        }
+                    }),
+                    h('DatePicker',{
+                        type:'datetime',
+                        value:this.terminationTime,
+                        on: {
+                            input: val => {
+                                terminationTime = val;
+                            }
+                        }
+                    })
+                ])
+            },
+            onOk(){
+                var id = JSON.parse(sessionStorage.getItem("id"));
+                this.$axios.post('/api/front/record/deal.json',{
+                    contractEffectTime:effectTime,
+                    expireTime:terminationTime,
+                    id:id
+                }).then(res=>{
+                    this.$Message.success("通过成交请求");
+                    history.go(-1);
+                })
+            }
         })
     },
     reject() {
@@ -544,7 +623,8 @@ export default {
             })
             .then(res => {
               console.log(res.data.data);
-              this.$Message.error("驳回成功");
+              this.$Message.success("驳回成功");
+              history.go(-1);
             });
         }
       });

@@ -196,7 +196,8 @@ export default {
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                     LIKE_entryName: this.LIKE_entryName,
-                    EQ_recordStatus:"trial"
+                    IN_recordStatus:"trial,deal,recordSuccess,dealApply,dealCut",
+                    sort:'recordStatus,asc'
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;

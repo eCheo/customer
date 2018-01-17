@@ -159,7 +159,7 @@
                                 </span>
                             </div>
                         </li>
-                        <li v-if="recordStatus.code==='reject'">
+                        <li v-if="recordStatus.code==='trial'">
                             <div class="div_but" @click="reject">
                                 <img src="/static/img/button_03.png">
                                 <span>

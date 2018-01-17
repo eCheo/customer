@@ -108,7 +108,7 @@
                     <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                 </div>
                 <div class="page">
-                    <Page :total="total" @on-change="condition"></Page>
+                    <Page :total="total" :page-size="9" @on-change="condition"></Page>
                 </div>
 
             </div>
@@ -197,7 +197,7 @@ export default {
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                     LIKE_entryName: this.LIKE_entryName,
                     IN_recordStatus:"trial,deal,recordSuccess,dealApply,dealCut",
-                    sort:'recordStatus,asc'
+                    sort:'recordStatus,desc'
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;

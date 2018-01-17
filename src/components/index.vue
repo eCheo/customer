@@ -108,7 +108,7 @@
                     <Table :row-class-name="rowClassName" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                 </div>
                 <div class="page">
-                    <Page :total="total" @on-change="condition"></Page>
+                    <Page :total="total" :page-size="9" @on-change="condition"></Page>
                 </div>
 
             </div>

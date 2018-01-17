@@ -336,9 +336,9 @@ export default {
                 this.clearValue();//清空數據
             }
         },
-        // addContract() {
-        //     this.contractList[this.index] = this.contract
-        // },
+        addContract() {
+            this.contractList[this.index] = this.contract
+        },
         clearValue() {
             this.contract = {};
         },
@@ -363,7 +363,15 @@ export default {
                 this.chenge(this.contractList.length - 1);
                 return;
             }
-            var customerCard = this.recordDto.customerCard.substring(0, this.recordDto.customerCard.lastIndexOf(","));
+            var customerCard = "";
+            for (var i = 0; i < this.customerCardList.length; i++) {
+                if (i == this.customerCardList.length - 1) {
+                    customerCard += this.customerCardList[i].id;
+                } else {
+                    customerCard += this.customerCardList[i].id + ",";
+                }
+
+            }
             this.recordDto.customerCard = customerCard;
             this.recordDto.contactNumberDtos = this.contractList;
             this.$axios.post('/api/front/record/create.json',
@@ -399,6 +407,7 @@ export default {
             })
         },
         handleSuccess(res) {
+
             this.customerCardList.push({
                 id: res.data.id
             }
@@ -483,6 +492,9 @@ export default {
                             },
                             status: "finished"
                         });
+                        this.customerCardList.push({
+                            id: car[i]
+                        });
                     }
                 }
                 var contactNumberLength = res.data.data.contactNumberDtos.length;
@@ -499,14 +511,11 @@ export default {
         update() {
             // this.dtoDetailDtoList = this.recordDto;
 
-
-
-
             this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
             this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
             this.dtoDetailDtoList.entryName = this.recordDto.entryName;
             this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
-            this.dtoDetailDtoList.customerCard = this.recordDto.customerCard;
+            this.dtoDetailDtoList.customerCard = this.customerCard;
             this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
             this.dtoDetailDtoList.docking = this.recordDto.docking;
             this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
@@ -515,7 +524,7 @@ export default {
 
 
 
-
+            // this.dtoDetailDtoList.deleteList = 
             this.dtoDetailDtoList.dtoDetailDto.updateList = this.contractList;
             console.log(this.dtoDetailDtoList);
             this.$axios.post('/api/front/record/update.json',
@@ -551,6 +560,7 @@ export default {
                     this.chenge(this.contractList.length - 2);
                     this.navList.pop();
                     this.contractList.pop();
+                    this.dtoDetailDtoList.dtoDetailDto.deleteList.push(this.contractList[this.contractList.length - 1].id);
                 }
             });
 

@@ -34,7 +34,7 @@
                     <div class="r_top1 r_top">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName" @on-change="inputChange">
+                                <Input v-model="recordDto.corporateName" >
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -46,7 +46,7 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select v-model="recordDto.mediaForm" @on-change="inputChange" style="width:82.3%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;">
+                                <Select v-model="recordDto.mediaForm" style="width:82.3%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
@@ -78,42 +78,42 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.contactName" @on-blur='addContract()'>
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.position" @on-blur='addContract()'>
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.phone" @on-blur='addContract()'>
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.QQ" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.QQ" @on-blur='addContract()'>
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weixin" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.weixin" @on-blur='addContract()'>
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" @on-blur='addContract("phone")'>
+                                    <Input v-model="contract.landLine" @on-blur='addContract()'>
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -305,7 +305,6 @@ export default {
     this.dtoName = sessionStorage.getItem("dto");
 
     this.getMediaForm();
-    this.getTime();
     this.uploadList = this.$refs.upload.fileList;
     let id = sessionStorage.getItem("id");
     if (id) {
@@ -340,10 +339,11 @@ export default {
           img1: "/static/img/numGreen.jpg",
           img2: "/static/img/numBack.jpg"
         });
+        this.contractList.push({});
         this.clearValue(); //清空數據
       }
     },
-    addContract(type) {
+    addContract() {
       this.contractList[this.index] = this.contract;
     },
     clearValue() {
@@ -400,12 +400,6 @@ export default {
           // console.log(this.mediaForm);
         });
     },
-    getTime() {
-      this.$axios.get("/api/front/record/getTime.json", {}).then(res => {
-        //this.time = res.data.data.time;
-        //this.overdueTime = res.data.data.overdueTime;
-      });
-    },
     handleSuccess(res) {
       this.customerCardList.push({
         id: res.data.id
@@ -425,40 +419,20 @@ export default {
       );
     },
     //最大上传单个文件多大
-    // handleMaxSize(file) {
-    //     this.$Notice.warning({
-    //         title: 'Exceeding file size limit',
-    //         desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-    //     });
-    // },
-    // handleBeforeUpload() {
-    //     const check = this.uploadList.length < 5;
-    //     if (!check) {
-    //         this.$Notice.warning({
-    //             title: '最多只能上传5张名片哦   ˊ_>ˋ'
-    //         });
-    //     }
-    //     return check;
-    // },
-    inputChange() {
-      var corporateName = this.recordDto.corporateName,
-        mediaForm = this.recordDto.mediaForm;
-      if (corporateName != "" && mediaForm != "") {
-        this.$axios
-          .get("/api/front/record/findByConditionList.json", {
-            params: {
-              EQ_corporateName: corporateName,
-              EQ_mediaForm: mediaForm
-            }
-          })
-          .then(res => {
-            if (res.data.data.length > 0) {
-              this.isShow = true;
-            } else {
-              this.isShow = false;
-            }
-          });
-      }
+    handleMaxSize(file) {
+        this.$Notice.warning({
+            title: 'Exceeding file size limit',
+            desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+    },
+    handleBeforeUpload() {
+        const check = this.uploadList.length < 5;
+        if (!check) {
+            this.$Notice.warning({
+                title: '最多只能上传5张名片哦   ˊ_>ˋ'
+            });
+        }
+        return check;
     },
     findByIdView() {
       //详情
@@ -492,7 +466,7 @@ export default {
             res.data.data.customerCard != null &&
             res.data.data.customerCard.length > 0
           ) {
-            var car = arry.split(",");
+            var car = res.data.data.customerCard.split(",");
             for (var i = 0; i < car.length; i++) {
               this.uploadList.push({
                 response: {
@@ -502,11 +476,14 @@ export default {
                 },
                 status: "finished"
               });
+                this.customerCardList.push({
+                    id: car[i]
+                });
             }
           }
 
           var contactNumberLength = res.data.data.contactNumberDtos.length;
-          for (var j = 0; j < contactNumberLength; j++) {
+          for (var j = 0; j < contactNumberLength-1; j++) {
             this.navList.push({
               img1: "/static/img/numGreen.jpg",
               img2: "/static/img/numBack.jpg"
@@ -514,6 +491,24 @@ export default {
           }
         });
     },
+    delect() {
+            if (this.navList.length == 1) {
+                this.$Message.error("还是留一个吧");
+                return;
+            }
+            this.$Modal.confirm({
+                title: '删除操作',
+                content: '确定要删除吗？',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    this.chenge(this.contractList.length - 2);
+                    this.navList.pop();
+                    this.contractList.pop();
+                    this.dtoDetailDtoList.dtoDetailDto.deleteList.push(this.contractList[this.contractList.length - 1].id);
+                }
+            });
+        },
     rejectinfo(){
         this.$Modal.confirm({
             title:'驳回信息',

@@ -11,7 +11,7 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'Hello',
+    name: 'hello',
     component: Hello
   },
   {
@@ -49,6 +49,16 @@ const routes = [
     path:'/journalList',
     name:'journalList',
     component:resolve => require(['@/components/journalList.vue'],resolve)
+  },
+  {
+    path:'/chiefsee',
+    name:'chiefsee',
+    component:resolve => require(['@/components/chiefsee.vue'],resolve)
+  },
+  {
+    path:'/pool',
+    name:'pool',
+    component:resolve => require(['@/components/pool.vue'],resolve)
   }
 ]
 
@@ -62,7 +72,7 @@ router.beforeEach((to, from, next) => {
     if(to.matched.some(r => r.meta.requireAuth)){
       if(sessionStorage.getItem('userInfo')){
           next();
-      }else{
+      }else if(!to.name == "hello"){
         next({
           path:'/'
         })

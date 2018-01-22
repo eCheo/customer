@@ -9,57 +9,60 @@
     left: 0px;
     overflow: hidden;
     min-width: 1200px;
+    min-height: 700px;
     font-family: yayuan;
     letter-spacing:1px;
     font-size: 10px;
 }
 
-.center{
+.jenter{
     display: flex;
     width: 90%;
+    height: 100%;
     margin: 0 auto;
 }
-.i_left{
+.j_left{
     padding-top: 10px;
     width: 40%;
+    height: 90%;
     padding-left: 5%;
 }
-.i_top img{
-    width: 440px;
-    height: 660px;
-    position: relative;
+.j_top{
+    width: 90%;
+    height:110%;
+    margin-left: 10%;
 }
-.i_bottom{
-    position: absolute;
-    top:11%;
-    width: 300px;
-    height: 400px;
+.j_top img{
+   width: 100%;
+    height: 86%;
+    
 }
-.i_bottom img{
-    width: 100%;
-}
-.i_right{
+.j_right{
     width: 57%;
+    height: 95%;
     position: relative;
 }
- .i_right img{
-    width: 600px;
-    height: 700px;
+ .j_right img{
+   width: 90%;
+    height: 100%;
 }
-.i_center{
+.j_center{
     width: 4%;
-    padding-top: 31%;
     padding-left:10px;   
 }
-.i_center img{
+.j_center img{
     width: 44px;
+    position:fixed;
+    bottom:0;
 }
-.i_list{
+.list_j{
     position: relative;
-    top: -560px;
-    left: 50px;
+    top: -520px;
+    left: 10%;
+    margin-top: 5%;
+    padding-top: 2%;
 }
-.i_item{
+.item_j{
     margin-bottom: 10px;
     width: 200px;
    
@@ -71,61 +74,30 @@
 }
 
 
+.j_tab{
+    position: relative;
+    margin-top: 15%;
+    left: 7.7%;
+    width: 75%;
+    height: 80%;
+}
 
-.i_list1{
-    position: relative;
-    top: -340px;
-    left: 50px;
-    width: 220px;
-    font-family: yayuan;
-}
-.wrapper{
-    display: flex;
-    width: 220px;
-}
-.w_left{
-    width: 50%;
-    padding-left: 30px;
-}
-.w_left img{
-    width: 70px;
-    height: 70px;
-}
-.w_right{
-    width: 50%;
-    text-align: center;
-}
-.i_item1{
-    width: 200px;
-    text-align: center;
-     line-height: 30px;
-     padding-bottom: 5px;
-}
-.g_box{
-    width: 30px;
-    height: 30px;
-    background: #01C675;
-   display: inline-block;
-}
-.tab{
-    position: relative;
-    top: -600px;
-    left: 55px;
-    width: 497px;
-}
-.page{
-    position: absolute;
-    top: 646px;
+
+.j_page{
+  position: relative;
     left: 120px;
+    top:20px;
 }
-.logo{
-    position: relative;
-    top: -660px;
+.j_logo{
+  position: absolute;
+    top: 40px;
     left: 45px;
     width: 150px;
     height: 50px;
 }
-.logo img{
+
+
+.j_logo img{
     width: 100%;
     height: 100%;
 }
@@ -133,23 +105,29 @@
     border-bottom:2px solid #01C675;
 }
 
-.i_button{
+.j_button{
     position: relative;
-    top: -750px;
-    left:293px;
-    width: 150px;
-    padding-top: 20px;
+    top: -550px;
+    left:69.5%;
     color: #0766A3;
 }
-.i_button img{
-    width: 60%;
+
+.j_but{
+    cursor: pointer;
+    height:30px;
+    margin-bottom:10px;
+    width: 20%;
 }
 
-.i_button span{
-    position: relative;
+.j_but img{
+    width: 100%;
+}
+
+.j_button span{
+   position: relative;
     top: -30px;
     text-align: center;
-    width:100px;
+    width:100%;
     display: block;
 }
 .ivu-table-body,
@@ -157,6 +135,28 @@
     text-align: center;
 }
 
-.i_but{
-    cursor: pointer;height:30px;margin-bottom:10px;
+
+.j_list1{
+    position: relative;
+    margin-top:100px;
+    top: -440px;
+    left: 5%;
+    width: 220px;
+    font-family: yayuan;
+}
+.j_wrapper{
+    display: flex;
+    width: 220px;
+}
+.jw_left{
+    width: 50%;
+    padding-left: 30px;
+}
+.jw_left img{
+    width: 70px;
+    height: 70px;
+}
+.jw_right{
+    width: 50%;
+    text-align: center;
 }

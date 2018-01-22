@@ -1,30 +1,30 @@
 <template>
     <div class="minW">
-        <div class="center">
-            <div class="i_left">
-                <div class="i_top">
+        <div class="jenter">
+            <div class="j_left">
+                <div class="j_top">
                     <img src="/static/img/left_03.png">
                     <div class="j_list">
-                        <ul class="i_list">
-                            <li class="i_item">
+                        <ul class="list_j">
+                            <li class="item_j">
                                 <Input size="large" placeholder="公司名称"></Input>
                             </li>
-                            <li class="i_item">
+                            <li class="item_j">
                                 <Input size="large" placeholder="项目名称"></Input>
                             </li>
-                            <li class="i_item">
+                            <li class="item_j">
                                 <Button type="primary" icon="ios-search">Search</Button>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <ul class="i_list1">
+                        <ul class="j_list1">
                             <li>
-                                <div class="wrapper">
-                                    <div class="w_left">
+                                <div class="j_wrapper">
+                                    <div class="jw_left">
                                         <img src="/static/img/fc.png">
                                     </div>
-                                    <div class="w_right">
+                                    <div class="jw_right">
                                         <div style="font-size: 18px;">
                                             {{EQ_name}}
                                         </div>
@@ -41,21 +41,21 @@
                         </ul>
                     </div>
                 </div>
-                <div class="i_button">
-                    <div class="i_but" @click="to">
+                <div class="j_button">
+                    <div class="j_but" @click="to">
                         <img src="/static/img/button_03.png">
                         <span>
                             增加日志
                         </span>
                     </div>
-                    <div class="i_but">
+                    <div class="j_but">
                         <img src="/static/img/button_03.png">
                         <span>
                             公共信息
                         </span>
                     </div>
                     <router-link to="/index">
-                        <div class="i_but">
+                        <div class="j_but">
                             <img src="/static/img/button_03.png">
                             <span>
                                 主页
@@ -65,19 +65,21 @@
                 </div>
             </div>
 
-            <div class="i_center">
+            <div class="j_center">
                 <img src="/static/img/pencil_03.png">
             </div>
-            <div class="i_right">
+            <div class="j_right">
                 <img src="/static/img/bookBig_02.png">
-                <div class="logo">
-                    <img src="/static/img/logo.png">
-                </div>
-                <div class="tab">
-                    <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findByList"></Table>
-                </div>
-                <div class="page">
-                    <Page :total="total" @on-change="logByPage"></Page>
+                <div style="position: absolute;top: 0px;width: 100%;height:90%;">
+                    <div class="j_logo">
+                        <img src="/static/img/logo.png">
+                    </div>
+                    <div class="j_tab">
+                        <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findByList"></Table>
+                    </div>
+                    <div class="j_page">
+                        <Page :total="total" @on-change="logByPage"></Page>
+                    </div>
                 </div>
 
             </div>
@@ -106,14 +108,14 @@ export default {
                     title: '日期',
                     key: 'remindDate',
                     render: (h, params) => {
-                           var date = params.row.remindDate;
-                           date = new Date(date);
-                            var y = date.getFullYear();
-                            var m = date.getMonth() + 1;
-                            m = m < 10 ? '0' + m : m;
-                            var d = date.getDate();
-                            d = d < 10 ? ('0' + d) : d;
-                           var time = y + '-' + m + '-' + d;
+                        var date = params.row.remindDate;
+                        date = new Date(date);
+                        var y = date.getFullYear();
+                        var m = date.getMonth() + 1;
+                        m = m < 10 ? '0' + m : m;
+                        var d = date.getDate();
+                        d = d < 10 ? ('0' + d) : d;
+                        var time = y + '-' + m + '-' + d;
                         return time;
                     }
                 }

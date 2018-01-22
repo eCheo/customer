@@ -1,0 +1,22 @@
+.minR{
+    background: url("/static/img/backgroundImg.png") no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    min-width: 1200px;
+    font-family: yayuan;
+    letter-spacing:1px;
+    font-size: 10px;
+}
+
+.p_back{
+    background: url("../../static/img/pool_03.png") no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 98%;
+}

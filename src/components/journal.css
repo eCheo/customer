@@ -55,12 +55,6 @@
     height: 100%;
 }
 
-.r_top{
-    position: relative;
-    top: -780px;
-    left: 170px;
-    width: 380px;
-}
 
 .r_top2{
     position: relative;
@@ -236,16 +230,45 @@
     color: #2871A0;
 }
 
-.r_but{
-    position: relative;
-    top: -760px;
-    left: 18%;
-    margin-bottom: 60px;
-}
+
 .box{
-    padding-top: 7%;
+   position:absolute;top:0;left:10%;width:30%;height:93%;margin-top:4%;
 }
 
 .pens{
     margin-top: 50%;
+}
+
+.r_item{
+    width: 32px;
+    height: 20px;
+    float: left;
+    cursor: pointer;
+}
+.item_img{
+    width: 30px;
+    height: 22px;
+    background:url('/static/img/add_button_03.png') no-repeat;
+    background-size: cover;
+}
+.item_img1{
+     width: 30px;
+    height: 22px;
+    background:url('/static/img/delect_03.png') no-repeat;
+    background-size: cover;
+}
+.r_item img{
+    width: 100%;
+    height: 100%;
+}
+.r_item label{
+    position: relative;
+    top: -32px;
+    left: 13px;
+    color: #fff;
+}
+.r_list{
+    position: relative;
+    top: 10px;
+     left: 30%;
 }

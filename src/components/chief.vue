@@ -52,28 +52,19 @@
                                 </div>
                             </li>
                             <li class="i_item1">
-                                <label>
-                                    通过数量
-                                </label>
-
+                                通过数量
                                 <div class="g_box">
                                     {{dataDto.recordSuccessCount}}
                                 </div>
                             </li>
                             <li class="i_item1">
-                                <label>
-                                    成交数量
-                                </label>
-
+                                成交数量
                                 <div class="g_box">
                                     {{dataDto.dealCount}}
                                 </div>
                             </li>
                             <li class="i_item1">
-                                <label>
-                                    到期数量
-                                </label>
-
+                                到期数量
                                 <div class="g_box">
                                     {{dataDto.isExpireCount}}
                                 </div>
@@ -88,14 +79,12 @@
                             增加备案
                         </span>
                     </div>
-                    <router-link to="/pool">
-                        <div class="i_but">
-                            <img src="/static/img/button_03.png">
-                            <span>
-                                公共信息
-                            </span>
-                        </div>
-                    </router-link>
+                    <div class="i_but">
+                        <img src="/static/img/button_03.png">
+                        <span>
+                            公共信息
+                        </span>
+                    </div>
                     <router-link to="/journalList">
                         <div class="i_but">
                             <img src="/static/img/button_03.png">
@@ -113,7 +102,7 @@
 
             <div class="i_right">
                 <img src="/static/img/bookBig_02.png">
-                <div style="position: absolute;top: 0px;width: 90%;height:90%;">
+                <div style="position: absolute;top: 0px;width: 90%;">
                     <div class="logo">
                         <img src="/static/img/logo.png">
                     </div>
@@ -165,104 +154,7 @@ export default {
                 earlyWarning: '',
                 entryName: ''
             }],
-            dataDto: '',
-            name: '',
-            roleName: '',
-            dtoName: '',
-            current: 1,
-            total: 0,
-            loading: true,
-            LIKE_corporateName: '',
-            mediaForm: [],
-            LIKE_entryName: '',
-            EQ_mediaForm: '',
-            statusName: ''
         }
-    },
-    methods: {
-        login() {
-            this.$axios.get('/api/front/member/findMemberIndex.json', {
-
-            }).then(res => {
-                this.name = res.data.data.name;
-                this.dataDto = res.data.data.countRecordDto;
-                this.roleName = res.data.data.roleDto.name;
-                this.dtoName = res.data.data.departmentDto.name;
-
-                sessionStorage.setItem('name', this.name);
-                sessionStorage.setItem('dto', this.dtoName);
-                sessionStorage.setItem('role', this.roleName);
-            })
-
-        },
-        condition(current) {
-            this.loading = true;
-            this.$axios.get('/api/front/record/findByConditionPage.json', {
-                params: {
-                    page: current,
-                    size: 9,
-                    LIKE_corporateName: this.LIKE_corporateName,
-                    EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
-                    LIKE_entryName: this.LIKE_entryName,
-                    sort: "recordStatus,desc"
-
-                }
-            }).then(res => {
-                this.total = res.data.data.totalElements;
-                this.data1 = res.data.data.content;
-                this.id = res.data.data.content.id;
-                this.loading = false;
-            })
-        },
-        getMediaForm() {
-            this.$axios.get('/api/metadata/getByEnumClassSimpleName.json', {
-                params: {
-                    enumClassSimpleName: "MediaForm"
-
-                }
-            }).then(res => {
-
-                this.mediaForm = res.data.data;
-                this.mediaForm.unshift({
-                    name: "unselected",
-                    code: "unselected",
-                    message: "请选择"
-                })
-                // console.log(this.mediaForm);
-            })
-        },
-        findById(index) {
-
-            sessionStorage.setItem('id', index.id);
-            this.$router.push({
-                path: '/record'
-
-            })
-        },
-        to() {
-            sessionStorage.removeItem('id');
-            this.$router.push({
-                path: '/record'
-            })
-        },
-        find() {
-            this.$axios.get('/api/front/record/findByConditionAdminPage.json')
-        },
-        rowClassName(row, index) {
-            sessionStorage.setItem('state', row.recordStatus.name)
-            if (row.recordStatus.name == "C_reject") {
-                return 'demo-table-info-row';
-            }
-            return '';
-
-
-        }
-    },
-    mounted() {
-        this.getMediaForm();
-        this.login();
-        this.condition(this.current);
-
     }
 }
 </script>

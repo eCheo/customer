@@ -18,6 +18,7 @@
     position: absolute;
     padding-top: 10px;
     width: 100%;
+    height: 100%;
     display: flex;
 }
 
@@ -30,15 +31,18 @@
 .r_left{
     overflow: hidden;
     width: 50%;
+    height: 100%;
 }
 
 .r_left img{
-    height: 670px;
+    width: 86%;
+    height: 99%;
 }
 
 .left_font{
     position: relative;
-    top:-650px;
+    margin-top: 10%;
+    top:-550px;
     left:10px;
     color: #fff;
     width: 100px;
@@ -46,22 +50,18 @@
 
 .r_log{
     position: relative;
-    top: -680px;
-    left: 130px;
+    top:0;
+    left: 0;
     width: 150px;
     height: 60px;
+    margin-bottom:5%;
 }
 .r_log img{
     width: 100%;
     height: 100%;
 }
 
-.r_top{
-    position: relative;
-    top: -780px;
-    left: 170px;
-    width: 380px;
-}
+
 .r_one{
     position: relative;
     top: 0;
@@ -121,7 +121,7 @@
 }
 
 .r_top1{
-    margin-top: 20px;
+    margin-top: 4%;
      border-bottom: 8px solid #0766A3;
     border-radius: 3px;
      background: #F9F9F9;
@@ -138,7 +138,9 @@
 }
 .one_left1{
     width: 100%;
-    
+}
+.one_left1 .ivu-input-icon{
+    color: #f00;
 }
 .one_left1 input{
     width:76%;
@@ -151,6 +153,7 @@
     text-decoration: none;
     margin-left: -3px;
 }
+
 
 .one_left1 label{
     display: inline-block;
@@ -195,28 +198,29 @@
 .r_item label{
     position: relative;
     top: -32px;
-    left: 12px;
+    left: 13px;
     color: #fff;
 }
 .r_but{
-    position: relative;
-    top: -760px;
-    left: 18%;
-    margin-bottom: 60px;
+    margin-bottom: 10%;
 }
 
 
 .r_list{
     position: relative;
-     left: 140px;
+    top: 10px;
+     left: 30%;
 }
+
+ .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
 
 .r_top2{
     position: relative;
-    top: -20px;
-   left: 47px;
-    width:380px;
-    margin-top: 20px;
+       top: 0;
+    left: 0;
+    margin-top: 4%;
      border-bottom: 8px solid #0766A3;
     border-radius: 3px;
      background: #F9F9F9;
@@ -306,7 +310,7 @@
 
 .but_list{
     position: absolute;
-    top:20%;
+    top:39%;
     left: 42.2%;
 }
 .div_but{
@@ -325,7 +329,29 @@
     top: -30px;
     left: -5px;
     text-align: center;
-    width:100px;
+    width:80px;
     display: block;
     color: #2871A0;
 }
+
+.yanzheng{
+     border-radius: 5px;
+    border: 1px solid palevioletred;
+    text-align: center;
+    color: #f00;
+    width: 50%;
+    z-index: 888;
+    position: absolute;
+    top: -20px;
+    left:30%;
+ 
+
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+

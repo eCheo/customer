@@ -9,53 +9,56 @@
     left: 0px;
     overflow: hidden;
     min-width: 1200px;
+    min-height: 700px;
     font-family: yayuan;
     letter-spacing:1px;
 }
 .center{
     display: flex;
     width: 90%;
+    height: 100%;
     margin: 0 auto;
 }
 .i_left{
     padding-top: 10px;
     width: 40%;
+    height: 90%;
     padding-left: 5%;
 }
+.i_top{
+    width: 90%;
+    height: 110%;
+    margin-left: 10%;
+}
 .i_top img{
-    width: 440px;
-    height: 660px;
-    position: relative;
-}
-.i_bottom{
-    position: absolute;
-    top:11%;
-    width: 300px;
-    height: 400px;
-}
-.i_bottom img{
     width: 100%;
+    height: 86%;
+   
 }
+
 .i_right{
     width: 57%;
+    height: 95%;
     position: relative;
 }
  .i_right img{
-    width: 600px;
-    height: 700px;
+    width: 90%;
+    height: 100%;
 }
 .i_center{
     width: 4%;
-    padding-top: 31%;
     padding-left:10px;   
 }
 .i_center img{
     width: 44px;
+    position:fixed;
+    top:50%;
 }
 .i_list{
     position: relative;
-    top: -560px;
-    left: 50px;
+    top: -530px;
+    margin-top: 3%;
+    left: 10%;
 }
 .i_item{
     margin-bottom: 10px;
@@ -72,8 +75,9 @@
 
 .i_list1{
     position: relative;
+    margin-top: 20px;
     top: -440px;
-    left: 50px;
+    left: 5%;
     width: 220px;
     font-family: yayuan;
 }
@@ -96,29 +100,42 @@
 .i_item1{
     width: 200px;
     text-align: center;
-     line-height: 30px;
-     padding-bottom: 5px;
+     vertical-align: middle;
+   
+       padding-bottom: 2px;
+    padding-left: 60px;
+    padding-right: 30px;
+    display: inline-block;
+}
+ .i_item1 label{
+    display: block;
+    float: left;
+    width: 70px;
+    height: 33px;
+   line-height: 33px;
 }
 .g_box{
     width: 30px;
     height: 30px;
+    line-height: 30px;
     background: #01C675;
    display: inline-block;
 }
 .tab{
     position: relative;
-    top: -600px;
-    left: 55px;
-    width: 497px;
+    margin-top: 17%;
+    left: 8.9%;
+    width: 83%;
+    height: 80%;
 }
 .page{
-    position: absolute;
-    top: 646px;
-    left: 120px;
+    position:relative;
+    left: 20%;
+    top:20px;
 }
 .logo{
-    position: relative;
-    top: -660px;
+    position: absolute;
+    top: 40px;
     left: 45px;
     width: 150px;
     height: 50px;
@@ -132,13 +149,21 @@
 }
 
 .i_button{
-    position: absolute;
-    top: 25%;
-    left:31%;
-    padding-top: 20px;
+  position: relative;
+    top: -550px;
+    left:69.5%;
     color: #0766A3;
 }
-.i_button img{
+
+.i_but{
+    cursor: pointer;
+    height:30px;
+    margin-bottom:10px;
+        width: 20%;
+}
+
+
+.i_but img{
     width: 100%;
 }
 
@@ -154,10 +179,6 @@
     text-align: center;
 }
 
-.i_but{
-    cursor: pointer;height:30px;margin-bottom:10px;
-        width: 80%;
-}
 
 .ivu-table  .demo-table-info-row td{
     background-color: #EA2000;

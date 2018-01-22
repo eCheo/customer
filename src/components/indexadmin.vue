@@ -52,19 +52,28 @@
                                 </div>
                             </li>
                             <li class="i_item1">
-                                通过数量
+                                <label>
+                                     通过数量
+                                </label>
+                               
                                 <div class="g_box">
                                     {{dataDto.recordSuccessCount}}
                                 </div>
                             </li>
                             <li class="i_item1">
-                                成交数量
+                                <label>
+                                      成交数量
+                                </label>
+                              
                                 <div class="g_box">
                                     {{dataDto.dealCount}}
                                 </div>
                             </li>
                             <li class="i_item1">
-                                到期数量
+                                <label>
+                                        到期数量
+                                </label>
+                            
                                 <div class="g_box">
                                     {{dataDto.isExpireCount}}
                                 </div>
@@ -101,16 +110,17 @@
             </div>
             <div class="i_right">
                 <img src="/static/img/bookBig_02.png">
-                <div class="logo">
-                    <img src="/static/img/logo.png">
+                <div style="position: absolute;top: 0px;width: 90%;height:90%;">
+                    <div class="logo">
+                        <img src="/static/img/logo.png">
+                    </div>
+                    <div class="tab">
+                        <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
+                    </div>
+                    <div class="page">
+                        <Page :total="total" :page-size="9" @on-change="condition"></Page>
+                    </div>
                 </div>
-                <div class="tab">
-                    <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
-                </div>
-                <div class="page">
-                    <Page :total="total" :page-size="9" @on-change="condition"></Page>
-                </div>
-
             </div>
         </div>
     </div>
@@ -182,12 +192,14 @@ export default {
         },
         condition(current) {
             this.loading = true;
-            this.$axios.get('/api/metadata/getByEnumClassSimpleName.json',{
-                params:{
-                    enumClassSimpleName:'RecordStatus'
+            
+            this.$axios.get('/api/metadata/getByEnumClassSimpleName.json', {
+                params: {
+                    enumClassSimpleName: 'RecordStatus'
                 }
-            }).then(res=>{
-                console.log(res)
+            }).then(res => {
+                console.log(res);
+               
             })
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                 params: {
@@ -196,13 +208,15 @@ export default {
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                     LIKE_entryName: this.LIKE_entryName,
-                    IN_recordStatus:"trial,deal,recordSuccess,dealApply,dealCut",
-                    sort:'recordStatus,desc'
+                    IN_recordStatus: "trial,deal,recordSuccess,dealApply,dealCut",
+                    sort: 'recordStatus,desc'
                 }
             }).then(res => {
+                
                 this.total = res.data.data.totalElements;
                 this.data1 = res.data.data.content;
                 this.id = res.data.data.content.id;
+               
                 this.loading = false;
             })
         },

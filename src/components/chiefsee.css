@@ -1,0 +1,27 @@
+.minW {
+    background: url("/static/img/xbackground.png") no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    min-width: 1200px;
+    font-family: yayuan;
+    letter-spacing:1px;
+}
+
+.boxed{
+    width: 100%;
+    height: 80%;
+    margin: 0 auto;
+}
+
+.huapen{
+    background:url("/static/img/huapen_03.png") no-repeat;
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+}

@@ -1,153 +1,164 @@
 <template>
     <div>
         <div class="minR">
-            <Form ref="memberLog" :model="memberLog" :rules="ruleValidate">
-                <div class="total">
-                    <div class="r_left">
-                        <img src="/static/img/i_book_02.png">
-                        <div class="r_log">
-                            <img src="/static/img/logo.png">
-                        </div>
-                        <div class="left_font">
-                            <div style="width:20px;font-size: 16px;margin-left:30px;">
-                                {{customerName}}
-                            </div>
-                            <div>
-                                职位：{{roleName}}
-                            </div>
-                            <div>
-                                部门：{{dtoName}}
-                            </div>
-                        </div>
 
-                        <div class="box">
-                            <div class="r_top r_top1">
-                                <div class="r_one">
-                                    <div class="one_left">
-                                        <Input v-model="logTime" :readonly="true">
-                                        <span slot="prepend">日期</span>
+            <div class="total">
+                <div class="r_left">
+                    <img src="/static/img/i_book_02.png">
+                    <div class="r_log">
+                        <img src="/static/img/logo.png">
+                    </div>
+                    <div class="left_font">
+                        <div style="width:20px;font-size: 16px;margin-left:30px;">
+                            {{customerName}}
+                        </div>
+                        <div>
+                            职位：{{roleName}}
+                        </div>
+                        <div>
+                            部门：{{dtoName}}
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="r_top1">
+                            <div class="r_one">
+                                <div class="one_left">
+                                    <Input v-model="logTime" :readonly="true">
+                                    <span slot="prepend">日期</span>
+                                    </Input>
+                                </div>
+                                <div class="one_right">
+                                    <label>提醒</label>
+                                    <DatePicker :readonly="readonly" v-model="memberLog.remindDate" type="date" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
+                                </div>
+                            </div>
+                        </div>
+                        <!--        联系方式 add           -->
+                        <div class="r_but">
+                            <div class="r_top1">
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.industry" :readonly="readonly" @on-blur="addContract('industry')">
+                                        <span slot="prepend">行业</span>
                                         </Input>
                                     </div>
-                                    <div class="one_right">
-                                        <label>提醒</label>
-                                        <DatePicker :readonly="readonly" v-model="memberLog.remindDate" type="date" format="yyyy-MM-dd" style="float:left;width:126px;"></DatePicker>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+
+                                        <Input v-model="memberLog.customerType" :readonly="readonly" @on-blur="addContract('customerType')">
+                                        <span slot="prepend">客户分类</span>
+                                        </Input>
+
                                     </div>
                                 </div>
-                            </div>
-                            <!--        联系方式 add           -->
-                            <div class="r_but">
-                                <div class="r_top2">
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <FormItem  prop="industry">
-                                                <Input v-model="memberLog.industry" :readonly="readonly">
-                                                <span slot="prepend">行业</span>
-                                                </Input>
-                                            </FormItem>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <FormItem  prop="customerType">
-                                                <Input v-model="memberLog.customerType" :readonly="readonly">
-                                                <span slot="prepend">客户分类</span>
-                                                </Input>
-                                            </FormItem>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.enterpriseName" :readonly="readonly">
-                                            <span slot="prepend">公司名称</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.enterpriseAddress" :readonly="readonly">
-                                            <span slot="prepend">公司地址</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.project" :readonly="readonly">
-                                            <span slot="prepend">品牌项目名称</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.projectAddress" :readonly="readonly">
-                                            <span slot="prepend">项目地址</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.contacts" :readonly="readonly">
-                                            <span slot="prepend">联系人</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.position" :readonly="readonly">
-                                            <span slot="prepend">职位</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.contactInformation" :readonly="readonly">
-                                            <span slot="prepend">联系方式</span>
-                                            </Input>
-                                        </div>
-                                    </div>
-                                    <div class="r_one1">
-                                        <div class="one_left1">
-                                            <Input v-model="memberLog.visit" :readonly="readonly">
-                                            <span slot="prepend">拜访方式</span>
-                                            </Input>
-                                        </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.enterpriseName" :readonly="readonly" @on-blur="addContract('enterpriseName')">
+                                        <span slot="prepend">公司名称</span>
+                                        </Input>
                                     </div>
                                 </div>
-
-                            </div>
-
-                        </div>
-
-                        <ul class="but_list">
-                            <li>
-                       
-                                    <div class="div_but">
-                                        <img src="/static/img/button_03.png">
-                                        <span @click="createMemberLog">
-                                            保存
-                                        </span>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.enterpriseAddress" :readonly="readonly" @on-blur="addContract('enterpriseAddress')">
+                                        <span slot="prepend">公司地址</span>
+                                        </Input>
                                     </div>
-                              
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!--         右边内容     -->
-                    <div>
-                        <div class="textarea">
-                            <Input :readonly="readonly" v-model="memberLog.remarks" style="width:460px;border-bottom:7px solid #2871A0;" type="textarea" :rows="12"></Input>
-                        </div>
-                        <div class="pens">
-                            <div class="pen">
-                                <img src="/static/img/pen_X_03.png">
-                            </div>
-                            <div class="clip">
-                                <img src="/static/img/clip_03.png">
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.project" :readonly="readonly" @on-blur="addContract('project')">
+                                        <span slot="prepend">品牌项目名称</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.projectAddress" :readonly="readonly" @on-blur="addContract('projectAddress')">
+                                        <span slot="prepend">项目地址</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.contacts" :readonly="readonly" @on-blur="addContract('contacts')">
+                                        <span slot="prepend">联系人</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.position" :readonly="readonly" @on-blur="addContract('position')">
+                                        <span slot="prepend">职位</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.contactInformation" :readonly="readonly" @on-blur="addContract('contactInformation')">
+                                        <span slot="prepend">联系方式</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <div class="r_one1">
+                                    <div class="one_left1">
+                                        <Input v-model="memberLog.visit" :readonly="readonly" @on-blur="addContract('visit')">
+                                        <span slot="prepend">拜访方式</span>
+                                        </Input>
+                                    </div>
+                                </div>
+                                <ul class="r_list">
+                                    <li class="r_item">
+                                        <div class="item_img1" @click="delect">
+                                        </div>
+                                    </li>
+                                    <li class="r_item">
+                                        <div class="item_img" @click="addList">
+                                        </div>
+                                    </li>
+                                    <li class="r_item" v-for="(item,i) in navList" :key="i">
+                                        <div @click="chenge(i)" style="height:30px;margin-top:-2px;">
+                                            <img :src='i==index?item.img1:item.img2'>
+                                            <label style="cursor: pointer;">{{i+1}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
+                    <ul class="but_list">
+                        <li>
+                            <div class="div_but">
+                                <img src="/static/img/button_03.png">
+                                <span @click="createMemberLog">
+                                    保存
+                                </span>
+                            </div>
+
+                        </li>
+                    </ul>
                 </div>
-            </Form>
+
+                <!--         右边内容     -->
+                <div>
+                    <div class="textarea">
+                        <Input :readonly="readonly" v-model="memberLog.remarks" style="width:460px;border-bottom:7px solid #2871A0;" type="textarea" :rows="12"></Input>
+                    </div>
+                    <div class="pens">
+                        <div class="pen">
+                            <img src="/static/img/pen_X_03.png">
+                        </div>
+                        <div class="clip">
+                            <img src="/static/img/clip_03.png">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -160,8 +171,8 @@ export default {
             customerName: '',
             dtoName: '',
             roleName: '',
-            memberLog:
-            {
+            memberLogList: [],
+            memberLog:{
                 remindDate: '',
                 industry: '',
                 customerType: '',
@@ -173,36 +184,142 @@ export default {
                 position: '',
                 contactInformation: '',
                 visit: '',
-                remarks: ''
+                remarks: '',
+                id: ''
             },
             logTime: '',
             readonly: false,
-            ruleValidate: {
-                industry: [
-                    { required: true, message: '不能为空', trigger: 'blur' }
-                ]
-            }
+            navList: [{
+                img1: '/static/img/numGreen.jpg',
+                img2: '/static/img/numBack.jpg'
+            }],
+            index: 0
         }
     },
     methods: {
-        index() {
+        addContract(value) {
+            var phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            var position = /^[\u0391-\uFFE5]+$/;
+            var QQ = /^[0-9]&/
+            if (value == "industry") {
+                console.log(this.memberLog);
+                if (this.memberLog.industry == "") {
+                    this.$Message.error("行业不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.industry)) {
+                    this.$Message.error("行业只能输入汉字");
+                }
+
+            }
+            if (value == "customerType") {
+                if (this.memberLog.customerType == "") {
+                    this.$Message.error("客户分类不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.customerType)) {
+                    this.$Message.error("客户分类只能输入汉字");
+                }
+
+            }
+
+            if (value == "enterpriseName") {
+                if (this.memberLog.enterpriseName == "") {
+                    this.$Message.error("公司名称不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.enterpriseName)) {
+                    this.$Message.error("公司名称只能输入汉字");
+                }
+
+            }
+
+            if (value == "enterpriseAddress") {
+                if (this.memberLog.enterpriseAddress == "") {
+                    this.$Message.error("公司地址不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.enterpriseAddress)) {
+                    this.$Message.error("公司地址只能输入汉字");
+                }
+
+            }
+
+            if (value == "project") {
+                if (this.memberLog.project == "") {
+                    this.$Message.error("品牌项目不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.project)) {
+                    this.$Message.error("品牌项目只能输入汉字");
+                }
+
+            }
+
+            if (value == "projectAddress") {
+                if (this.memberLog.projectAddress == "") {
+                    this.$Message.error("项目地址不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.projectAddress)) {
+                    this.$Message.error("项目地址只能输入汉字");
+                }
+
+            }
+
+            if (value == "contacts") {
+                if (this.memberLog.contacts == "") {
+                    this.$Message.error("联系人不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.contacts)) {
+                    this.$Message.error("联系人只能输入汉字");
+                }
+
+            }
+
+            if (value == "position") {
+                if (this.memberLog.position == "") {
+                    this.$Message.error("职位不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.position)) {
+                    this.$Message.error("职位只能输入汉字");
+                }
+
+            }
+
+            if (value == "contactInformation") {
+                if (this.memberLog.contactInformation == "") {
+                    this.$Message.error("联系方式不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.contactInformation)) {
+                    this.$Message.error("联系方式只能输入汉字");
+                }
+
+            }
+
+            if (value == "visit") {
+                if (this.memberLog.visit == "") {
+                    this.$Message.error("拜访不能为空");
+                    return;
+                } else if (!position.test(this.memberLog.visit)) {
+                    this.$Message.error("拜访方式只能输入汉字");
+                }
+
+            }
+
+            this.memberLogList[this.index] = this.memberLog;
+        },
+        indexs() {
             this.customerName = sessionStorage.getItem('name');
             this.dtoName = sessionStorage.getItem('dto');
             this.roleName = sessionStorage.getItem('role');
         },
         createMemberLog() {
-             alert(this.memberLog.industry);
+            this.memberLogList.push(this.memberLog);
             this.$axios.post('/api/front/member/createMemberLog.json',
                 this.memberLog
             ).then(res => {
                 if (res.data.success) {
                     this.$Message.info('保存成功');
-                    alert(this.memberLog.industry);
                     this.$router.push({
                         path: '/journalList'
                     })
-                }else{
-                     this.$Message.error('保存失败');
+                } else {
+                    this.$Message.error('保存失败');
                 }
             })
         },
@@ -225,10 +342,57 @@ export default {
             }).then(res => {
                 this.memberLog = res.data.data;
             })
-        }
+        },
+        addList() {
+            var phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            if (this.memberLogList[this.memberLogList.length - 1] != null && (this.memberLogList[this.memberLogList.length - 1].phone == null || this.memberLogList[this.memberLogList.length - 1].phone == "")) {
+                this.chenge(this.memberLogList.length - 1);
+            }
+            if (!phone.test(this.memberLog.industry)) {
+                this.$Message.error("臣妾需要你留个联系方式，才能添加哦！ ˊ_>ˋ");
+                return;
+            }
+            if (this.navList.length == 5) {
+                this.$Message.error("臣妾只能添加5个哦！ _(:3」∠)_");
+                return;
+            } else {
+                this.navList.push({
+                    img1: '/static/img/numGreen.jpg',
+                    img2: '/static/img/numBack.jpg'
+                });
+                this.index = this.navList.length - 1;
+                this.memberLogList.push({});
+                this.clearValue();//清空數據
+            }
+        },
+        clearValue() {
+            this.memberLog = {};
+        },
+        delect() {
+            if (this.navList.length == 1) {
+                this.$Message.error("还是留一个吧");
+                return;
+            }
+            this.$Modal.confirm({
+                title: '删除操作',
+                content: '确定要删除吗？',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    this.chenge(this.memberLogList.length - 2);
+                    this.navList.pop();
+                    this.dtoDetailDtoList.dtoDetailDto.deleteList.push(this.contractList[this.contractList.length - 1].id);
+                    this.memberLogList.pop();
+                }
+            });
+        },
+        chenge(index) {  //切换方法
+            this.index = index;
+            this.memberLog = this.memberLogList[index];
+        },
     },
     mounted() {
-        this.index();
+        this.indexs();
         this.findMemberLogTime();
         this.logById();
     }

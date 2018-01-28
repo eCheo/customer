@@ -72,10 +72,15 @@ export default {
                         if (response.data.success) {
                     
                             sessionStorage.setItem('userInfo',this.name);
+                            sessionStorage.setItem('admin',response.data.data)
                             if(response.data.data=='客户管理员'){
                                 this.$router.push({path: '/indexadmin'});
-                            }else{
+                            }
+                            if(response.data.data=='客户代表'){
                                 this.$router.push({path: '/index'});
+                            }
+                            if(response.data.data=='销售总监'){
+                                this.$router.push({path:'/chief'});
                             }
 
                         } else {
@@ -92,6 +97,9 @@ export default {
 
             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
         }
+    },
+    mounted () {
+        this.code1();
     }
     
 }
@@ -173,8 +181,7 @@ export default {
     top: 0px;
     left: 0px;
     overflow: hidden;
-    min-width: 1200px;
-    
+    min-width: 1300px;
 }
 
 .h_head img {

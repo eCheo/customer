@@ -8,7 +8,7 @@
     top: 0px;
     left: 0px;
     overflow: hidden;
-    min-width: 1200px;
+    min-width: 1330px;
     min-height: 700px;
     font-family: yayuan;
     letter-spacing:1px;
@@ -56,11 +56,7 @@
     bottom:0;
 }
 .list_j{
-    position: relative;
-    top: -520px;
-    left: 10%;
-    margin-top: 5%;
-    padding-top: 2%;
+    margin-top: 20%;
 }
 .item_j{
     margin-bottom: 10px;
@@ -109,7 +105,8 @@
     position: relative;
     top: -550px;
     left:69.5%;
-    color: #0766A3;
+     width:20%;
+    color: #57a3f3;
 }
 
 .j_but{
@@ -119,9 +116,14 @@
     width: 20%;
 }
 
+.j_but {
+    width: 100%;
+}
+
 .j_but img{
     width: 100%;
 }
+
 
 .j_button span{
    position: relative;
@@ -135,13 +137,23 @@
     text-align: center;
 }
 
+.j_list{
+    position:absolute;
+    top: 0;
+    width: 19%;
+    height: 83%;
+}
+
+.j_box{
+    width: 100%;
+    height: 70%;
+    margin: 0;
+    padding-top: 50%;
+    padding-left: 8%;
+}
 
 .j_list1{
-    position: relative;
-    margin-top:100px;
-    top: -440px;
-    left: 5%;
-    width: 220px;
+   
     font-family: yayuan;
 }
 .j_wrapper{

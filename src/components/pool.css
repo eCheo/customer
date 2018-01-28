@@ -12,11 +12,31 @@
     font-family: yayuan;
     letter-spacing:1px;
     font-size: 10px;
+    min-height: 700px;
 }
+
+@font-face{
+    font-family: yayuan;
+    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
+}
+
 
 .p_back{
     background: url("../../static/img/pool_03.png") no-repeat;
     background-size: cover;
     width: 100%;
     height: 98%;
+}
+.padd{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.p_table{
+    height: 70%;
+}
+.p_box{
+    height: 100%;
 }

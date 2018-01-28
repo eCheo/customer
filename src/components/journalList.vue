@@ -5,63 +5,65 @@
                 <div class="j_top">
                     <img src="/static/img/left_03.png">
                     <div class="j_list">
-                        <ul class="list_j">
-                            <li class="item_j">
-                                <Input size="large" placeholder="公司名称"></Input>
-                            </li>
-                            <li class="item_j">
-                                <Input size="large" placeholder="项目名称"></Input>
-                            </li>
-                            <li class="item_j">
-                                <Button type="primary" icon="ios-search">Search</Button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <ul class="j_list1">
-                            <li>
-                                <div class="j_wrapper">
-                                    <div class="jw_left">
-                                        <img src="/static/img/fc.png">
+                        <div class="j_box">
+                            <ul class="list_j">
+                                <li class="item_j">
+                                    <Input v-model="enterpriseName" size="large" icon="android-search" placeholder="搜索企业名称"></Input>
+                                </li>
+                                <li class="item_j">
+                                    <Button @click="logByPage(1)" type="primary" icon="ios-search">Search</Button>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul class="j_list1">
+                                <li>
+                                    <div class="j_wrapper">
+                                        <div class="jw_left">
+                                            <img src="/static/img/fc.png">
+                                        </div>
+                                        <div class="jw_right">
+                                            <div style="font-size: 18px;">
+                                                {{EQ_name}}
+                                            </div>
+                                            <div>
+                                                {{roleName}}
+                                            </div>
+                                            <div>
+                                                部门:
+                                                <label>{{dtoName}}</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="jw_right">
-                                        <div style="font-size: 18px;">
-                                            {{EQ_name}}
-                                        </div>
-                                        <div>
-                                            {{roleName}}
-                                        </div>
-                                        <div>
-                                            部门:
-                                            <label>{{dtoName}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
                 </div>
                 <div class="j_button">
-                    <div class="j_but" @click="to">
+                    <div class="j_but" @click="to" v-show="isHide">
                         <img src="/static/img/button_03.png">
                         <span>
                             增加日志
                         </span>
                     </div>
-                    <div class="j_but">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            公共信息
-                        </span>
-                    </div>
-                    <router-link to="/index">
-                        <div class="j_but">
+                  
+                        <div class="j_but" @click="pool">
                             <img src="/static/img/button_03.png">
                             <span>
-                                主页
+                                公共信息
                             </span>
                         </div>
-                    </router-link>
+                
+                    <div class="j_but" @click="goIndex">
+                        <img src="/static/img/button_03.png">
+                        <span>
+                            主页
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -93,22 +95,33 @@ export default {
         return {
             columns1: [
                 {
-                    title: '公司名称',
-                    key: 'enterpriseName'
+                    title: '序号',
+                    type: 'index',
+                    width: 70,
+                    align: 'center'
                 },
                 {
-                    title: '项目名称',
-                    key: 'project'
+                    title: '企业名称1',
+                    key: 'enterpriseOne',
+                    align: 'center'
                 },
                 {
-                    title: '联系人',
-                    key: 'contacts'
+                    title: '企业名称2',
+                    key: 'enterpriseTwo',
+                    align: 'center'
+                },
+                {
+                    title: '企业名称3',
+                    key: 'enterpriseThree',
+                    align: 'center'
                 },
                 {
                     title: '日期',
-                    key: 'remindDate',
+                    key: 'recordDate',
+                    align: 'center',
+                    width: 120,
                     render: (h, params) => {
-                        var date = params.row.remindDate;
+                        var date = params.row.recordDate;
                         date = new Date(date);
                         var y = date.getFullYear();
                         var m = date.getMonth() + 1;
@@ -121,12 +134,6 @@ export default {
                 }
             ],
             data1: [
-                {
-                    enterpriseName: '',  //公司名称
-                    project: '', //项目名称
-                    remindDate: '', // 提醒时间
-                    contacts: '' //联系人
-                }
             ],
             total: 0,
             loading: false,
@@ -134,7 +141,9 @@ export default {
             dtoName: '',
             roleName: '',
             current: 1,
-            EQ_enterpriseName: ''
+            enterpriseName: '',
+            search: '',
+            isHide: true
         }
     },
     methods: {
@@ -145,9 +154,32 @@ export default {
         },
         logByPage(current) {
             this.loading = true;
+            
             this.$axios.get('/api/front/member/findMemberLogByPage.json', {
                 params: {
-                    EQ_enterpriseName: "",
+                    enterpriseName: this.enterpriseName,
+                    page: this.current,
+                    size: 9,
+                }
+            }).then(res => {
+                this.data1 = res.data.data.content;
+                this.loading = false;
+            })
+        },
+        logPageAdmin(current){
+            this.loading = true;
+            var admin = sessionStorage.getItem('admin');
+            if (admin == "客户管理员") {
+                this.isHide = false;
+            }
+            if(admin == "销售总监"){
+                  this.isHide = false;
+            }
+            
+
+            this.$axios.get('/api/front/member/findAdminMemberLogByPage.json', {
+                params: {
+                    enterpriseName: this.enterpriseName,
                     page: this.current,
                     size: 9,
                 }
@@ -167,11 +199,44 @@ export default {
             this.$router.push({
                 path: '/journal'
             })
+        },
+        goIndex() {
+            var admin = sessionStorage.getItem('admin');
+            if (admin == "客户管理员") {
+                this.$router.push({
+                    path: '/indexadmin'
+                })
+            } else {
+                this.$router.push({
+                    path: '/index'
+                })
+            }
+        },
+        pool() {
+            var admin = sessionStorage.getItem('admin');
+            if (admin == "客户管理员" || admin=="销售总监") {
+                this.$router.push({
+                    path:"/pooladmin"
+                })
+                return;
+            }
+            if(admin =="客户代表"){
+                this.$router.push({
+                    path:"/pool"
+                })
+                return;
+            }
         }
     },
     mounted() {
         this.login();
-        this.logByPage();
+          var admin = sessionStorage.getItem('admin');
+            if (admin == "客户管理员" || admin == "销售总监") {
+                this.logPageAdmin()
+            }else{
+                 this.logByPage();
+            }
+       
     }
 }
 </script>

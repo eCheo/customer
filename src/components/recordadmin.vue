@@ -21,7 +21,7 @@
                     <div class="r_top1">
                         <div class="r_one">
                             <div class="one_left">
-                                <Input v-model="time" disabled>
+                                <Input v-model="time" readonly>
                                 <span slot="prepend">{{timeType===2?'生效':'备案'}}时间</span>
                                 </Input>
                             </div>
@@ -34,7 +34,7 @@
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName">
+                                <Input v-model="recordDto.corporateName" :readonly="readonly">
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -46,28 +46,28 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select v-model="recordDto.mediaForm" style="width:82.3%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;">
+                                <Select size="small" :disabled="disabled" v-model="recordDto.mediaForm" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateAddress">
+                                <Input v-model="recordDto.corporateAddress" :readonly="readonly">
                                 <span slot="prepend">公司地址</span>
                                 </Input>
                             </div>
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName">
+                                <Input v-model="recordDto.entryName" :readonly="readonly">
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.projectAddress">
+                                <Input v-model="recordDto.projectAddress" :readonly="readonly">
                                 <span slot="prepend">项目地址</span>
                                 </Input>
                             </div>
@@ -79,42 +79,42 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" @on-blur='addContract()'>
+                                    <Input v-model="contract.contactName" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" @on-blur='addContract()'>
+                                    <Input v-model="contract.position" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" @on-blur='addContract()'>
+                                    <Input v-model="contract.phone" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.qq" @on-blur='addContract()'>
+                                    <Input v-model="contract.qq" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weixin" @on-blur='addContract()'>
+                                    <Input v-model="contract.weiXin" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" @on-blur='addContract()'>
+                                    <Input v-model="contract.landLine" @on-blur='addContract()' :readonly="readonly1">
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -122,7 +122,11 @@
                         </div>
                         <ul class="r_list">
                             <li class="r_item">
-                                <div class="item_img" @click="addList">
+                                <div class="item_img1" @click="delect" v-show="buttonShow">
+                                </div>
+                            </li>
+                            <li class="r_item">
+                                <div class="item_img" @click="addList" v-show="buttonShow">
                                 </div>
                             </li>
                             <li class="r_item" v-for="(item,i) in navList" :key="i">
@@ -137,14 +141,14 @@
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.pickUp">
+                                <Input v-model="recordDto.pickUp" :readonly="readonly">
                                 <span slot="prepend">网络对接人</span>
                                 </Input>
                             </div>
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.docking">
+                                <Input v-model="recordDto.docking" :readonly="readonly">
                                 <span slot="prepend">网络对接部门</span>
                                 </Input>
                             </div>
@@ -163,7 +167,7 @@
                         </div>
                     </li>
                     <li v-if="recordStatus.code==='trial'">
-                        <div class="div_but" @click="reject">
+                        <div class="div_but" @click="hides=true">
                             <img src="/static/img/button_03.png">
                             <span>
                                 驳回
@@ -187,7 +191,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="div_but" @click="create">
+                        <div class="div_but" @click="update">
                             <img src="/static/img/button_03.png">
                             <span>
                                 保存
@@ -205,14 +209,14 @@
                                 <img :src="'/api/obs/view.json?id='+item.response.data.id">
                                 <div class="demo-upload-list-cover">
                                     <Icon type="ios-eye-outline" @click.native="handleView(item.response.data.id)"></Icon>
-                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)" v-show="buttonShow"></Icon>
                                 </div>
                             </template>
                             <template v-else>
                                 <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
                             </template>
                         </div>
-                        <Upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png','gif']" :max-size="4800000" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" action="/api/obs/upload.json" style="display: inline-block;width:58px;">
+                        <Upload ref="upload" v-show="buttonShow" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png','gif']" :max-size="4800000" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag" action="/api/obs/upload.json" style="display: inline-block;width:58px;">
                             <div style="width: 58px;height:58px;line-height: 58px;">
                                 <Icon type="camera" size="20"></Icon>
                             </div>
@@ -224,14 +228,45 @@
                 </div>
 
                 <div class="textarea">
-                    <Input v-model="recordDto.remarks" style="width:360px;" type="textarea" :rows="8"></Input>
+                    <Input v-model="recordDto.remarks" style="width:360px;" type="textarea" :readonly="readonly1" :rows="8"></Input>
                 </div>
                 <div class="pen">
                     <img src="/static/img/pen_X_03.png">
                 </div>
                 <div class="clip">
-                    <img src="/static/img/clip_03.png">
+                    <img src="/static/img/jiazi_03.png">
                 </div>
+            </div>
+        </div>
+        <div class="v-transfer-dom" v-show="hides">
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hide">
+                        <Icon type="android-close"></Icon>
+                    </a>
+                    <br>
+                    <Tabs value="name1">
+                        <TabPane v-for="item in rejectList" :key="item.index" :label="item.name" :name="item.name">{{item.message}}</TabPane>
+                    </Tabs>
+
+                    <Row class-name="r_box1">
+                        <Col>
+                        <Input v-model="reject" type="textarea" placeholder="驳回信息"></Input>
+                        </Col>
+                    </Row>
+                    <br>
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" :loading="loading" @click="toLoading">
+                            <span v-if="!loading">提交</span>
+                            <span v-else>提交中...</span>
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
             </div>
         </div>
     </div>
@@ -257,8 +292,8 @@ export default {
             contract: {
                 //接收联系方式的对象
                 phone: "",
-                weixin: "",
-                QQ: "",
+                weiXin: "",
+                qq: "",
                 position: "",
                 contactName: "",
                 landLine: ""
@@ -293,10 +328,34 @@ export default {
             },
             effectTime: '',
             terminationTime: '',
-            timeType: 0
+            timeType: 0,
+            hides: false,
+            loading: false,
+            reject: '',
+            rejectList: [],
+            readonly:false,
+            buttonShow:true,
+              dtoDetailDtoList: {
+                dtoDetailDto: {
+                    updateList: [],
+                    deleteList: [],
+                    insertList: []
+                },
+                id: '',
+                corporateName: "",
+                corporateAddress: '',
+                entryName: '',
+                projectAddress: '',
+                customerCard: '',
+                mediaForm: '',
+                docking: '',
+                pickUp: '',
+                remarks: '',
+                readonly1:false,
+                disabled:false
+            },
         };
     },
-
     mounted() {
         /**
              * 接收客户代表名
@@ -318,6 +377,18 @@ export default {
         let id = sessionStorage.getItem("id");
         if (id) {
             this.isShow = false;
+        }
+          if (this.recordStatus.name == "A_trial" || this.recordStatus.name == "A_review") {
+            this.readonly = true;
+            this.disabled = true;
+           return;
+        }
+        if(this.recordStatus.name =="E_recordSuccess" || this.recordStatus.name == "E_deal"){
+            this.readonly1 = true;
+            this.readonly = true;
+            this.buttonShow = false;
+            this.disabled = true;
+            return;
         }
     },
 
@@ -349,13 +420,13 @@ export default {
             }
         },
         addContract() {
+
             this.contractList[this.index] = this.contract;
         },
         clearValue() {
             this.contract = {};
         },
         chenge(index) {
-
             this.index = index;
             this.contract = this.contractList[index];
         },
@@ -384,10 +455,7 @@ export default {
         handleRemove(file) {
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            this.customerCardList.splice(
-                this.customerCardList.indexOf(file.response.data.id),
-                1
-            );
+            this.customerCardList.splice(this.customerCardList.indexOf(file.response.data.id), 1);
         },
         inputChange() {
             var corporateName = this.recordDto.corporateName,
@@ -433,67 +501,29 @@ export default {
                     params: {
                         id: id
                     }
-                }).then(res => {
-                    this.contract.contactName = res.data.data.contactNumberDtos[0].contactName;
-                    this.contract.position = res.data.data.contactNumberDtos[0].position;
-                    this.contract.phone = res.data.data.contactNumberDtos[0].phone;
-                    this.contract.QQ = res.data.data.contactNumberDtos[0].qq;
-                    this.contract.weixin = res.data.data.contactNumberDtos[0].weixin;
-                    this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
-                    this.contractList = res.data.data.contactNumberDtos;
-                    this.recordDto = res.data.data;
-                    this.recordDto.mediaForm = res.data.data.mediaForm.name;
-                    this.overdueTime = res.data.data.expireTime;
-                    this.recordStatus.code = res.data.data.recordStatus.code;
-                    if (this.recordStatus.code == 'dealCut') {
-                        this.timeType = 2
-                        this.time = res.data.data.contractEffectTime
-                    } else {
-                        this.timeType = 1
-                        this.time = res.data.data.time
-                    }
-                    if (
-                        res.data.data.customerCard != null &&
-                        res.data.data.customerCard.length > 0
-                    ) {
-                        var car = res.data.data.customerCard.split(",");
-                        for (var i = 0; i < car.length; i++) {
-                            this.uploadList.push({
-                                response: {
-                                    data: {
-                                        id: car[i]
-                                    }
-                                },
-                                status: "finished"
-                            });
-                            this.customerCardList.push({
-                                id: car[i]
-                            });
-                        }
-                    }
-                })
-        },
-        findByIdView() {
-            //详情
-            var id = sessionStorage.getItem("id");
-            this.$axios
-                .get("/api/front/record/findById.json", {
-                    params: {
-                        id: id
-                    }
                 })
                 .then(res => {
+                     //接收驳回信息
+                for (let i = 0; i < res.data.data.rejectList.length; i++) {
+                    this.rejectList.push({
+                        name:"驳回原因"+(i+1),
+                        message:res.data.data.rejectList[i]
+                    })
+                }
+
+
                     this.contract.contactName = res.data.data.contactNumberDtos[0].contactName;
                     this.contract.position = res.data.data.contactNumberDtos[0].position;
                     this.contract.phone = res.data.data.contactNumberDtos[0].phone;
-                    this.contract.QQ = res.data.data.contactNumberDtos[0].qq;
-                    this.contract.weixin = res.data.data.contactNumberDtos[0].weixin;
+                    this.contract.qq = res.data.data.contactNumberDtos[0].qq;
+                    this.contract.weiXin = res.data.data.contactNumberDtos[0].weiXin;
                     this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
                     this.contractList = res.data.data.contactNumberDtos;
                     this.recordDto = res.data.data;
                     this.recordDto.mediaForm = res.data.data.mediaForm.name;
                     this.overdueTime = res.data.data.expireTime;
-                    this.recordStatus.code = res.data.data.recordStatus.code;
+                    this.recordStatus = res.data.data.recordStatus;
+                    var arry = res.data.data.customerCard;
                     if (this.recordStatus.code == 'dealCut') {
                         this.timeType = 2
                         this.time = res.data.data.contractEffectTime
@@ -501,11 +531,9 @@ export default {
                         this.timeType = 1
                         this.time = res.data.data.time
                     }
-                    if (
-                        res.data.data.customerCard != null &&
-                        res.data.data.customerCard.length > 0
-                    ) {
-                        var car = res.data.data.customerCard.split(",");
+
+                    if (arry != null && arry.length > 0) {
+                        var car = arry.split(",");
                         for (var i = 0; i < car.length; i++) {
                             this.uploadList.push({
                                 response: {
@@ -520,16 +548,74 @@ export default {
                             });
                         }
                     }
-
-
                     var contactNumberLength = res.data.data.contactNumberDtos.length;
-                    for (var j = 0; j < contactNumberLength; j++) {
+                    for (var j = 0; j < contactNumberLength - 1; j++) {
                         this.navList.push({
                             img1: "/static/img/numGreen.jpg",
                             img2: "/static/img/numBack.jpg"
                         });
                     }
+
+
+
+
                 });
+        },
+         update() {
+            // this.dtoDetailDtoList = this.recordDto;
+            if (this.customerCardList.length <= 0 && this.recordDto.remarks == '') {
+                this.$Message.error("名片和备注不能同时为空！ _(:3」∠)_");
+                return;
+            }
+            if (this.contractList <= 0) {
+                this.$Message.error("联系方式不能空！ _(:3」∠)_");
+                return;
+            }
+            if (this.contractList[this.contractList.length - 1].phone == "" || this.contractList[this.contractList.length - 1].phone == undefined) {
+                this.$Message.error("联系电话不能空！ _(:3」∠)_");
+                this.chenge(this.contractList.length - 1);
+                return;
+            }
+            this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
+            this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
+            this.dtoDetailDtoList.entryName = this.recordDto.entryName;
+            this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
+            this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
+            this.dtoDetailDtoList.docking = this.recordDto.docking;
+            this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
+            this.dtoDetailDtoList.remarks = this.recordDto.remarks;
+            this.dtoDetailDtoList.id = this.recordDto.id;
+            var customerCard = "";
+            for (var i = 0; i < this.customerCardList.length; i++) {
+                if (i == this.customerCardList.length - 1) {
+                    customerCard += this.customerCardList[i].id;
+                } else {
+                    customerCard += this.customerCardList[i].id + ",";
+                }
+
+            }
+            this.dtoDetailDtoList.customerCard = customerCard;
+            for (var i = 0; i < this.contractList.length; i++) {
+                //如果是空就是insert
+                if (this.contractList[i].id == undefined) {
+                    this.dtoDetailDtoList.dtoDetailDto.insertList.push(this.contractList[i]);
+                } else {//否则就是updae
+                    this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
+                }
+            }
+            console.log(JSON.stringify(this.dtoDetailDtoList.dtoDetailDto));
+            this.$axios.post('/api/front/record/update.json',
+                this.dtoDetailDtoList
+            ).then(res => {
+                if (res.data.success == false) {
+                    this.$Message.error(res.data.message);
+                } else {
+                    this.$Message.success("保存成功");
+                    this.$router.push({
+                        path:'/indexadmin'
+                    })
+                }
+            })
         },
         rejectinfo() {
             this.$Modal.confirm({
@@ -596,13 +682,6 @@ export default {
                 }
             });
         },
-        rejectinfo() {
-            this.$Modal.confirm({
-                title: '驳回信息',
-                content: '<p>666666</p><p>666666</p><p>666666</p>',
-                width: 70,
-            });
-        },
         transfer() {
             var id = JSON.parse(sessionStorage.getItem("id"));
             this.$axios.post('/api/front/record/transfer.json', {
@@ -663,42 +742,29 @@ export default {
                 }
             })
         },
-        reject() {
-            var id = JSON.parse(sessionStorage.getItem("id"));
-            let reject = "";
-            this.$Modal.confirm({
-                title: "驳回",
-                width: 70,
-                render: h => {
-                    return h("Input", {
-                        props: {
-                            type: "textarea",
-                            rows: 10,
-                            value: this.rejectvalue,
-                            autofocus: true,
-                            placeholder: "请输入驳回原因"
-                        },
-                        on: {
-                            input: val => {
-                                this.rejectvalue = val;
-                                reject = this.rejectvalue;
-                            }
-                        }
-                    });
-                },
-                onOk() {
-                    this.$axios
-                        .post("/api/front/record/reject.json", {
-                            id: id,
-                            reject: reject
-                        })
-                        .then(res => {
-                            console.log(res.data.data);
-                            this.$Message.success("驳回成功");
-                            history.go(-1);
-                        });
+        hide() {
+            this.hides = false;
+            this.loading = false;
+        },
+        toLoading() {
+            this.loading = true;
+            let id = JSON.parse(sessionStorage.getItem('id'));
+            this.$axios.post('/api/front/record/reject.json', {
+                id: id,
+                reject: this.reject
+            }).then(res => {
+                if (res.data.success == false) {
+                    this.$Message.error("驳回失败");
+                    this.loading = false;
+                } else {
+                    this.$Message.success("驳回成功");
+                    this.loading = false;
+                    this.hides = false;
+                    this.$router.push({
+                        path: '/indexadmin'
+                    })
                 }
-            });
+            })
         }
     }
 }

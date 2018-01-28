@@ -3,6 +3,9 @@ import router from './index'
 
 axios.defaults.timeout = 5000;
 
+// axios.defaults.retry = 4; 重新请求接口次数
+// axios.defaults.retryDelay = 1000; 重新请求接口间隔时间
+
 //拦截请求数据
 // axios.interceptors.request.use(
 //     config =>{
@@ -22,7 +25,10 @@ axios.interceptors.response.use(
                     router.replace({
                         path:'/'
                     })
-                   
+                   break;
+                case 999:
+                   alert("您没有权限登陆这个页面");
+                   break;
             }
         }
     }

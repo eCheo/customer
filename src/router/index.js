@@ -51,20 +51,29 @@ const routes = [
     component:resolve => require(['@/components/journalList.vue'],resolve)
   },
   {
-    path:'/chiefsee',
-    name:'chiefsee',
-    component:resolve => require(['@/components/chiefsee.vue'],resolve)
+    path:'/chief',
+    name:'chief',
+    component:resolve => require(['@/components/chief.vue'],resolve)
   },
   {
     path:'/pool',
     name:'pool',
     component:resolve => require(['@/components/pool.vue'],resolve)
+  },
+  {
+    path:'/pooladmin',
+    name:'pool',
+     component:resolve => require(['@/components/pooladmin.vue'],resolve)
+  },
+  {
+    path:'/chiefadmin',
+    name:'chiefadmin',
+     component:resolve => require(['@/components/chiefadmin.vue'],resolve)
   }
 ]
 
 const router = new Router({
-    routes,
-    mode: 'history'
+    routes
 });
 
 router.beforeEach((to, from, next) => {

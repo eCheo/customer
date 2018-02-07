@@ -1,11 +1,12 @@
 <template>
     <div class="minW">
+        <div style="width:100%;height:4%;"></div>
         <div class="center">
             <div class="i_left">
                 <div class="i_top">
-                    <img src="/static/img/left_03.png">
+                     <div style="width:100%;height:15%;"></div>
                     <div class="i_box">
-                        <div>
+                        <div class="i_lii">
                             <ul class="i_list">
                                 <li class="i_item">
                                     <Input v-model="LIKE_corporateName" size="large" placeholder="公司名称"></Input>
@@ -23,7 +24,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div style="width:100%;height:12%;"></div>
+                        <div class="i_bb">
                             <ul class="i_list1">
                                 <li>
                                     <div class="wrapper">
@@ -31,7 +33,7 @@
                                             <img src="/static/img/fc.png">
                                         </div>
                                         <div class="w_right">
-                                            <div style="font-size: 18px;">
+                                            <div style="font-size: 18px;text-align:center;">
                                                 {{name}}
                                             </div>
                                             <div>
@@ -82,24 +84,24 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div class="i_button">
-                    <router-link to="/pooladmin">
-                    <div class="i_but">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            公共信息
-                        </span>
+                    <div class="i_button">
+                        <router-link to="/pooladmin">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    公共信息
+                                </span>
+                            </div>
+                        </router-link>
+                        <router-link to="/journalList">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    日志
+                                </span>
+                            </div>
+                        </router-link>
                     </div>
-                    </router-link>
-                    <router-link to="/journalList">
-                        <div class="i_but">
-                            <img src="/static/img/button_03.png">
-                            <span>
-                                日志
-                            </span>
-                        </div>
-                    </router-link>
                 </div>
             </div>
 
@@ -207,7 +209,7 @@ export default {
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                     LIKE_entryName: this.LIKE_entryName,
                     IN_recordStatus: "A_trial,E_deal,E_recordSuccess",
-                    sort: 'recordStatus,desc'
+                    sort: 'recordStatus,asc'
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;

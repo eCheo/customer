@@ -15,24 +15,35 @@
 }
 .center{
     display: flex;
-    width: 90%;
-    height: 100%;
+    width: 1229px;
+    height: 705px;
     margin: 0 auto;
+     position: absolute;
+    top: 50%;
+    left: 50%;
+     -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 .i_left{
     padding-top: 10px;
     width: 40%;
-    height: 90%;
+    height:100%;
     padding-left: 5%;
 }
 .i_top{
+    background:url('/static/img/left_03.png') no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
     width: 90%;
-    height: 110%;
+    height:82%;
     margin-left: 10%;
 }
 .i_top img{
     width: 100%;
-    height: 86%;
+    height: 65%;
    
 }
 
@@ -51,15 +62,17 @@
 }
 .i_center img{
     width: 44px;
-    position:fixed;
-    top:50%;
+    position:absolute;
+   margin-top: 342px;
 }
 .i_list{
+    width: 100%;
    padding-left: 10%;
+  
 }
 .i_item{
     margin-bottom: 10px;
-    width: 200px;
+    width: 86%;
    
 }
 
@@ -71,43 +84,41 @@
 
 
 .i_list1{
-    
-    margin-top: 30%;
-    left: 5%;
-  
+    width: 100%;
+    height: 100%;
     font-family: yayuan;
 }
 .wrapper{
     display: flex;
-    width: 220px;
+    width: 100%;
+    padding: 0 10%;
 }
 .w_left{
-    width: 50%;
-    padding-left: 30px;
+    width: 44%;
+    padding-left: 10%;
 }
 .w_left img{
     width: 70px;
     height: 70px;
 }
 .w_right{
-    width: 50%;
     text-align: center;
 }
 .i_item1{
-    width: 100%;
+    width: 86%;
     text-align: center;
      vertical-align: middle;
-   
        padding-bottom: 2px;
-    padding-left: 60px;
+    padding-left: 21%;
     padding-right: 30px;
     display: inline-block;
 }
  .i_item1 label{
     display: block;
     float: left;
-    width: 56%;
+    width: 64%;
     height: 33px;
+    text-align: right;
    line-height: 33px;
 }
 .g_box{
@@ -126,7 +137,7 @@
 }
 .page{
     position:relative;
-    left: 20%;
+    left: 120px;
     top:20px;
 }
 .logo{
@@ -145,11 +156,11 @@
 }
 
 .i_button{
-  position: relative;
-    top: -550px;
-    left:69.5%;
+    position:relative;
+    top:-521px;
+    left: 65%;
     color: #57a3f3;
-    width: 20%;
+    width: 28%;
 }
 
 .i_but{
@@ -162,15 +173,25 @@
 
 .i_but img{
     width: 100%;
+    height: 32px;
 }
 
 .i_button span{
     position: relative;
-    top: -30px;
+    top: -33px;
     text-align: center;
     width:100%;
     display: block;
+    line-height: 27px;
+    height: inherit;
+    color: #57a3f3;
 }
+
+.i_button span:hover{
+    color:#2d8cf0 ;
+    border-color: #57a3f3;
+}
+
 .ivu-table-body,
 .ivu-table-header{
     text-align: center;
@@ -182,10 +203,16 @@
     color: #fff;
 }
 
+
+.i_lii{
+   width: 100%;
+}
+.i_bb{
+     width: 100%;
+     height: 54%;
+}
+
 .i_box{
-    position: absolute;
-    top: 0;
-    width: 19%;
-    height: 83%;
-    padding-top: 8%;
+    width: 70%;
+    height: 95.5%;
 }

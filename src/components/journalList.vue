@@ -1,5 +1,6 @@
 <template>
     <div class="minW">
+        <div style="width:100%;height:4%;"></div>
         <div class="jenter">
             <div class="j_left">
                 <div class="j_top">
@@ -17,7 +18,7 @@
                             </ul>
                         </div>
 
-                        <div>
+                        <div class="j_bb">
                             <ul class="j_list1">
                                 <li>
                                     <div class="j_wrapper">
@@ -41,28 +42,27 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="j_button">
+                        <div class="j_but" @click="to" v-show="isHide">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                增加日志
+                            </span>
+                        </div>
 
-                </div>
-                <div class="j_button">
-                    <div class="j_but" @click="to" v-show="isHide">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            增加日志
-                        </span>
-                    </div>
-                  
                         <div class="j_but" @click="pool">
                             <img src="/static/img/button_03.png">
                             <span>
                                 公共信息
                             </span>
                         </div>
-                
-                    <div class="j_but" @click="goIndex">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            主页
-                        </span>
+
+                        <div class="j_but" @click="goIndex">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                主页
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,28 +154,29 @@ export default {
         },
         logByPage(current) {
             this.loading = true;
-            
+
             this.$axios.get('/api/front/member/findMemberLogByPage.json', {
                 params: {
                     enterpriseName: this.enterpriseName,
                     page: this.current,
                     size: 9,
+                    sort:'enterpriseRemindDate,asc'
                 }
             }).then(res => {
                 this.data1 = res.data.data.content;
                 this.loading = false;
             })
         },
-        logPageAdmin(current){
+        logPageAdmin(current) {
             this.loading = true;
             var admin = sessionStorage.getItem('admin');
             if (admin == "客户管理员") {
                 this.isHide = false;
             }
-            if(admin == "销售总监"){
-                  this.isHide = false;
+            if (admin == "销售总监") {
+                this.isHide = false;
             }
-            
+
 
             this.$axios.get('/api/front/member/findAdminMemberLogByPage.json', {
                 params: {
@@ -202,27 +203,31 @@ export default {
         },
         goIndex() {
             var admin = sessionStorage.getItem('admin');
-            if (admin == "客户管理员") {
+            if (admin == "administrators") {
                 this.$router.push({
                     path: '/indexadmin'
                 })
-            } else {
+            } else if(admin == "examiner"){
                 this.$router.push({
+                    path: '/chief'
+                })
+            }else{
+                  this.$router.push({
                     path: '/index'
                 })
             }
         },
         pool() {
             var admin = sessionStorage.getItem('admin');
-            if (admin == "客户管理员" || admin=="销售总监") {
+            if (admin == "客户管理员" || admin == "销售总监") {
                 this.$router.push({
-                    path:"/pooladmin"
+                    path: "/pooladmin"
                 })
                 return;
             }
-            if(admin =="客户代表"){
+            if (admin == "客户代表") {
                 this.$router.push({
-                    path:"/pool"
+                    path: "/pool"
                 })
                 return;
             }
@@ -230,13 +235,13 @@ export default {
     },
     mounted() {
         this.login();
-          var admin = sessionStorage.getItem('admin');
-            if (admin == "客户管理员" || admin == "销售总监") {
-                this.logPageAdmin()
-            }else{
-                 this.logByPage();
-            }
-       
+        var admin = sessionStorage.getItem('admin');
+        if (admin == "客户管理员" || admin == "销售总监") {
+            this.logPageAdmin()
+        } else {
+            this.logByPage();
+        }
+
     }
 }
 </script>

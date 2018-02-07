@@ -1,17 +1,18 @@
 <template>
     <div class="minW">
+        <div style="width:100%;height:4%;"></div>
         <div class="center">
             <div class="i_left">
                 <div class="i_top">
-                    <img src="/static/img/left_03.png">
+                    <div style="width:100%;height:15%;"></div>
                     <div class="i_box">
-                        <div>
+                        <div class="i_lii">
                             <ul class="i_list">
                                 <li class="i_item">
                                     <Input v-model="LIKE_corporateName" size="large" placeholder="公司名称"></Input>
                                 </li>
                                 <li class="i_item">
-                                    <Select v-model="EQ_mediaForm" style="width:200px;border-bottom:2px solid #01C675;" placeholder="媒体形式">
+                                    <Select v-model="EQ_mediaForm" style="border-bottom:2px solid #01C675;" placeholder="媒体形式">
                                         <Option v-for="item in mediaForm" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                     </Select>
                                 </li>
@@ -23,7 +24,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div style="width:100%;height:12%;"></div>
+                        <div class="i_bb">
                             <ul class="i_list1">
                                 <li>
                                     <div class="wrapper">
@@ -31,7 +33,7 @@
                                             <img src="/static/img/fc.png">
                                         </div>
                                         <div class="w_right">
-                                            <div style="font-size: 18px;">
+                                            <div style="font-size: 18px;text-align:center;">
                                                 {{name}}
                                             </div>
                                             <div>
@@ -82,32 +84,32 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="i_button">
+                        <div class="i_but" @click="to">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                增加备案
+                            </span>
+                        </div>
+                        <router-link to="/pool">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    公共信息
+                                </span>
+                            </div>
+                        </router-link>
+                        <router-link to="/journalList">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    日志
+                                </span>
+                            </div>
+                        </router-link>
+                    </div>
                 </div>
 
-                <div class="i_button">
-                    <div class="i_but" @click="to">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            增加备案
-                        </span>
-                    </div>
-                    <router-link to="/pool">
-                        <div class="i_but">
-                            <img src="/static/img/button_03.png">
-                            <span>
-                                公共信息
-                            </span>
-                        </div>
-                    </router-link>
-                    <router-link to="/journalList">
-                        <div class="i_but">
-                            <img src="/static/img/button_03.png">
-                            <span>
-                                日志
-                            </span>
-                        </div>
-                    </router-link>
-                </div>
             </div>
 
             <div class="i_center">
@@ -256,8 +258,6 @@ export default {
                 return 'demo-table-info-row';
             }
             return '';
-
-
         }
     },
     mounted() {

@@ -27,7 +27,7 @@ axios.interceptors.response.use(
                     })
                    break;
                 case 999:
-                   alert("您没有权限登陆这个页面");
+                   alert("您没有权限登陆这个页面"); //还没有完成的要调用iview的弹窗
                    break;
             }
         }

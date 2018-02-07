@@ -38,5 +38,47 @@
     height: 70%;
 }
 .p_box{
+    height: 700px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+
+.yinzhang{
+    width: 100px;
+    height: 200px;
+    background:url("/static/img/yinzhang.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.wite{
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    top:400px;
+    left:-50px;
+  
+}
+.wite img{
+    width: 80%;
     height: 100%;
+}
+
+.bookTab{
+    width: 200px;
+    height: 420px;
+    background:url("/static/img/booTab.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: 200px;
 }

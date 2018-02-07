@@ -1,17 +1,18 @@
 <template>
     <div class="minW">
+        <div style="width:100%;height:4%;"></div>
         <div class="center">
             <div class="i_left">
                 <div class="i_top">
-                    <img src="/static/img/left_03.png">
+                    <div style="width:100%;height:15%;"></div>
                     <div class="i_box">
-                        <div>
+                        <div class="i_lii">
                             <ul class="i_list">
                                 <li class="i_item">
                                     <Input v-model="LIKE_corporateName" size="large" placeholder="公司名称"></Input>
                                 </li>
                                 <li class="i_item">
-                                    <Select v-model="EQ_mediaForm" style="width:200px;border-bottom:2px solid #01C675;" placeholder="媒体形式">
+                                    <Select v-model="EQ_mediaForm" style="border-bottom:2px solid #01C675;" placeholder="媒体形式">
                                         <Option v-for="item in mediaForm" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                     </Select>
                                 </li>
@@ -23,7 +24,8 @@
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div style="width:100%;height:12%;"></div>
+                        <div class="i_bb">
                             <ul class="i_list1">
                                 <li>
                                     <div class="wrapper">
@@ -31,7 +33,7 @@
                                             <img src="/static/img/fc.png">
                                         </div>
                                         <div class="w_right">
-                                            <div style="font-size: 18px;">
+                                            <div style="font-size: 18px;text-align:center;">
                                                 {{name}}
                                             </div>
                                             <div>
@@ -73,32 +75,34 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div class="i_button">
-                   
-                    <router-link to="/journalList">
-                        <div class="i_but">
-                            <img src="/static/img/button_03.png">
-                            <span>
-                                日志
-                            </span>
-                        </div>
-                    </router-link>
-                     <div class="i_but">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            数据统计
-                        </span>
+                    <div class="i_button">
+                        <router-link to="/journalList">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    日志
+                                </span>
+                            </div>
+                        </router-link>
+                        <router-link to="/chiefsee">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    数据统计
+                                </span>
+                            </div>
+                        </router-link>
+                        <router-link to="/pooladmin">
+                            <div class="i_but">
+                                <img src="/static/img/button_03.png">
+                                <span>
+                                    公共信息
+                                </span>
+                            </div>
+                        </router-link>
                     </div>
-                     <router-link to="/pooladmin">
-                    <div class="i_but">
-                        <img src="/static/img/button_03.png">
-                        <span>
-                            公共信息
-                        </span>
-                    </div>
-                    </router-link>
                 </div>
+
             </div>
 
             <div class="i_center">
@@ -139,12 +143,12 @@ export default {
                     }
                 },
                 {
-                    title:'部门名称',
-                    key:'departmentName'
+                    title: '部门名称',
+                    key: 'departmentName'
                 },
                 {
-                    title:'姓名',
-                    key:'name'
+                    title: '姓名',
+                    key: 'name'
                 },
                 {
                     title: '备案状态',
@@ -156,8 +160,8 @@ export default {
             ],
             data1: [],
             countAreview: '',
-            countDeal:'',
-            countNumber:'',
+            countDeal: '',
+            countNumber: '',
             name: '',
             roleName: '',
             dtoName: '',
@@ -176,7 +180,7 @@ export default {
 
             }).then(res => {
                 this.name = res.data.data.name;
-               
+
                 this.roleName = res.data.data.roleDto.name;
                 this.dtoName = res.data.data.departmentDto.name;
 
@@ -205,7 +209,7 @@ export default {
                     EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                     LIKE_entryName: this.LIKE_entryName,
                     IN_recordStatus: "E_deal,E_recordSuccess,A_review",
-                    sort: 'recordStatus,desc'
+                    sort: 'recordStatus,asc'
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;
@@ -240,13 +244,13 @@ export default {
 
             })
         },
-        find(){
-            this.$axios.get('/api/front/record/getCountRecordNumber.json',{
+        find() {
+            this.$axios.get('/api/front/record/getCountRecordNumber.json', {
 
             }).then(res => {
-                 this.countAreview = res.data.data.countAreview;
-                 this.countDeal = res.data.data.countDeal;
-                 this.countNumber = res.data.data.countNumber;
+                this.countAreview = res.data.data.countAreview;
+                this.countDeal = res.data.data.countDeal;
+                this.countNumber = res.data.data.countNumber;
             })
         }
     },

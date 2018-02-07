@@ -69,6 +69,11 @@ const routes = [
     path:'/chiefadmin',
     name:'chiefadmin',
      component:resolve => require(['@/components/chiefadmin.vue'],resolve)
+  },
+  {
+    path:'/chiefsee',
+    name:'chiefsee',
+     component:resolve => require(['@/components/chiefsee.vue'],resolve)
   }
 ]
 

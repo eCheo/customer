@@ -1,43 +1,40 @@
 <template>
-    <div class="hello">
-        <div class="h_head">
-            <img src="/static/img/backLogin.png">
-            <div class="login">
-                <div>
-                    <img src="/static/img/g_back.png">
-                    <div class="l_input">
-                        <div class="h_logo">
-                            <img src="/static/img/logo.png">
-                        </div>
-                        <ul class="h_list">
-                            <li class="h_item">
-                                <input type="text" id="name" placeholder="Login Name" v-model="name" />
-                            </li>
-                            <li class="h_item">
-                                <input type="password" id="name" placeholder="Password" v-model="password" />
-                            </li>
-                            <li class="h_item">
-                                <div style="display:flex;">
-                                    <div >
-                                        <input type="text" id="code" placeholder="请输入验证码" v-model="code">
-                                    </div>
-                                    <div class="code">
-                                        <img :src='src' @click="code1" style="cursor: pointer;">
-                                    </div>
-                                    <label @click="code1" style="cursor: pointer;height:1.8rem;line-height:1.8rem;">换一张</label>
-                                </div>
-                            </li>
-                            <li class="h_item">
-                                <div class="l_back" @click="login">
-                                    <p>登陆</p>
-                                </div>
-                            </li>
-                        </ul>
+    <div class="h_head">
+        <img src="/static/img/backLogin.png" class="h_headimg">
+        <div class="login">
+            <div class="bodys">
+                <div class="l_input">
+                    <div class="h_logo">
+                        <img src="/static/img/logo.png">
                     </div>
+                    <ul class="h_list">
+                        <li class="h_item">
+                            <input type="text" id="name" placeholder="Login Name" v-model="name" />
+                        </li>
+                        <li class="h_item">
+                            <input type="password" id="name" placeholder="Password" v-model="password" />
+                        </li>
+                        <li class="h_item">
+                            <div style="display:flex;">
+                                <div>
+                                    <input type="text" id="code" placeholder="请输入验证码" v-model="code">
+                                </div>
+                                <div class="code">
+                                    <img :src='src' @click="code1" style="cursor: pointer;">
+                                </div>
+                                <label @click="code1" style="cursor: pointer;height:1.8rem;line-height:1.8rem;">换一张</label>
+                            </div>
+                        </li>
+                        <li class="h_item">
+                            <div class="l_back" @click="login">
+                                <p>登陆</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
         </div>
+
     </div>
 </template>
 
@@ -70,17 +67,17 @@ export default {
                 }, {
                     }).then(response => {
                         if (response.data.success) {
-                    
-                            sessionStorage.setItem('userInfo',this.name);
-                            sessionStorage.setItem('admin',response.data.data)
-                            if(response.data.data=='客户管理员'){
-                                this.$router.push({path: '/indexadmin'});
+
+                            sessionStorage.setItem('userInfo', this.name);
+                            sessionStorage.setItem('admin', response.data.data)
+                            if (response.data.data == 'administrators') {
+                                this.$router.push({ path: '/indexadmin' });
                             }
-                            if(response.data.data=='客户代表'){
-                                this.$router.push({path: '/index'});
+                            if (response.data.data == 'ordinary') {
+                                this.$router.push({ path: '/index' });
                             }
-                            if(response.data.data=='销售总监'){
-                                this.$router.push({path:'/chief'});
+                            if (response.data.data == 'examiner') {
+                                this.$router.push({ path: '/chief' });
                             }
 
                         } else {
@@ -98,19 +95,17 @@ export default {
             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
         }
     },
-    mounted () {
+    mounted() {
         this.code1();
     }
-    
+
 }
 </script>
 
 <style>
-
-
-@font-face{
+@font-face {
     font-family: yayuan;
-    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
+    src: url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
 }
 
 .h_list {
@@ -119,6 +114,12 @@ export default {
 
 .h_logo {
     width: 300px;
+    height: 124px;
+}
+
+.h_logo img {
+    width: 100%;
+    height: 100%;
 }
 
 .h_item {
@@ -162,13 +163,14 @@ export default {
     text-align: center;
     -moz-box-shadow: 0px 0px 5px #999 inset;
     -webkit-box-shadow: 0px 0px 5px #999 inset;
-    
 }
-#code::-webkit-input-placeholder{
+
+#code::-webkit-input-placeholder {
     color: #fff;
     font-family: yayuan;
 }
-#code::-moz-placeholder{
+
+#code::-moz-placeholder {
     color: #fff;
     font-family: yayuan;
 }
@@ -182,31 +184,41 @@ export default {
     left: 0px;
     overflow: hidden;
     min-width: 1300px;
+    min-height: 700px;
 }
 
-.h_head img {
-    position: relative;
+.h_headimg {
     width: 100%;
     height: 100%;
     max-width: auto;
     max-height: auto;
 }
 
-.login {
-    padding: 50px;
-    width: 60%;
-    height: 100%;
+
+.bodys {
+    background: url('/static/img/g_back.png') no-repeat;
+    background-position: center -10px;
+    background-size: 100% 100%;
+    width: 703px;
+    height: 600px;
     position: absolute;
-    top: 0;
-    left: 20%;
-    z-index: 0;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
+
+
 
 .l_input {
     width: 400px;
     position: relative;
-    top: -520px;
-    left: 30%;
+    top: 83px;
+    left: 6%;
+    margin: 0 auto;
 }
 
 .l_back {

@@ -1,7 +1,13 @@
 <template>
     <div class="minR">
         <Row class="p_box">
-            <Col span="10" offset="7">
+            <Col span="3" offset="2">
+                <div class="yinzhang"></div>
+                <div class="wite">
+                    <img src="/static/img/witePen.png"></img>
+                </div>
+            </Col>
+            <Col span="10" offset="3"  >
             <img style="width:100%;height:100%;" src="../../static/img/pool_03.png">
             <div class="padd">
                 <Row>
@@ -25,12 +31,16 @@
                     <Table :loading="loading" :columns="columns1" :data="data1"></Table>
                     </Col>
                 </Row>
+                <br>
                 <Row>
                     <Col offset="5">
                     <Page :total="total" :page-size="10" @on-change="condit"></Page>
                     </Col>
                 </Row>
             </div>
+            </Col>
+            <Col offset="21">
+                <div class="bookTab"></div>
             </Col>
         </Row>
     </div>

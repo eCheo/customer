@@ -1,6 +1,6 @@
-.minW {
+.minS{
     background: url("/static/img/xbackground.png") no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     position: absolute;
     z-index: -1;
     width: 100%;
@@ -9,19 +9,275 @@
     left: 0px;
     overflow: hidden;
     min-width: 1200px;
+    min-height: 700px;
     font-family: yayuan;
     letter-spacing:1px;
 }
 
-.boxed{
+@font-face{
+    font-family: yayuan;
+    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
+}
+
+.row{
     width: 100%;
-    height: 80%;
-    margin: 0 auto;
+    height: 100%;
+}
+
+.col{
+    height: 100%;
 }
 
 .huapen{
-    background:url("/static/img/huapen_03.png") no-repeat;
-    background-size: cover;
-    width: 50px;
-    height: 50px;
+    margin-left: 3%;
+    width: 150px;
+    height: 180px;
 }
+.huapen img{
+    width: 100%;
+    height: 100%;
+    max-width: auto;
+    max-height: auto;
+}
+
+.year{
+    width: 112%;
+    height: 69%;
+    overflow-y: auto;
+    direction:rtl;
+    margin-left: 2px;
+}
+
+.year_font{
+    background:url('/static/img/biaoqian.png') no-repeat;
+    background-position: center ;
+    width: 110px;
+    height: 52px;
+    cursor: pointer;
+}
+
+.year_number{
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    width:100%;
+    height: 90%;
+    line-height: 50px;
+}
+
+.year_number2{
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    width:100%;
+    height: 90%;
+    line-height: 50px;
+    color: #2590D1;
+}
+
+.year_number:hover{
+    color: #2590D1;
+}
+
+.year_number2:hover{
+      color: #2590D1;
+}
+
+.scrollbar{
+    width: 30px;
+    height: 300px;
+    margin: 0 auto;
+ 
+}
+.year::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+.year::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #535353;
+    }
+.year::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+ .c_total{
+     width: 100%;
+     height: 100%;
+     
+     padding:0 6%;
+ }   
+
+ .total_top{
+     width: 100%;
+   height: 63px;
+     display: flex;
+ }
+
+ .total_logo{
+     width: 150px;
+     height: 60px;
+ }
+ .total_logo img{
+     width: 100%;
+     height: 100%;
+     max-width: auto;
+     max-height:auto;
+ }
+
+ .total_year{
+    width: 200px;
+    height: inherit;
+    margin-left: 25%;
+    font-size: 19px;
+    text-align: right;
+    padding-top: 10px;
+ }
+
+ .total_center{
+     width: 100%;
+     height: 10%;
+     color: #fff;
+ }
+
+ .table1{
+     width: 100%;
+     height: 90%;
+     margin-top: 7%;
+     padding-left:15%;
+     padding-right: 7%;
+ }
+ .table1_item1{
+     border: 1px solid #C8EEDE;
+     width: 19%;
+     height: 30px;
+     float: left;
+     background-color: #01C676;
+     text-align: center;
+     line-height: 25px;
+ }
+  .table1_item2{
+     border: 1px solid #C8EEDE;
+     width: 14.3%;
+     height: 30px;
+     float: left;
+     background-color: #01C676;
+     text-align: center;
+     line-height: 25px;
+ }
+
+ .total_center1{
+     width: 78%;
+     height: 130px;
+     color: #fff;
+     margin-left:15%;
+     border-top:2px solid #01C676;
+     padding-top: 1px;
+ }
+
+
+ .table2{
+     width: 70%;
+     height: 97%;
+     overflow: auto;
+     margin-left: 20%;
+ }
+.table2_item{
+    width: 50%;
+    height: 30px;
+      border: 1px solid #C8EEDE;
+     float: left;
+     background-color: #01C676;
+     text-align: center;
+     line-height: 25px;
+}
+
+.table2::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+.table2::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #535353;
+    }
+.table2::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+    /*表格三*/
+  .total_center2{
+        width: 78%;
+     height: 35%;
+     color: #fff;
+     margin-left:15%;
+     border-top:2px solid #01C676;
+     padding-top: 1px;
+  }  
+  .table3{
+     width: 100%;
+     height: 97%;
+     overflow: auto;
+ }   
+
+ .table3_item{
+      width: 33.3%;
+    height: 30px;
+      border: 1px solid #C8EEDE;
+     float: left;
+     background-color: #01C676;
+     text-align: center;
+     line-height: 25px;
+ }
+
+ .table3::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 8px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+.table3::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #535353;
+    }
+.table3::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        background: #EDEDED;
+    }
+
+.total_right{
+    height: 100%;
+}
+
+.total_cao{
+    width: 100%;
+    height: 50%;
+    padding-left: 70px;
+}
+.total_cao img{
+    width: 160px;
+    height: 300px;
+}
+
+.total_pen{
+     width: 100%;
+    height: 50%;
+    padding-left: 70px;
+}
+
+.total_pen img{
+     width: 130px;
+    height: 300px;
+}
+
+   

@@ -10,7 +10,7 @@
     overflow: hidden;
     min-width: 1330px;
     min-height: 700px;
-    font-family: yayuan;
+   
     letter-spacing:1px;
 }
 .center{
@@ -53,7 +53,7 @@
     position: relative;
 }
  .i_right img{
-    width: 90%;
+    width: 100%;
     height: 100%;
 }
 .i_center{
@@ -76,17 +76,14 @@
    
 }
 
-@font-face{
-    font-family: yayuan;
-    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
-}
+
 
 
 
 .i_list1{
     width: 100%;
     height: 100%;
-    font-family: yayuan;
+  
 }
 .wrapper{
     display: flex;
@@ -122,15 +119,15 @@
    line-height: 33px;
 }
 .g_box{
-    width: 30px;
-    height: 30px;
+  padding: 0 10px;
     line-height: 30px;
     background: #01C675;
    display: inline-block;
+   
 }
 .tab{
     position: relative;
-    margin-top: 17%;
+    margin-top: 15%;
     left: 8.9%;
     width: 83%;
     height: 80%;
@@ -142,22 +139,19 @@
 }
 .logo{
     position: absolute;
-    top: 40px;
-    left: 45px;
+    top: 46px;
+    left: 55px;
     width: 150px;
     height: 50px;
 }
 .logo img{
     width: 100%;
-    height: 100%;
-}
-.ivu-input{
-    border-bottom:2px solid #01C675;
+    height: 90%;
 }
 
 .i_button{
     position:relative;
-    top:-521px;
+    top:-537px;
     left: 65%;
     color: #57a3f3;
     width: 28%;
@@ -198,7 +192,7 @@
 }
 
 
-.ivu-table  .demo-table-info-row td{
+ .ivu-table  .demo-table-info-row td{
     background-color: #EA2000;
     color: #fff;
 }
@@ -216,3 +210,64 @@
     width: 70%;
     height: 95.5%;
 }
+
+
+.hide_div{
+    margin: 10% auto;
+    width: 30%;
+    height: 50%;
+}
+
+.excelRow{
+    position: fixed;
+    bottom: 32%;
+    width:400px;
+}
+
+.onRecord{
+    width: 92%;
+    max-height: 100px;
+    overflow: auto;
+    position:absolute;
+    top: 30%;
+    box-shadow: 0 1px 6px rgba(0,0,0,.2);
+    border: width border-style color;
+    padding: 5px 0;
+    font-size: 12px;
+    transform-origin: center top 0px;
+    border-radius: 4px;
+    z-index: 88;
+    background-color: #fff;
+}
+
+.onProject{
+    width: 92%;
+    max-height: 100px;
+    overflow: auto;
+    position:absolute;
+    top: 46%;
+    box-shadow: 0 1px 6px rgba(0,0,0,.2);
+    border: width border-style color;
+    padding: 5px 0;
+    font-size: 12px;
+    transform-origin: center top 0px;
+    border-radius: 4px;
+    z-index: 88;
+    background-color: #fff;
+}
+
+.hide_div2{
+    margin: 2% auto;
+    width: 90%;
+    height: 90%;
+}
+
+.class .ivu-input-large{
+    height: 26px;
+}
+
+
+.class  .ivu-input{
+    border-bottom:2px solid #01C675;
+}
+

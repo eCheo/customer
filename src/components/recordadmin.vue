@@ -3,6 +3,11 @@
         <div class="total">
             <div class="r_left">
                 <img src="/static/img/i_book_02.png">
+                <router-link to="/indexadmin">
+                    <div class="home_img">
+                        <img src="../../static/img/home.png">
+                    </div>
+                </router-link>
                 <div class="left_font">
                     <div style="width:20px;font-size: 16px;margin-left:30px;">
                         {{customerName}}
@@ -14,9 +19,9 @@
                         部门：{{dtoName}}
                     </div>
                 </div>
-                <div style="position:absolute;top:0;left:10%;width:30%;height:93%;margin-top:1%;">
+                <div style="position:absolute;top:0;left:12%;width:30%;height:93%;margin-top:1%;">
                     <div class="r_log">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
                     <div class="r_top1">
                         <div class="r_one">
@@ -48,7 +53,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName" @on-blur="addContract('entryName')" readonly>
+                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" @on-blur="addContract('entryName')" readonly>
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
@@ -60,7 +65,7 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select size="small" disabled @on-change="addContract('mediaForm')" v-model="recordDto.mediaForm" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
+                                <Select size="small" @on-change="addContract('mediaForm')" multiple v-model="mediaFormRecord" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
@@ -83,7 +88,7 @@
 
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.projectAddress" @on-blur="addContract('projectAddress')" readonly>
+                                <Input v-model="recordDto.projectAddress" @on-focus="hides2 = true" @on-blur="addContract('projectAddress')" readonly>
                                 <span slot="prepend">项目地址</span>
                                 </Input>
                             </div>
@@ -203,7 +208,7 @@
                 </div>
 
                 <ul class="but_list">
-                    <li v-if="recordStatus.code==='trial'">
+                    <li v-if="recordStatus.code==='trial' || recordStatus.code==='shareTrial'">
                         <div class="div_but" @click="transfer">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -211,7 +216,7 @@
                             </span>
                         </div>
                     </li>
-                    <li v-if="recordStatus.code==='trial'">
+                    <li v-if="recordStatus.code==='trial' || recordStatus.code==='shareTrial'">
                         <div class="div_but" @click="hides=true">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -219,7 +224,7 @@
                             </span>
                         </div>
                     </li>
-                    <li v-if="recordStatus.code==='deal'||recordStatus.code==='recordSuccess'">
+                    <li v-if="recordStatus.code==='deal'||recordStatus.code==='recordSuccess' || recordStatus.code==='shareTrial'">
                         <div class="div_but" @click="deal">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -227,7 +232,7 @@
                             </span>
                         </div>
                     </li>
-                    <li v-if="recordStatus.code==='trial'">
+                    <li v-if="recordStatus.code==='trial' || recordStatus.code==='shareTrial'">
                         <div class="div_but" @click="pass">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -266,21 +271,19 @@
                                 <Icon type="camera" size="20"></Icon>
                             </div>
                         </Upload>
-                        <Modal title="View Image" v-model="visible">
+                        <Modal title="名片" v-model="visible">
                             <img :src="'/api/obs/view.json?id=' + imgName" v-if="visible" style="width: 100%">
                         </Modal>
                     </div>
                 </div>
 
                 <div class="textarea">
-                    <Input v-model="recordDto.remarks" style="width:360px;" type="textarea" readonly :rows="8"></Input>
+                    <Input v-model="recordDto.remarks" maxLength="500" style="width:360px;" type="textarea" readonly :rows="8"></Input>
                 </div>
                 <div class="pen">
                     <img src="/static/img/pen_X_03.png">
                 </div>
-                <div class="clip">
-                    <img src="/static/img/jiazi_03.png">
-                </div>
+
             </div>
         </div>
         <div class="v-transfer-dom" v-show="hides">
@@ -301,13 +304,91 @@
                         <Input v-model="reject" type="textarea" placeholder="驳回信息"></Input>
                         </Col>
                     </Row>
-                    <br>
+
                     <Row>
                         <Col span="4" offset="14">
                         <Button type="ghost">取消</Button>
                         </Col>
                         <Col span="6">
                         <Button type="primary" :loading="loading" @click="toLoading">
+                            <span v-if="!loading">提交</span>
+                            <span v-else>提交中...</span>
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+        <!-- 项目名称名称弹出框  -->
+        <div class="v-transfer-dom" v-show="hides3">
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        项目名称
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hide">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Input type="text" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)" readonly></Input>
+                    <div style="height:20px;">
+                        <p style="color:#FA150A;" v-show="isHides">
+                            该项目已备案
+                        </p>
+                    </div>
+
+                    <Input type="text" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)" readonly></Input>
+                    <div style="height:20px;">
+                        <p style="color:#FA150A;" v-show="isHides1">
+                            该项目已备案
+                        </p>
+                    </div>
+                    <Input type="text" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)" readonly></Input>
+                    <div style="height:20px;">
+                        <p style="color:#FA150A;" v-show="isHides2">
+                            该项目已备案
+                        </p>
+                    </div>
+
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost" @click="hide">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" :loading="loading" @click="entryNameSubmit" disabled>
+                            <span v-if="!loading">提交</span>
+                            <span v-else>提交中...</span>
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+
+        <!-- 项目地址弹出框  -->
+        <div class="v-transfer-dom" v-show="hides2">
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        项目地址
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hide">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Input type="text" placeholder="项目地址1" v-model="corporateAddress1" readonly></Input>
+                    <br> <br>
+
+                    <Input type="text" placeholder="项目地址2" v-model="corporateAddress2" readonly></Input>
+                    <br> <br>
+                    <Input type="text" placeholder="项目地址3" v-model="corporateAddress3" readonly></Input>
+                    <br><br>
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost" @click="hide">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" :loading="loading" @click="corporateAddressSubmit" disabled>
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
                         </Button>
@@ -359,6 +440,7 @@ export default {
                 remarks: "", //备注
                 contactNumberDtos: [] //联系方式集合
             },
+            mediaFormRecord: [],
             customerCardList: [],
             time: "", //备案时间
             overdueTime: "", //到期时间
@@ -426,7 +508,15 @@ export default {
             spanText9: '',
             spanText10: '',
             spanText11: '',
-            spanText12: ''
+            spanText12: '',
+            entryName1: '',
+            entryName2: '',
+            entryName3: '',
+            corporateAddress1: '',
+            corporateAddress2: '',
+            corporateAddress3: '',
+            hides3: false,
+            hides2: false
         };
     },
     mounted() {
@@ -451,8 +541,8 @@ export default {
         if (id) {
             this.isShow = false;
         }
-      
-      
+
+
     },
 
     methods: {
@@ -588,7 +678,7 @@ export default {
                     }
                 }
                 if (value == "mediaForm") {
-                    if (this.recordDto.mediaForm == "") {
+                    if (this.mediaFormRecord != undefined && this.mediaFormRecord.length == 0) {
                         this.span3 = true;
                         this.spanText3 = "媒体形式不能为空";
                         isvalilPass = false;
@@ -694,6 +784,8 @@ export default {
                             message: res.data.data.rejectList[i]
                         })
                     }
+                    
+                    this.mediaFormRecord = res.data.data.mediaForm.split(',');
 
 
                     this.contract.contactName = res.data.data.contactNumberDtos[0].contactName;
@@ -705,10 +797,23 @@ export default {
                     this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
                     this.contractList = res.data.data.contactNumberDtos;
                     this.recordDto = res.data.data;
-                    this.recordDto.mediaForm = res.data.data.mediaForm.name;
+
                     this.overdueTime = res.data.data.expireTime;
                     this.recordStatus = res.data.data.recordStatus;
+
+
+                    var relut = res.data.data.projectAddress.split(",");
+                    this.corporateAddress1 = relut[0];
+                    this.corporateAddress2 = relut[1];
+                    this.corporateAddress3 = relut[2];
+
+                    var relut2 = res.data.data.entryName.split(',');
+                    this.entryName1 = relut2[0];
+                    this.entryName2 = relut2[1];
+                    this.entryName3 = relut2[2];
+
                     var arry = res.data.data.customerCard;
+
                     if (this.recordStatus.name == "E_deal") {
                         this.timeType = 2;
                         var date = res.data.data.contractEffectTime;
@@ -762,15 +867,15 @@ export default {
         },
         update() {
             // this.dtoDetailDtoList = this.recordDto;
-             this.handleSpinCustom();
-            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone","QQ"];
+            this.handleSpinCustom();
+            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
             var isvali = this.vail(arry);
             if (!isvali) {
-                 this.$Spin.hide();
+                this.$Spin.hide();
                 return;
             }
-               
-            
+
+
             if (this.customerCardList.length <= 0 && this.recordDto.remarks == '') {
                 this.$Message.error("名片和备注不能同时为空！ _(:3」∠)_");
                 return;
@@ -781,11 +886,23 @@ export default {
                 this.chenge(this.contractList.length - 1);
                 return;
             }
+            this.dtoDetailDtoList.mediaForm = "";
+            for (let i = 0; i < this.mediaFormRecord.length; i++) {
+                if (i < (this.mediaFormRecord.length - 1)) {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i] +',';
+                } else {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i];
+                }
+                 if (this.mediaFormRecord[i] == undefined) {
+                    this.mediaFormRecord.splice(i, 1);
+                   i=i-1;
+                }
+            }
             this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
             this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
             this.dtoDetailDtoList.entryName = this.recordDto.entryName;
             this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
-            this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
+
             this.dtoDetailDtoList.docking = this.recordDto.docking;
             this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
             this.dtoDetailDtoList.remarks = this.recordDto.remarks;
@@ -808,7 +925,7 @@ export default {
                     this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
                 }
             }
-           
+
             this.$axios.post('/api/front/record/update.json',
                 this.dtoDetailDtoList
             ).then(res => {
@@ -840,20 +957,19 @@ export default {
                 }
             });
         },
-        rejectinfo() {
-            this.$Modal.confirm({
-                title: '驳回信息',
-                content: '<p>666666</p><p>666666</p><p>666666</p>',
-                width: 70,
-            });
-        },
+
         transfer() {
             var id = JSON.parse(sessionStorage.getItem("id"));
             this.$axios.post('/api/front/record/transfer.json', {
                 id: id
             }).then(res => {
-                this.$Message.success("转交成功");
-                history.go(-1);
+                if (res.data.success == true) {
+                    this.$Message.success("转交成功");
+                    history.go(-1);
+                } else {
+                    this.$Message.error(res.data.message);
+                }
+
             })
         },
         pass() {
@@ -861,8 +977,13 @@ export default {
             this.$axios.post('/api/front/record/adopt.json', {
                 id: id
             }).then(res => {
-                this.$Message.success("通过请求");
-                history.go(-1);
+                if (res.data.success == true) {
+                    this.$Message.success("通过请求");
+                    history.go(-1);
+                } else {
+                    this.$Message.error(res.data.message);
+                }
+
             })
         },
         delect() {
@@ -883,24 +1004,6 @@ export default {
                     this.dtoDetailDtoList.dtoDetailDto.deleteList.push(this.contractList[this.contractList.length - 1].id);
                 }
             });
-        },
-        transfer() {
-            var id = JSON.parse(sessionStorage.getItem("id"));
-            this.$axios.post('/api/front/record/transfer.json', {
-                id: id
-            }).then(res => {
-                this.$Message.success("转交成功");
-                history.go(-1);
-            })
-        },
-        pass() {
-            var id = JSON.parse(sessionStorage.getItem("id"));
-            this.$axios.post('/api/front/record/adopt.json', {
-                id: id
-            }).then(res => {
-                this.$Message.success("通过请求");
-                history.go(-1);
-            })
         },
         deal() {
             let effectTime = '';
@@ -960,6 +1063,8 @@ export default {
         hide() {
             this.hides = false;
             this.loading = false;
+            this.hides3 = false;
+            this.hides2 = false;
         },
         toLoading() {
             this.loading = true;
@@ -969,7 +1074,7 @@ export default {
                 reject: this.reject
             }).then(res => {
                 if (res.data.success == false) {
-                    this.$Message.error("驳回失败");
+                    this.$Message.error(res.data.message);
                     this.loading = false;
                 } else {
                     this.$Message.success("驳回成功");

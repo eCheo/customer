@@ -74,6 +74,16 @@ const routes = [
     path:'/chiefsee',
     name:'chiefsee',
      component:resolve => require(['@/components/chiefsee.vue'],resolve)
+  },
+   {
+    path:'/network',
+    name:'network',
+     component:resolve => require(['@/components/network.vue'],resolve)
+  },
+   {
+    path:'/networkAdmin',
+    name:'networkAdmin',
+     component:resolve => require(['@/components/networkAdmin.vue'],resolve)
   }
 ]
 

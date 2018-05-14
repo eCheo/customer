@@ -3,20 +3,25 @@
         <div class="total">
             <div class="r_left">
                 <img src="/static/img/i_book_02.png">
+                <router-link to="/chief">
+                    <div class="home_img">
+                        <img src="../../static/img/home.png">
+                    </div>
+                </router-link>
                 <div class="left_font">
                     <div style="width:20px;font-size: 16px;margin-left:30px;">
                         {{customerName}}
                     </div>
                     <div>
-                        职位：{{roleName}}
+                        职位:{{roleName}}
                     </div>
                     <div>
                         部门：{{dtoName}}
                     </div>
                 </div>
-                <div style="position:absolute;top:0;left:10%;width:30%;height:93%;margin-top:1%;">
+                <div style="position:absolute;top:0;left:12%;width:30%;height:93%;margin-top:1%;">
                     <div class="r_log">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
                     <div class="r_top1">
                         <div class="r_one">
@@ -30,11 +35,12 @@
                                 <DatePicker readonly v-model="overdueTime" type="date" format="yyyy-MM-dd" style="float:left;width:58%;"></DatePicker>
                             </div>
                         </div>
+
                     </div>
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName" readonly>
+                                <Input v-model="recordDto.corporateName" @on-blur="addContract('corporateName')" readonly>
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -48,7 +54,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName" readonly>
+                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" @on-blur="addContract('entryName')" readonly>
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
@@ -60,7 +66,7 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select size="small" disabled v-model="recordDto.mediaForm" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
+                                <Select size="small" @on-change="addContract('mediaForm')" multiple v-model="mediaFormRecord" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
@@ -71,7 +77,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateAddress" readonly>
+                                <Input v-model="recordDto.corporateAddress" @on-blur="addContract('corporateAddress')" readonly>
                                 <span slot="prepend">公司地址</span>
                                 </Input>
                             </div>
@@ -82,7 +88,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.projectAddress" readonly>
+                                <Input v-model="recordDto.projectAddress" @on-blur="addContract('projectAddress')" @on-focus="hides2 = true" readonly>
                                 <span slot="prepend">项目地址</span>
                                 </Input>
                             </div>
@@ -98,7 +104,7 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.contactName" @on-blur='addContract("contactName")' :readonly="readonly1">
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
@@ -109,7 +115,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.position" @on-blur='addContract("position")' :readonly="readonly1">
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
@@ -120,7 +126,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.phone" @on-blur='addContract("phone")' :readonly="readonly1">
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
@@ -131,7 +137,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.qq" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.qq" @on-blur='addContract("QQ")' :readonly="readonly1">
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
@@ -142,14 +148,14 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weiXin" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.weiXin" @on-blur='addContract("weiXin")' :readonly="readonly1">
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" @on-blur='addContract()' :readonly="readonly1">
+                                    <Input v-model="contract.landLine" @on-blur='addContract("landLine")' :readonly="readonly1">
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -176,7 +182,7 @@
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.pickUp" readonly>
+                                <Input v-model="recordDto.pickUp" @on-blur="addContract('pickUp')" readonly>
                                 <span slot="prepend">网络对接人</span>
                                 </Input>
                             </div>
@@ -187,7 +193,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.docking" readonly>
+                                <Input v-model="recordDto.docking" @on-blur="addContract('docking')" readonly>
                                 <span slot="prepend">网络对接部门</span>
                                 </Input>
                             </div>
@@ -202,7 +208,7 @@
 
                 <ul class="but_list">
 
-                    <li v-if="recordStatus.code==='review'">
+                    <li v-if="recordStatus.code==='review' || recordStatus.code ==='shareReview'">
                         <div class="div_but" @click="hides=true">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -211,7 +217,16 @@
                         </div>
                     </li>
 
-                    <li v-if="recordStatus.code==='review'">
+                    <li @click="hidesUpdate = true" v-if="recordStatus.name === 'A_updateTime'">
+                        <div class="div_but" @click="hides=true">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                更新时间
+                            </span>
+                        </div>
+                    </li>
+
+                    <li v-if="recordStatus.code==='review' || recordStatus.code==='shareReview'">
                         <div class="div_but" @click="pass">
                             <img src="/static/img/button_03.png">
                             <span>
@@ -250,21 +265,19 @@
                                 <Icon type="camera" size="20"></Icon>
                             </div>
                         </Upload>
-                        <Modal title="View Image" v-model="visible">
+                        <Modal title="名片" v-model="visible">
                             <img :src="'/api/obs/view.json?id=' + imgName" v-if="visible" style="width: 100%">
                         </Modal>
                     </div>
                 </div>
 
                 <div class="textarea">
-                    <Input v-model="recordDto.remarks" style="width:360px;" type="textarea" :rows="8" readonly></Input>
+                    <Input v-model="recordDto.remarks" :maxlength="500" style="width:360px;" type="textarea" :rows="8" readonly></Input>
                 </div>
                 <div class="pen">
                     <img src="/static/img/pen_X_03.png">
                 </div>
-                <div class="clip">
-                    <img src="/static/img/jiazi_03.png">
-                </div>
+
             </div>
         </div>
         <div class="v-transfer-dom" v-show="hides">
@@ -285,7 +298,7 @@
                         <Input v-model="reject" type="textarea" placeholder="驳回信息"></Input>
                         </Col>
                     </Row>
-                    <br>
+
                     <Row>
                         <Col span="4" offset="14">
                         <Button type="ghost">取消</Button>
@@ -300,6 +313,118 @@
                 </Card>
             </div>
         </div>
+
+        <!-- 项目名称名称弹出框  -->
+        <div class="v-transfer-dom" v-show="hides3">
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        项目名称
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hide">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Input type="text" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)" readonly></Input>
+                    <!--<div style="height:20px;">
+                                        <p style="color:#FA150A;" v-show="isHides">
+                                            该项目已备案
+                                        </p>
+                                    </div>-->
+
+                    <Input type="text" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)" readonly></Input>
+                    <!--<div style="height:20px;">
+                                        <p style="color:#FA150A;" v-show="isHides1">
+                                            该项目已备案
+                                        </p>
+                                    </div>-->
+                    <Input type="text" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)" readonly></Input>
+                    <!--<div style="height:20px;">
+                                        <p style="color:#FA150A;" v-show="isHides2">
+                                            该项目已备案
+                                        </p>
+                                    </div>-->
+
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost" @click="hide">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" disabled>
+                            <span>提交</span>
+
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+
+        <!-- 项目地址弹出框  -->
+        <div class="v-transfer-dom" v-show="hides2">
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        项目地址
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hide">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Input type="text" placeholder="项目地址1" v-model="corporateAddress1" readonly></Input>
+                    <br><br>
+
+                    <Input type="text" placeholder="项目地址2" v-model="corporateAddress2" readonly></Input>
+                    <br><br>
+                    <Input type="text" placeholder="项目地址3" v-model="corporateAddress3" readonly></Input>
+                    <br><br>
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost" @click="hide">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" disabled>
+                            <span>提交</span>
+
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+
+        <!-- 更新备案时间弹出框  -->
+        <div class="v-transfer-dom" v-show="hidesUpdate">
+
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        更新备案时间
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hidesUpdate = fasle">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Row>
+                        <Col>
+                        <Input v-model="timeReason" :readonly="true" placeholder="更新原因" style="width:100%;" type="textarea" :rows="5"></Input>
+                        </Col>
+                    </Row>
+                    <br>
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="success" @click="updateTime(true)">同意</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="error" @click="updateTime(false)">
+                            <span>拒绝</span>
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -309,6 +434,10 @@ export default {
     data() {
         return {
             rejectvalue: "",
+            timeReason: '',
+
+
+            hidesUpdate: false,
             value: "",
             svalue: "",
             navList: [
@@ -343,6 +472,7 @@ export default {
                 remarks: "", //备注
                 contactNumberDtos: [] //联系方式集合
             },
+            mediaFormRecord:[],
             customerCardList: [],
             time: "", //备案时间
             overdueTime: "", //到期时间
@@ -410,7 +540,15 @@ export default {
             spanText9: '',
             spanText10: '',
             spanText11: '',
-            spanText12: ''
+            spanText12: '',
+            entryName1: '',
+            entryName2: '',
+            entryName3: '',
+            corporateAddress1: '',
+            corporateAddress2: '',
+            corporateAddress3: '',
+            hides3: false,
+            hides2: false
         };
     },
 
@@ -436,9 +574,6 @@ export default {
         if (id) {
             this.isShow = false;
         }
-     
-     
-       
     },
     methods: {
         addList() {
@@ -472,7 +607,7 @@ export default {
                 var value = values[i];
                 var phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
                 var position = /^[\u0391-\uFFE5]+$/;
-                var QQ = /^[0-9]&/
+                var QQ = /^[0-9]*$/
                 if (value == "phone") {
                     if (!phone.test(this.contract.phone)) {
                         this.span = true;
@@ -504,6 +639,7 @@ export default {
 
                 if (value == "QQ") {
                     if ((this.contract.qq != "" && this.contract.qq != undefined) && !QQ.test(this.contract.qq)) {
+                        alert(this.contract.qq);
                         this.span8 = true;
                         this.spanText8 = "QQ只能为数字";
                         isvalilPass = false;
@@ -573,7 +709,7 @@ export default {
                     }
                 }
                 if (value == "mediaForm") {
-                    if (this.recordDto.mediaForm == "") {
+                    if (this.mediaFormRecord!=undefined &&this.mediaFormRecord.length==0) {
                         this.span3 = true;
                         this.spanText3 = "媒体形式不能为空";
                         isvalilPass = false;
@@ -663,9 +799,9 @@ export default {
             return check;
         },
         update() {
-             this.handleSpinCustom();
+            this.handleSpinCustom();
             // this.dtoDetailDtoList = this.recordDto;
-            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone","QQ"];
+            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
             var isvali = this.vail(arry);
             if (!isvali) {
                 this.$Spin.hide();
@@ -681,11 +817,23 @@ export default {
                 this.chenge(this.contractList.length - 1);
                 return;
             }
+            this.dtoDetailDtoList.mediaForm = "";
+               for (let i = 0; i < this.mediaFormRecord.length; i++) {
+                if (i < (this.mediaFormRecord.length - 1)) {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i] + ',';
+                } else {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i];
+                }
+                 if (this.mediaFormRecord[i] == undefined) {
+                    this.mediaFormRecord.splice(i, 1);
+                   i=i-1;
+                }
+            }
             this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
             this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
             this.dtoDetailDtoList.entryName = this.recordDto.entryName;
             this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
-            this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
+          
             this.dtoDetailDtoList.docking = this.recordDto.docking;
             this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
             this.dtoDetailDtoList.remarks = this.recordDto.remarks;
@@ -708,7 +856,7 @@ export default {
                     this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
                 }
             }
-           
+
             this.$axios.post('/api/front/record/update.json',
                 this.dtoDetailDtoList
             ).then(res => {
@@ -787,9 +935,23 @@ export default {
                     this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
                     this.contractList = res.data.data.contactNumberDtos;
                     this.recordDto = res.data.data;
-                    this.recordDto.mediaForm = res.data.data.mediaForm.name;
+                   this.mediaFormRecord = res.data.data.mediaForm.split(',');
                     this.overdueTime = res.data.data.expireTime;
+
+                    this.timeReason = res.data.data.timeRemarks;
+
                     this.recordStatus = res.data.data.recordStatus;
+
+                    var relut = res.data.data.projectAddress.split(",");
+                    this.corporateAddress1 = relut[0];
+                    this.corporateAddress2 = relut[1];
+                    this.corporateAddress3 = relut[2];
+
+                    var relut2 = res.data.data.entryName.split(',');
+                    this.entryName1 = relut2[0];
+                    this.entryName2 = relut2[1];
+                    this.entryName3 = relut2[2];
+
                     var arry = res.data.data.customerCard;
                     if (this.recordStatus.name == "E_deal") {
                         this.timeType = 2;
@@ -850,22 +1012,19 @@ export default {
         //         width: 70,
         //     });
         // },
-        transfer() {
-            var id = JSON.parse(sessionStorage.getItem("id"));
-            this.$axios.post('/api/front/record/transfer.json', {
-                id: id
-            }).then(res => {
-                this.$Message.success("转交成功");
-                history.go(-1);
-            })
-        },
+
         pass() {
             var id = JSON.parse(sessionStorage.getItem("id"));
             this.$axios.post('/api/front/record/adopt.json', {
                 id: id
             }).then(res => {
-                this.$Message.success("通过请求");
-                history.go(-1);
+                if (res.data.success === "true") {
+                    this.$Message.success("通过请求");
+                    history.go(-1);
+                } else {
+                    this.$Message.error(res.data.message);
+                }
+
             })
         },
         delect() {
@@ -891,8 +1050,13 @@ export default {
             this.$axios.post('/api/front/record/transfer.json', {
                 id: id
             }).then(res => {
-                this.$Message.success("转交成功");
-                history.go(-1);
+                if (res.data.success === "true") {
+                    this.$Message.success("转交成功");
+                    history.go(-1);
+                } else {
+                    this.$Message.error(res.data.message);
+                }
+
             })
         },
         pass() {
@@ -900,8 +1064,13 @@ export default {
             this.$axios.post('/api/front/record/adopt.json', {
                 id: id
             }).then(res => {
-                this.$Message.success("通过请求");
-                history.go(-1);
+                if (res.data.success === "true") {
+                    this.$Message.success("通过请求");
+                    history.go(-1);
+                } else {
+                    this.$Message.error(res.data.message);
+                }
+
             })
         },
         deal() {
@@ -947,8 +1116,13 @@ export default {
                         expireTime: terminationTime,
                         id: id
                     }).then(res => {
-                        this.$Message.success("通过成交请求");
-                        history.go(-1);
+                        if (res.data.success === "true") {
+                            this.$Message.success("通过成交请求");
+                            history.go(-1);
+                        } else {
+                            this.$Message.error(res.data.message);
+                        }
+
                     })
                 }
             })
@@ -956,6 +1130,8 @@ export default {
         hide() {
             this.hides = false;
             this.loading = false;
+            this.hides3 = false;
+            this.hides2 = false;
         },
         toLoading() {
             this.loading = true;
@@ -968,9 +1144,32 @@ export default {
                     this.$Message.error("驳回失败");
                     this.loading = false;
                 } else {
-                    this.$Message.success("驳回成功");
+                    this.$Message.success(res.data.message);
                     this.loading = false;
                     this.hides = false;
+                    this.$router.push({
+                        path: '/chief'
+                    })
+                }
+            })
+        },
+        updateTime(value) {
+            let updateId = sessionStorage.getItem('id');
+            this.$axios.post('/api/front/record/updateTime.json', {
+
+                id: updateId,
+                isPass: value,
+                day: 90
+
+            }).then(res => {
+                if (res.data.success = true) {
+                    this.$Message.success("审批成功");
+
+                    this.$router.push({
+                        path: '/chief'
+                    })
+                } else {
+                    this.$Message.error(res.data.message);
                     this.$router.push({
                         path: '/chief'
                     })

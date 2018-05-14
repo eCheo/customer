@@ -1,13 +1,22 @@
 <template>
     <div class="minR">
         <Row class="p_box">
-            <Col span="10" offset="7">
+            <Col span="3" offset="2">
+                <div class="yinzhang"></div>
+                <div class="wite">
+                    <img src="/static/img/witePen.png"></img>
+                </div>
+            </Col>
+            <Col span="10" offset="3">
             <img style="width:100%;height:100%;" src="../../static/img/pool_03.png">
             <div class="padd">
                 <Row>
                     <Col span="5" offset="1">
-                    <img style="width:100%;height:100%;" src="../../static/img/logo.png">
+                    <img style="width:100%;height:100%;margin-top:8px;" src="../../static/img/logo.jpg">
                     </Col>
+                     <div class="homes_img" @click="homeBack">
+                        <img src="../../static/img/homeRed.png">
+                    </div>
                 </Row>
                 <Row>
                     <Col span="16" offset="1">
@@ -22,15 +31,19 @@
                 <br>
                 <Row class-name="p_table">
                     <Col span="23" offset="1">
-                    <Table :loading="loading" :columns="columns1" :data="data1"></Table>
+                    <Table  :loading="loading" :columns="columns1" :data="data1"></Table>
                     </Col>
                 </Row>
+                <br>
                 <Row>
                     <Col offset="5">
                     <Page :total="total" :page-size="10" @on-change="condit"></Page>
                     </Col>
                 </Row>
             </div>
+            </Col>
+            <Col offset="21">
+            <div class="bookTab"></div>
             </Col>
         </Row>
     </div>
@@ -84,7 +97,7 @@ export default {
                 this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                     params: {
                         page: current,
-                        size: 9,
+                        size:10,
                         EQ_recordStatus: 'H_share',
                         EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                         LIKE_corporateName: corporateName
@@ -109,6 +122,15 @@ export default {
                     message: "请选择"
                 })
             })
+        },
+         homeBack(){
+           let admin =  sessionStorage.getItem('admin');
+            if(admin == 'administrators'){
+                this.$router.push({path:'/indexadmin'})
+            }
+            if(admin == 'examiner'){
+                 this.$router.push({path:'/chief'})
+            }
         }
     },
     mounted() {

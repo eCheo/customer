@@ -23,7 +23,7 @@
                                 <li>
                                     <div class="j_wrapper">
                                         <div class="jw_left">
-                                            <img src="/static/img/fc.png">
+                                            <img :src="imgTou">
                                         </div>
                                         <div class="jw_right">
                                             <div style="font-size: 18px;">
@@ -74,7 +74,7 @@
                 <img src="/static/img/bookBig_02.png">
                 <div style="position: absolute;top: 0px;width: 100%;height:90%;">
                     <div class="j_logo">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
                     <div class="j_tab">
                         <Table :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findByList"></Table>
@@ -103,17 +103,26 @@ export default {
                 {
                     title: '企业名称1',
                     key: 'enterpriseOne',
-                    align: 'center'
+                    align: 'center',
+                    render: (h, params) => {
+                        return params.row.enterpriseOne.length > 6 ? params.row.enterpriseOne.substring(0, 6) + "..." : params.row.enterpriseOne;
+                    }
                 },
                 {
                     title: '企业名称2',
                     key: 'enterpriseTwo',
-                    align: 'center'
+                    align: 'center',
+                      render: (h, params) => {
+                        return params.row.enterpriseTwo.length > 6 ? params.row.enterpriseTwo.substring(0, 6) + "..." : params.row.enterpriseTwo;
+                    }
                 },
                 {
                     title: '企业名称3',
                     key: 'enterpriseThree',
-                    align: 'center'
+                    align: 'center',
+                       render: (h, params) => {
+                        return params.row.enterpriseThree.length > 6 ? params.row.enterpriseThree.substring(0, 6) + "..." : params.row.enterpriseThree;
+                    }
                 },
                 {
                     title: '日期',
@@ -143,7 +152,8 @@ export default {
             current: 1,
             enterpriseName: '',
             search: '',
-            isHide: true
+            isHide: true,
+            imgTou: ''
         }
     },
     methods: {
@@ -151,6 +161,19 @@ export default {
             this.EQ_name = sessionStorage.getItem('name');
             this.dtoName = sessionStorage.getItem('dto');
             this.roleName = sessionStorage.getItem('role');
+
+            var sex = sessionStorage.getItem("sex");
+            if (sex == "Man") {
+                this.imgTou = '/static/img/nan_03.png';
+                return;
+            }
+            if (sex == 'WoMan') {
+                this.imgTou = '/static/img/nv_03.png';
+                return;
+            }
+
+
+
         },
         logByPage(current) {
             this.loading = true;
@@ -160,7 +183,7 @@ export default {
                     enterpriseName: this.enterpriseName,
                     page: this.current,
                     size: 9,
-                    sort:'enterpriseRemindDate,asc'
+                    sort: 'enterpriseRemindDate,asc'
                 }
             }).then(res => {
                 this.data1 = res.data.data.content;
@@ -170,13 +193,12 @@ export default {
         logPageAdmin(current) {
             this.loading = true;
             var admin = sessionStorage.getItem('admin');
-            if (admin == "客户管理员") {
+            if (admin == "administrators") {
                 this.isHide = false;
             }
-            if (admin == "销售总监") {
+            if (admin == "examiner") {
                 this.isHide = false;
             }
-
 
             this.$axios.get('/api/front/member/findAdminMemberLogByPage.json', {
                 params: {
@@ -207,25 +229,29 @@ export default {
                 this.$router.push({
                     path: '/indexadmin'
                 })
-            } else if(admin == "examiner"){
+            } else if (admin == "examiner") {
                 this.$router.push({
                     path: '/chief'
                 })
-            }else{
-                  this.$router.push({
+            } else if (admin == "network") {
+                this.$router.push({
+                    path: '/network'
+                })
+            } else {
+                this.$router.push({
                     path: '/index'
                 })
             }
         },
         pool() {
             var admin = sessionStorage.getItem('admin');
-            if (admin == "客户管理员" || admin == "销售总监") {
+            if (admin == "administrators" || admin == "examiner") {
                 this.$router.push({
                     path: "/pooladmin"
                 })
                 return;
             }
-            if (admin == "客户代表") {
+            if (admin == "ordinary" || admin == "network") {
                 this.$router.push({
                     path: "/pool"
                 })
@@ -236,7 +262,7 @@ export default {
     mounted() {
         this.login();
         var admin = sessionStorage.getItem('admin');
-        if (admin == "客户管理员" || admin == "销售总监") {
+        if (admin == "administrators" || admin == "examiner") {
             this.logPageAdmin()
         } else {
             this.logByPage();

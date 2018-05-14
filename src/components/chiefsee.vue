@@ -7,18 +7,25 @@
             </div>
             <div class="year">
                 <div class="year_font" v-for="(item,index) in  yearList" :key="item.index" @click="countGet(item,index)">
-                    <span  :class="index==indexs?'year_number2':'year_number'">{{item}}</span>
+                    <span :class="index==indexs?'year_number2':'year_number'">{{item}}</span>
                 </div>
             </div>
             </Col>
+           
+            <router-link to="/chief">
+             <div class="home_img" >
+                <img src="../../static/img/home.png">
+            </div>
+            </router-link>
+          
             <Col span="9" offset="6" class-name="col">
             <div style="width:100%;height:10%;"></div>
             <div class="c_total">
                 <div class="total_top">
                     <div class="total_logo">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
-                    <div class="total_year" >
+                    <div class="total_year">
                         {{yearList[indexs]}}
                     </div>
                 </div>
@@ -31,19 +38,19 @@
                             备案
                         </div>
                         <div class="table1_item2">
-                              {{countObj.countRecord}}
+                            {{countObj.countRecord}}
                         </div>
                         <div class="table1_item1">
                             成交
                         </div>
                         <div class="table1_item2">
-                              {{countObj.countDeal}}
+                            {{countObj.countDeal}}
                         </div>
                         <div class="table1_item1">
                             公共信息
                         </div>
                         <div class="table1_item2">
-                              {{countObj.countShare}}
+                            {{countObj.countShare}}
                         </div>
                     </div>
                 </div>
@@ -62,18 +69,18 @@
                         </div>
                         <div>
                             <div class="table2_item">
-                                轨道
+                                轻轨
                             </div>
                             <div class="table2_item">
-                                  {{countObj.countMetro}}
+                                {{countObj.countMetro}}
                             </div>
                         </div>
                         <div>
                             <div class="table2_item">
-                                公交/轨道
+                                公交/轻轨
                             </div>
                             <div class="table2_item">
-                                  {{countObj.countTransitMetro}}
+                                {{countObj.countTransitMetro}}
                             </div>
                         </div>
                         <div>
@@ -81,7 +88,7 @@
                                 网络
                             </div>
                             <div class="table2_item">
-                                  {{countObj.countNetwork}}
+                                {{countObj.countNetwork}}
                             </div>
                         </div>
                     </div>
@@ -119,7 +126,7 @@
             <div class="total_pen">
                 <img src="/static/img/gPen_03.png">
             </div>
-            
+             
             </Col>
         </Row>
     </div>
@@ -127,46 +134,46 @@
 
 <script>
 export default {
-    data () {
+    data() {
         return {
-            yearList:[],
-            countObj:{},
-            departmentList:[],
-            indexs:0
+            yearList: [],
+            countObj: {},
+            departmentList: [],
+            indexs: 0
         }
     },
     methods: {
-        getYear(){
-            this.$axios.get('/api/front/record/getYearList.json',{
-            
-            }).then(res =>{
+        getYear() {
+            this.$axios.get('/api/front/record/getYearList.json', {
+
+            }).then(res => {
                 this.yearList = res.data.data;
                 this.countGet(this.yearList[0]);
-                this.indexs=0;
+                this.indexs = 0;
             })
-        
+
         },
-        countGet(item,index){
-            this.$axios.get('/api/front/record/countRecordStatistics.json',{
-                    params:{
-                        startYear:item
-                    }
+        countGet(item, index) {
+            this.$axios.get('/api/front/record/countRecordStatistics.json', {
+                params: {
+                    startYear: item
+                }
             }).then(res => {
                 this.countObj = res.data.data;
             })
 
-            this.$axios.get('/api/front/record/countDepartmentList.json',{
-                params:{
-                    startYear:item
+            this.$axios.get('/api/front/record/countDepartmentList.json', {
+                params: {
+                    startYear: item
                 }
             }).then(res => {
                 this.departmentList = res.data.data;
             })
-           
-           this.indexs = index;
+
+            this.indexs = index;
         }
     },
-    mounted () {
+    mounted() {
         this.getYear();
 
     }

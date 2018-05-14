@@ -9,16 +9,12 @@
     left: 0px;
     overflow: hidden;
     min-width: 1200px;
-    font-family: yayuan;
+
     letter-spacing:1px;
     font-size: 10px;
     min-height: 700px;
 }
 
-@font-face{
-    font-family: yayuan;
-    src:url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
-}
 
 
 .p_back{
@@ -35,7 +31,9 @@
 }
 
 .p_table{
-    height: 70%;
+   height: 550px;
+    overflow: auto;
+    min-height: 420px;
 }
 .p_box{
     height: 700px;
@@ -81,4 +79,27 @@
     background-position: center;
     position: relative;
     top: 200px;
+}
+
+.homes_img{
+    position: absolute;
+    left: 90%;
+    top: 2px;
+    width: 50px;
+    height: 45px;
+    
+}
+
+.homes_img img{
+    width: 41px;
+    height: 49px;
+    margin-top: -3px;
+    margin-left: 4px;
+}
+
+.homes_img:hover{
+    /*background-color: rgba(255, 255, 255, 0.6);*/
+    border: 1px solid #ff0000;
+     border-radius: 10px;
+    cursor: pointer;
 }

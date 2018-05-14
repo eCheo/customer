@@ -7,13 +7,19 @@
                     <img src="/static/img/witePen.png"></img>
                 </div>
             </Col>
-            <Col span="10" offset="3"  >
+            <Col span="10" offset="3">
             <img style="width:100%;height:100%;" src="../../static/img/pool_03.png">
+            
             <div class="padd">
                 <Row>
                     <Col span="5" offset="1">
-                    <img style="width:100%;height:100%;" src="../../static/img/logo.png">
+                    <img style="width:100%;height:100%;margin-top:8px;" src="../../static/img/logo.jpg">
                     </Col>
+                  
+                    <div class="homes_img" @click="homeBack">
+                        <img src="../../static/img/homeRed.png">
+                    </div>
+               
                 </Row>
                 <Row>
                     <Col span="16" offset="1">
@@ -119,7 +125,7 @@ export default {
                 this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                     params: {
                         page: current,
-                        size: 9,
+                        size:10,
                         EQ_recordStatus: 'H_share',
                         EQ_mediaForm: this.EQ_mediaForm == "unselected" ? "" : this.EQ_mediaForm,
                         LIKE_corporateName: corporateName
@@ -168,6 +174,15 @@ export default {
                         })
                     }
                 });
+        },
+        homeBack(){
+           let admin =  sessionStorage.getItem('admin');
+            if(admin == 'network'){
+                this.$router.push({path:'/network'})
+            }
+            if(admin == 'ordinary'){
+                 this.$router.push({path:'/index'})
+            }
         }
     },
     mounted() {

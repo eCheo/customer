@@ -5,7 +5,11 @@
             <div class="total">
                 <div class="n_left">
                     <img src="/static/img/i_book_02.png">
-
+                    <router-link to="/journalList">
+                        <div class="home_img">
+                            <img src="../../static/img/home.png">
+                        </div>
+                    </router-link>
                     <div class="neft_font">
                         <div style="width:20px;font-size: 16px;margin-left:30px;">
                             {{customerName}}
@@ -20,7 +24,7 @@
 
                     <div class="box">
                         <div class="n_log">
-                            <img src="/static/img/logo.png">
+                            <img src="/static/img/logo.jpg">
                         </div>
                         <div class="n_top1">
                             <div class="n_one">
@@ -190,7 +194,7 @@
                         <div class="pen">
                             <img src="/static/img/pen_X_03.png">
                         </div>
-                      
+
                     </div>
                 </div>
 
@@ -429,16 +433,16 @@ export default {
             this.$axios.get('/api/front/member/findMemberLogTime.json', {
 
             }).then(res => {
-                  var date = res.data.data;
-                        date = new Date(date);
-                        var y = date.getFullYear();
-                        var m = date.getMonth() + 1;
-                        m = m < 10 ? '0' + m : m;
-                        var d = date.getDate();
-                        d = d < 10 ? ('0' + d) : d;
-                        var h = date.getHours();
-                        var time = y + '-' + m + '-' + d
-                       this.logTime = time;
+                var date = res.data.data;
+                date = new Date(date);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? '0' + m : m;
+                var d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = date.getHours();
+                var time = y + '-' + m + '-' + d
+                this.logTime = time;
             })
         },
         logById() {

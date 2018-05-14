@@ -5,7 +5,7 @@
             <div class="bodys">
                 <div class="l_input">
                     <div class="h_logo">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
                     <ul class="h_list">
                         <li class="h_item">
@@ -69,24 +69,26 @@ export default {
                         if (response.data.success) {
 
                             sessionStorage.setItem('userInfo', this.name);
-                            sessionStorage.setItem('admin', response.data.data)
-                            if (response.data.data == 'administrators') {
+                            sessionStorage.setItem('admin', response.data.data.roleDto.code)
+                            if (response.data.data.roleDto.code == 'administrators') {
                                 this.$router.push({ path: '/indexadmin' });
                             }
-                            if (response.data.data == 'ordinary') {
+                            if (response.data.data.roleDto.code == 'ordinary') {
                                 this.$router.push({ path: '/index' });
                             }
-                            if (response.data.data == 'examiner') {
+                            if (response.data.data.roleDto.code == 'examiner') {
                                 this.$router.push({ path: '/chief' });
                             }
-
+                            if(response.data.data.roleDto.code == 'network'){
+                                this.$router.push({path:'/network'})
+                            }
+                            sessionStorage.setItem('sex',response.data.data.sex.code);
+                            console.log(sessionStorage.getItem("sex"));
                         } else {
                             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
                             this.$Message.error(response.data.message);
                         }
-                    }).catch(error => {
-                        this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
-                        this.$Message.error('内部错误');
+                 
                     })
             }
         },
@@ -103,10 +105,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: yayuan;
-    src: url('/static/css/MFYAYUAN_NONCOMMERCIAL-REGULAR.OTF');
-}
 
 .h_list {
     padding-left: 70px;
@@ -114,12 +112,13 @@ export default {
 
 .h_logo {
     width: 300px;
-    height: 124px;
+    height: 117px;
 }
 
 .h_logo img {
     width: 100%;
-    height: 100%;
+    height: 60%;
+    margin-top: 20px;
 }
 
 .h_item {
@@ -167,12 +166,12 @@ export default {
 
 #code::-webkit-input-placeholder {
     color: #fff;
-    font-family: yayuan;
+  
 }
 
 #code::-moz-placeholder {
     color: #fff;
-    font-family: yayuan;
+
 }
 
 .h_head {
@@ -232,7 +231,7 @@ export default {
     color: #fff;
     font-size: 13px;
     cursor: pointer;
-    font-family: yayuan;
+  
 }
 
 .code {

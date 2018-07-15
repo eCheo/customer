@@ -8,6 +8,14 @@
                     <div class="i_box">
                         <div class="i_lii">
                             <ul class="i_list">
+                                  <li class="a_item">
+                                    <Input class='classname' v-model="staffName" size="large" placeholder="员工姓名"></Input>
+                                </li>
+                                 <li class="a_item">
+                                    <Select size="small" v-model="departmentName" style="border-bottom:2px solid #01C675;" placeholder="部门名称">
+                                        <Option v-for="item in departmentList" :value="item.name" :key="item.id">{{ item.name}}</Option>
+                                    </Select>
+                                </li>
                                 <li class="i_item">
                                     <Input class="class" v-model="LIKE_corporateName" size="large" placeholder="公司名称"></Input>
                                 </li>
@@ -111,6 +119,12 @@
                                 </span>
                             </div>
                         </router-link>
+                         <div class="a_but" @click="condition(1)">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                               Search
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -126,7 +140,7 @@
                         <img src="/static/img/logo.jpg">
                     </div>
                     <div class="tab">
-                        <Table border width="576" border height="473" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
+                        <Table border width="576" border :row-class-name="rowClassName" height="473" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                     </div>
                     <div class="page">
                         <Page :total="total" :page-size="9" @on-change="condition"></Page>
@@ -150,14 +164,14 @@
                     </div>
 
                     <Input type="password" placeholder="新密码" v-model="usedPassword2" @on-blur="passwordNew"></Input>
-                     <div style="height:20px;">
+                    <div style="height:20px;">
                         <p style="color:#FA150A;" v-show="isPassword2">
                             新密码最小6位最大11位
                         </p>
                     </div>
-                  
+
                     <Input type="password" placeholder="再次输入新密码" v-model="newPassword" @on-blur="passwordChange"></Input>
-                      <div style="height:20px;">
+                    <div style="height:20px;">
                         <p style="color:#FA150A;" v-show="isPassword">
                             两次密码不一致
                         </p>
@@ -184,41 +198,43 @@
 export default {
     data() {
         return {
+            //员工姓名
+            staffName:'',
             columns1: [
-                 {
+                {
                     title: '姓名',
                     key: 'name',
                     align: 'center',
-                     width:80,
-                     fixed:'left'
+                    width: 80,
+                    fixed: 'left'
                 },
                 {
                     title: '公司名称',
                     key: 'corporateName',
                     align: 'center',
-                    width:300,
-                      render: (h, params) => {
+                    width: 300,
+                    render: (h, params) => {
                         return (h, 'div', [
                             h('p', {
                                 domProps: {
                                     title: params.row.corporateName
                                 }
-                            },  params.row.corporateName)
+                            }, params.row.corporateName)
                         ])
                     }
                 },
                 {
                     title: '项目名称',
                     key: 'entryName',
-                    align:'center',
-                    width:500,
+                    align: 'center',
+                    width: 500,
                     render: (h, params) => {
                         return (h, 'div', [
                             h('p', {
                                 domProps: {
                                     title: params.row.entryName
                                 }
-                            },  params.row.entryName.split(",").join("，"))
+                            }, params.row.entryName.split(",").join("，"))
                         ])
                     }
                 },
@@ -226,7 +242,7 @@ export default {
                     title: '媒体形式',
                     key: 'mediaForm',
                     align: 'center',
-                     width:90,
+                    width: 90,
                     render: (h, params) => {
                         return params.row.mediaForm;
                     }
@@ -235,15 +251,15 @@ export default {
                     title: '部门名称',
                     key: 'departmentName',
                     align: 'center',
-                     width:110
+                    width: 110
                 },
-               
+
                 {
                     title: '备案状态',
                     key: 'recordStatus',
                     align: 'center',
-                    width:88,
-                    fixed:'right',
+                    width: 88,
+                    fixed: 'right',
                     render: (h, params) => {
                         return params.row.recordStatus.message;
                     }
@@ -260,7 +276,7 @@ export default {
             total: 0,
             loading: true,
             LIKE_corporateName: '',
-            LIKE_entryName:'',
+            LIKE_entryName: '',
             mediaForm: [],
             EQ_recordStatus: '',
             EQ_mediaForm: '',
@@ -276,48 +292,53 @@ export default {
         }
     },
     methods: {
+        rowClassName(row, index) {
+            if (row.earlyWarning.name == "gules") {
+                return 'demo-table-info-row';
+            }
+            return '';
+        },
+
         login() {
-           sessionStorage.getItem('LIKE_corporateName') == "null" ?"":this.LIKE_corporateName =  sessionStorage.getItem('LIKE_corporateName');
-           sessionStorage.getItem('LIKE_entryName') == "null" ? "" :this.LIKE_entryName =  sessionStorage.getItem('LIKE_entryName');
-           sessionStorage.getItem('EQ_mediaForm') == "null" ? "": this.EQ_mediaForm =  sessionStorage.getItem('EQ_mediaForm');
-           sessionStorage.getItem('EQ_recordStatus') == "null" ?"":this.EQ_recordStatus =  sessionStorage.getItem('EQ_recordStatus');
+             sessionStorage.getItem('staffName')=="null"?"":this.staffName=sessionStorage.getItem('staffName');
+                sessionStorage.getItem('departmentName') == "null"?"":this.departmentName = sessionStorage.getItem('departmentName');
+            sessionStorage.getItem('LIKE_corporateName') == "null" ? "" : this.LIKE_corporateName = sessionStorage.getItem('LIKE_corporateName');
+            sessionStorage.getItem('LIKE_entryName') == "null" ? "" : this.LIKE_entryName = sessionStorage.getItem('LIKE_entryName');
+            sessionStorage.getItem('EQ_mediaForm') == "null" ? "" : this.EQ_mediaForm = sessionStorage.getItem('EQ_mediaForm');
+            sessionStorage.getItem('EQ_recordStatus') == "null" ? "" : this.EQ_recordStatus = sessionStorage.getItem('EQ_recordStatus');
             this.$axios.get('/api/front/member/findMemberIndex.json', {
 
             }).then(res => {
                 this.name = res.data.data.name;
-
                 this.roleName = res.data.data.roleDto.name;
                 this.dtoName = res.data.data.departmentDto.name;
-
                 sessionStorage.setItem('name', this.name);
                 sessionStorage.setItem('dto', this.dtoName);
                 sessionStorage.setItem('role', this.roleName);
-
             })
-           
             var sex = sessionStorage.getItem("sex");
             if (sex == "Man") {
                 this.imgTou = '/static/img/nan_03.png';
-              
             }
             if (sex == 'WoMan') {
                 this.imgTou = '/static/img/nv_03.png';
-                
             }
-      
+
         },
         condition(current) {
             this.loading = true;
-            sessionStorage.setItem('LIKE_corporateName',this.LIKE_corporateName);
-            sessionStorage.setItem('LIKE_entryName',this.LIKE_entryName);
-            sessionStorage.setItem('EQ_mediaForm',this.EQ_mediaForm);
-            sessionStorage.setItem('EQ_recordStatus',this.EQ_recordStatus);
+            sessionStorage.setItem('staffName',this.staffName);
+               sessionStorage.setItem('departmentName',this.departmentName);
+            sessionStorage.setItem('LIKE_corporateName', this.LIKE_corporateName);
+            sessionStorage.setItem('LIKE_entryName', this.LIKE_entryName);
+            sessionStorage.setItem('EQ_mediaForm', this.EQ_mediaForm);
+            sessionStorage.setItem('EQ_recordStatus', this.EQ_recordStatus);
             this.$axios.get('/api/metadata/getByEnumClassSimpleName.json', {
                 params: {
                     enumClassSimpleName: 'RecordStatus'
                 }
             }).then(response => {
-            
+
 
             });
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
@@ -327,7 +348,9 @@ export default {
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "whole" ? "" : this.EQ_mediaForm,
                     EQ_recordStatus: this.EQ_recordStatus == "unselected" ? "" : this.EQ_recordStatus,
-                     LIKE_entryName:this.LIKE_entryName,
+                    LIKE_entryName: this.LIKE_entryName,
+                    LIKE_name: this.staffName,
+                     LIKE_departmentName: this.departmentName == "请选择" ? "" : this.departmentName,
                     IN_recordStatus: "E_deal,E_recordSuccess,A_review,A_shareReview,A_updateTime",
                     sort: 'recordStatus,asc'
                 }
@@ -335,7 +358,6 @@ export default {
                 this.total = res.data.data.totalElements;
                 this.data1 = res.data.data.content;
                 this.id = res.data.data.content.id;
-
                 this.loading = false;
             })
         },
@@ -348,7 +370,7 @@ export default {
             }).then(res => {
 
                 this.mediaForm = res.data.data;
-             
+
                 // console.log(this.mediaForm);
             })
         },

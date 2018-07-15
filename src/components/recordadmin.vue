@@ -895,7 +895,7 @@ export default {
                 }
                  if (this.mediaFormRecord[i] == undefined) {
                     this.mediaFormRecord.splice(i, 1);
-                   i=i-1;
+                   i = i - 1;
                 }
             }
             this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;

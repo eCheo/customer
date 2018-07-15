@@ -363,12 +363,20 @@ export default {
                     key: 'entryName'
 
                 },
-                {
-                    title: '媒体形式',
+                  {
+                    title: '备案状态',
                     key: 'mediaForm',
                     width: 90,
                     render: (h, params) => {
                         return params.row.mediaForm;
+                    }
+                },
+                {
+                    title: '媒体形式',
+                    key: 'recordStatus',
+                    width: 90,
+                    render: (h, params) => {
+                        return params.row.recordStatus.message;
                     }
                 }
             ],
@@ -478,7 +486,7 @@ export default {
         },
         rowClassName(row, index) {
             sessionStorage.setItem('state', row.recordStatus.name)
-
+            
             if (row.earlyWarning.name == "gules") {
                 return 'demo-table-info-row';
             }

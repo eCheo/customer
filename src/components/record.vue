@@ -40,7 +40,7 @@
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName" @on-change="inputChange" @on-blur="addContract('corporateName')" :readonly="readonly3">
+                                <Input v-model="recordDto.corporateName" @on-change="onChange" @on-blur="addContract('corporateName')" :readonly="readonly3">
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -326,20 +326,27 @@
                     <a href="#" slot="extra" title="关闭" @click.prevent="hide">
                         <Icon type="android-close"></Icon>
                     </a>
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName1,1)" placeholder="项目名称1" v-model="entryName1"></Input>
+                        <p v-if="textHide1==1" style="color:red">该公司已备案</p>
+                    </div>
 
-                    <Input type="text" :readonly="readonly" placeholder="项目名称1" v-model="entryName1"></Input>
-                    <br> <br>
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName2,2)" placeholder="项目名称2" v-model="entryName2"></Input>
+                        <p v-if="textHide2==2" style="color:red">该公司已备案</p>
+                    </div>
 
-                    <Input type="text" :readonly="readonly" placeholder="项目名称2" v-model="entryName2"></Input>
-                    <br> <br>
-                    <Input type="text" :readonly="readonly" placeholder="项目名称3" v-model="entryName3"></Input>
-                    <br> <br>
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName3,3)" placeholder="项目名称3" v-model="entryName3"></Input>
+                        <p v-if="textHide3==3" style="color:red">该公司已备案</p>
+                    </div>
+
                     <Row>
                         <Col span="4" offset="14">
                         <Button type="ghost" @click="hide">取消</Button>
                         </Col>
                         <Col span="6">
-                        <Button type="primary" :loading="loading" @click="entryNameSubmit">
+                        <Button type="primary" :loading="loading" @click="entryNameSubmit" :disabled="textDisabled">
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
                         </Button>
@@ -421,6 +428,10 @@
 export default {
     data() {
         return {
+            textHide1: 0,//隐藏公司是否备案文字
+            textHide2: 0,//隐藏公司是否备案文字
+            textHide3: 0,//隐藏公司是否备案文字
+            textDisabled:false,//是否禁用项目名称提交按钮
             timeReason: '',//更新备案原因
             timeDis: false,//更新备案为更新时禁用
             loading: false,
@@ -901,13 +912,13 @@ export default {
             this.recordDto.mediaForm = "";
             for (let i = 0; i < this.mediaFormRecord.length; i++) {
                 if (i < (this.mediaFormRecord.length - 1)) {
-                    this.recordDto.mediaForm += this.mediaFormRecord[i] +',';
+                    this.recordDto.mediaForm += this.mediaFormRecord[i] + ',';
                 } else {
-                    this.recordDto.mediaForm += this.mediaFormRecord[i] ;
+                    this.recordDto.mediaForm += this.mediaFormRecord[i];
                 }
-                 if (this.mediaFormRecord[i] == undefined) {
+                if (this.mediaFormRecord[i] == undefined) {
                     this.mediaFormRecord.splice(i, 1);
-                   i=i-1;
+                    i = i - 1;
                 }
             }
 
@@ -979,29 +990,94 @@ export default {
             }
             return check;
         },
-        inputChange() {
+        inputChange(entryNameS, number) {
+            var corporateName = this.recordDto.corporateName,
+                entryName = this.recordDto.entryName;
+            if ((corporateName == "" || entryName == "") || (corporateName != "" || entryName != "")) {// 公司名字和项目名字空不空都要调接口
+                this.$axios.get('/api/front/record/findRepeatAll.json', {
+                    params: {
+                        corporateName: corporateName,
+                        entryName: entryNameS
+                    }
+                }).then(res => {
+                    console.log(res.data.data);
+                    if (res.data.data == 0 || res.data.data == null) {
+                        if (number == 1)
+                            this.textHide1 = 0;
+                        if (number == 2)
+                            this.textHide2 = 0;
+                        if (number == 3)
+                            this.textHide3 = 0;
+                         if(this.textHide2 ==0 && this.textHide1 ==0 && this.textHide3 ==0){
+                              this.textDisabled = false; 
+                         } 
+                    } else {
+                        if (number == 1)
+                            this.textHide1 = 1;
+                        if (number == 2)
+                            this.textHide2 = 2;
+                        if (number == 3)
+                            this.textHide3 = 3;
+                            this.textDisabled = true;
+                    }
+                    //    alert(this.recordDto.corporateName + "......" +res.data.data.content[0].corporateName );自己写的傻逼代码，输入的值传过去没有相匹配的肯定是没有corporateName的撒
+                    if (this.recordDto.corporateName == "") {//公司名字和项目名称有一个为空都等于false
+                        this.isShow = false;
+                        this.disabledEn = false;
+                    } else { //什么时候都是false和除了两个能填的其他都不能填
 
+                        this.isShow = false;
+                        this.disabledEn = false;
+                    }
+                })
+            }
+        },
+        inputBlur(entryNameS, number) {
             var corporateName = this.recordDto.corporateName,
                 entryName = this.recordDto.entryName;
             if ((corporateName == "" || entryName == "") || (corporateName != "" || entryName != "")) {// 公司名字和项目名字空不空都要调接口
                 this.$axios.get('/api/front/record/findRepeat.json', {
                     params: {
                         corporateName: corporateName,
-                        entryName: entryName
+                        entryName: entryNameS
                     }
                 }).then(res => {
+                     if (res.data.data == 0 || res.data.data == null) {
+                        if (number == 1)
+                            this.textHide1 = 0;
+                        if (number == 2)
+                            this.textHide2 = 0;
+                        if (number == 3)
+                            this.textHide3 = 0;
+                             if(this.textHide2 ==0 && this.textHide1 ==0 && this.textHide3 ==0){
+                              this.textDisabled = false; 
+                         } 
+                    } else {
+                        if (number == 1)
+                            this.textHide1 = 1;
+                        if (number == 2)
+                            this.textHide2 = 2;
+                        if (number == 3)
+                            this.textHide3 = 3;
+                    }
                     //    alert(this.recordDto.corporateName + "......" +res.data.data.content[0].corporateName );自己写的傻逼代码，输入的值传过去没有相匹配的肯定是没有corporateName的撒
-
                     if (this.recordDto.corporateName == "") {//公司名字和项目名称有一个为空都等于false
                         this.isShow = false;
-
-                        this.disabledEn = true;
+                        this.disabledEn = false;
                     } else { //什么时候都是false和除了两个能填的其他都不能填
-                        this.isShow = false;
 
+                        this.isShow = false;
                         this.disabledEn = false;
                     }
                 })
+            }
+        },
+        onChange(entryNameS, number) {
+            let state = sessionStorage.getItem('state');
+            if (state == undefined || state == 'A_trial' || state == 'undefined') {
+                this.inputChange(entryNameS, number);
+            } else {
+                this.inputBlur(entryNameS, number);
             }
         },
         // entryNameSelect(value) {
@@ -1272,13 +1348,13 @@ export default {
             this.dtoDetailDtoList.mediaForm = "";
             for (let i = 0; i < this.mediaFormRecord.length; i++) {
                 if (i < (this.mediaFormRecord.length - 1)) {
-                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i] ;
-                } else {
                     this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i] + ',';
+                } else {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i];
                 }
-                 if (this.mediaFormRecord[i] == undefined) {
+                if (this.mediaFormRecord[i] == undefined) {
                     this.mediaFormRecord.splice(i, 1);
-                   i=i-1;
+                    i = i - 1;
                 }
             }
 

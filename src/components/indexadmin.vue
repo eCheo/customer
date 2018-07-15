@@ -151,7 +151,7 @@
                         <img src="/static/img/logo.jpg">
                     </div>
                     <div class="a_tab">
-                        <Table width="576" height="482" border :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
+                        <Table width="576" height="482" border :row-class-name="rowClassName" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                     </div>
                     <div class="a_page">
                         <Page :total="total" :page-size="9" @on-change="condition"></Page>
@@ -404,6 +404,12 @@ export default {
         }
     },
     methods: {
+          rowClassName(row, index) {
+            if (row.earlyWarning.name == "gules") {
+                return 'demo-table-info-row';
+            }
+            return '';
+        },
         login() {
          
             this.$axios.get('/api/front/member/findMemberIndex.json', {

@@ -4,14 +4,14 @@
         <div class="center">
             <div class="i_left">
                 <div class="i_top">
-                    <div style="width:100%;height:15%;"></div>
+                    <div style="width:100%;height:9%;"></div>
                     <div class="i_box">
                         <div class="i_lii">
                             <ul class="i_list">
-                                  <li class="a_item">
-                                    <Input class='classname' v-model="staffName" size="large" placeholder="员工姓名"></Input>
+                                  <li class="i_item">
+                                    <Input class='class' v-model="staffName" size="large" placeholder="员工姓名"></Input>
                                 </li>
-                                 <li class="a_item">
+                                 <li class="i_item">
                                     <Select size="small" v-model="departmentName" style="border-bottom:2px solid #01C675;" placeholder="部门名称">
                                         <Option v-for="item in departmentList" :value="item.name" :key="item.id">{{ item.name}}</Option>
                                     </Select>
@@ -31,9 +31,6 @@
                                     <Select size="small" class="iveInput" v-model="EQ_recordStatus" style="border-bottom:2px solid #01C675;" placeholder="状态">
                                         <Option v-for="item in statusList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                     </Select>
-                                </li>
-                                <li class="i_item">
-                                    <Button type="primary" icon="ios-search" @click="condition(1)">Search</Button>
                                 </li>
                             </ul>
                         </div>
@@ -119,7 +116,7 @@
                                 </span>
                             </div>
                         </router-link>
-                         <div class="a_but" @click="condition(1)">
+                         <div class="i_but" @click="condition(1)">
                             <img src="/static/img/button_03.png">
                             <span>
                                Search
@@ -288,7 +285,8 @@ export default {
             isPassword: false,
             isModify: false,
             modifyHide: false,
-            isPassword2: false
+            isPassword2: false,
+            departmentList:[]
         }
     },
     methods: {
@@ -324,6 +322,17 @@ export default {
                 this.imgTou = '/static/img/nv_03.png';
             }
 
+        },
+          getDepartment() {
+            this.$axios.get('/api/front/member/findDepartmentList.json', {
+
+            }).then(res => {
+                this.departmentList = res.data.data;
+                this.departmentList.unshift({
+                    name: '请选择',
+                    id: 'unselected'
+                })
+            })
         },
         condition(current) {
             this.loading = true;
@@ -454,6 +463,7 @@ export default {
         this.login();
         this.condition(this.current);
         this.find();
+        this.getDepartment();
     }
 }
 </script>

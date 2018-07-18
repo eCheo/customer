@@ -661,7 +661,7 @@ export default {
                 if (value == "docking") {
                     if (this.recordDto.docking == "") {
                         this.span12 = true;
-                        this.spanText12 = "对接人不能为空";
+                        this.spanText12 = "对接部门不能为空";
                         isvalilPass = false;
                     } else {
                         this.span12 = false;
@@ -671,7 +671,7 @@ export default {
                 if (value == "pickUp") {
                     if (this.recordDto.pickUp == "") {
                         this.span11 = true;
-                        this.spanText11 = "对接部门不能为空";
+                        this.spanText11 = "对接人不能为空";
                         isvalilPass = false;
                     } else {
                         this.span11 = false;
@@ -965,6 +965,7 @@ export default {
             }).then(res => {
                 if (res.data.success == true) {
                     this.$Message.success("转交成功");
+                    sessionStorage.removeItem('current');
                     history.go(-1);
                 } else {
                     this.$Message.error(res.data.message);
@@ -979,7 +980,7 @@ export default {
             }).then(res => {
                 if (res.data.success == true) {
                     this.$Message.success("通过请求");
-                    history.go(-1);
+                   this.$router.push({path:'/indexadmin'});
                 } else {
                     this.$Message.error(res.data.message);
                 }
@@ -1051,7 +1052,7 @@ export default {
                     }).then(res => {
                         if (res.data.success == true) {
                             this.$Message.success("通过成交请求");
-                            history.go(-1);
+                          this.$router.push({path:'/indexadmin'});
                         } else {
                             this.$Message.error(res.data.message);
                         }
@@ -1068,6 +1069,7 @@ export default {
         },
         toLoading() {
             this.loading = true;
+            sessionStorage.removeItem('current');
             let id = JSON.parse(sessionStorage.getItem('id'));
             this.$axios.post('/api/front/record/reject.json', {
                 id: id,

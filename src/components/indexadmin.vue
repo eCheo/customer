@@ -154,7 +154,7 @@
                         <Table width="576" height="482" border :row-class-name="rowClassName" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                     </div>
                     <div class="a_page">
-                        <Page :total="total" :page-size="9" @on-change="condition"></Page>
+                        <Page :total="total" :current="current"  :page-size="9" @on-change="condition"></Page>
                     </div>
                 </div>
             </div>
@@ -453,6 +453,9 @@ export default {
         },
         condition(current) {
             this.loading = true;
+            sessionStorage.setItem('current',current);
+            this.current = current;
+            console.log(sessionStorage.getItem('current'));
             sessionStorage.setItem('staffName',this.staffName);
             sessionStorage.setItem('departmentName',this.departmentName);
             sessionStorage.setItem('LIKE_corporateName',this.LIKE_corporateName);
@@ -469,11 +472,11 @@ export default {
             });
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                 params: {
-                    page: current,
+                    page:this.current,
                     size: 9,
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "whole" ? "" : this.EQ_mediaForm,
-                    EQ_recordStatus: this.EQ_recordStatus == "unselected" ? "" : this.EQ_recordStatus,
+                    EQ_recordStatus: this.EQ_recordStatus == "unselected" ?  '' : this.EQ_recordStatus,
                     LIKE_entryName: this.LIKE_entryName,
                     LIKE_name: this.staffName,
                     LIKE_departmentName: this.departmentName == "请选择" ? "" : this.departmentName,
@@ -532,7 +535,6 @@ export default {
             })
         },
         findById(index) {
-
             sessionStorage.setItem('id', index.id);
             this.$router.push({
                 path: '/recordadmin'
@@ -679,8 +681,12 @@ export default {
         this.getMediaForm();
         this.getRecordStatus();
         this.login();
-        this.condition(this.current);
+        this.condition(this.current);        
         this.getDepartment();
+    },
+    created () {
+         this.current = Number(sessionStorage.getItem('current')) == 0 ? 1 : Number(sessionStorage.getItem('current'));
+        console.log(this.current+'create');
     }
 }
 </script>

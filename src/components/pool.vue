@@ -74,7 +74,7 @@ export default {
                     key: 'mediaForm',
                     align: 'center',
                     render: (h, params) => {
-                        return params.row.mediaForm.message;
+                        return params.row.mediaForm;
                     },
                     width: 120
                 }, {
@@ -122,7 +122,7 @@ export default {
             var corporateName = this.condition,
                 media = this.EQ_mediaForm;
             if ((corporateName == "" && media == "") || (corporateName != "" || media != "")) {
-                this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
+                this.$axios.get('/api/front/record/findByCondition.json', {
                     params: {
                         page: current,
                         size:10,

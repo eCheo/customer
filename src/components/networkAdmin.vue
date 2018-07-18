@@ -670,7 +670,7 @@ export default {
                 if (value == "docking") {
                     if (this.recordDto.docking == "") {
                         this.span12 = true;
-                        this.spanText12 = "对接人不能为空";
+                        this.spanText12 = "对接部门不能为空";
                         isvalilPass = false;
                     } else {
                         this.span12 = false;
@@ -680,7 +680,7 @@ export default {
                 if (value == "pickUp") {
                     if (this.recordDto.pickUp == "") {
                         this.span11 = true;
-                        this.spanText11 = "对接部门不能为空";
+                        this.spanText11 = "对接人不能为空";
                         isvalilPass = false;
                     } else {
                         this.span11 = false;

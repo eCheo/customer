@@ -140,7 +140,7 @@
                         <Table border width="576" border :row-class-name="rowClassName" height="473" :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                     </div>
                     <div class="page">
-                        <Page :total="total" :page-size="9" @on-change="condition"></Page>
+                        <Page :total="total" :current='current' :page-size="9" @on-change="condition"></Page>
                     </div>
                 </div>
             </div>
@@ -286,7 +286,8 @@ export default {
             isModify: false,
             modifyHide: false,
             isPassword2: false,
-            departmentList:[]
+            departmentList:[],
+            departmentName:''
         }
     },
     methods: {
@@ -298,12 +299,7 @@ export default {
         },
 
         login() {
-             sessionStorage.getItem('staffName')=="null"?"":this.staffName=sessionStorage.getItem('staffName');
-                sessionStorage.getItem('departmentName') == "null"?"":this.departmentName = sessionStorage.getItem('departmentName');
-            sessionStorage.getItem('LIKE_corporateName') == "null" ? "" : this.LIKE_corporateName = sessionStorage.getItem('LIKE_corporateName');
-            sessionStorage.getItem('LIKE_entryName') == "null" ? "" : this.LIKE_entryName = sessionStorage.getItem('LIKE_entryName');
-            sessionStorage.getItem('EQ_mediaForm') == "null" ? "" : this.EQ_mediaForm = sessionStorage.getItem('EQ_mediaForm');
-            sessionStorage.getItem('EQ_recordStatus') == "null" ? "" : this.EQ_recordStatus = sessionStorage.getItem('EQ_recordStatus');
+          
             this.$axios.get('/api/front/member/findMemberIndex.json', {
 
             }).then(res => {
@@ -320,8 +316,13 @@ export default {
             }
             if (sex == 'WoMan') {
                 this.imgTou = '/static/img/nv_03.png';
-            }
-
+            }   
+            sessionStorage.getItem('staffName')=="null"?"":this.staffName=sessionStorage.getItem('staffName');
+                sessionStorage.getItem('departmentName') == "null"?"":this.departmentName = sessionStorage.getItem('departmentName');
+            sessionStorage.getItem('LIKE_corporateName') == "null" ? "" : this.LIKE_corporateName = sessionStorage.getItem('LIKE_corporateName');
+            sessionStorage.getItem('LIKE_entryName') == "null" ? "" : this.LIKE_entryName = sessionStorage.getItem('LIKE_entryName');
+            sessionStorage.getItem('EQ_mediaForm') == "null" ? "" : this.EQ_mediaForm = sessionStorage.getItem('EQ_mediaForm');
+            sessionStorage.getItem('EQ_recordStatus') == "null" ? "" : this.EQ_recordStatus = sessionStorage.getItem('EQ_recordStatus');
         },
           getDepartment() {
             this.$axios.get('/api/front/member/findDepartmentList.json', {
@@ -336,6 +337,8 @@ export default {
         },
         condition(current) {
             this.loading = true;
+            sessionStorage.setItem('current',current);
+            this.current= current;
             sessionStorage.setItem('staffName',this.staffName);
                sessionStorage.setItem('departmentName',this.departmentName);
             sessionStorage.setItem('LIKE_corporateName', this.LIKE_corporateName);
@@ -352,7 +355,7 @@ export default {
             });
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                 params: {
-                    page: current,
+                    page: this.current,
                     size: 9,
                     LIKE_corporateName: this.LIKE_corporateName,
                     EQ_mediaForm: this.EQ_mediaForm == "whole" ? "" : this.EQ_mediaForm,
@@ -464,6 +467,10 @@ export default {
         this.condition(this.current);
         this.find();
         this.getDepartment();
+    },
+     created () {
+         this.current = Number(sessionStorage.getItem('current')) == 0 ? 1 : Number(sessionStorage.getItem('current'));
+        console.log(this.current+'create');
     }
 }
 </script>

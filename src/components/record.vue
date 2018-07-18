@@ -819,7 +819,7 @@ export default {
                     if (value == "docking") {
                         if (this.recordDto.docking == "") {
                             this.span12 = true;
-                            this.spanText12 = "对接人不能为空";
+                            this.spanText12 = "对接部门不能为空";
                             isvalilPass = false;
                         } else {
                             this.span12 = false;
@@ -829,7 +829,7 @@ export default {
                     if (value == "pickUp") {
                         if (this.recordDto.pickUp == "") {
                             this.span11 = true;
-                            this.spanText11 = "对接部门不能为空";
+                            this.spanText11 = "对接人不能为空";
                             isvalilPass = false;
                         } else {
                             this.span11 = false;
@@ -1000,7 +1000,6 @@ export default {
                         entryName: entryNameS
                     }
                 }).then(res => {
-                    console.log(res.data.data);
                     if (res.data.data == 0 || res.data.data == null) {
                         if (number == 1)
                             this.textHide1 = 0;
@@ -1519,7 +1518,6 @@ export default {
                                 };
                             });
                             this.networkList = list;
-                            console.log(this.networkList);
                             this.loading1 = false;
                         }, 200);
                     }
@@ -1545,7 +1543,6 @@ export default {
                             });
 
                             this.networkList2 = list2;
-                            console.log(this.networkList2)
                             this.loading2 = false;
                         }, 200);
                     }

@@ -470,7 +470,7 @@ export default {
             sessionStorage.setItem('id', index.id);
             sessionStorage.setItem('isUpdate', index.isUpdate);
             sessionStorage.setItem('recordStatus', index.recordStatus.name);
-
+            // sessionStorage.setItem('current',this.current);
 
             this.$router.push({
                 path: '/record'

@@ -1064,9 +1064,9 @@ export default {
             this.$axios.post('/api/front/record/adopt.json', {
                 id: id
             }).then(res => {
-                if (res.data.success === "true") {
+                if (res.data.success == true) {
                     this.$Message.success("通过请求");
-                    history.go(-1);
+                   this.$router.push({path:'/chief'});
                 } else {
                     this.$Message.error(res.data.message);
                 }
@@ -1118,7 +1118,7 @@ export default {
                     }).then(res => {
                         if (res.data.success === "true") {
                             this.$Message.success("通过成交请求");
-                            history.go(-1);
+                           this.$router.push({path:'/chief'});
                         } else {
                             this.$Message.error(res.data.message);
                         }
@@ -1135,6 +1135,7 @@ export default {
         },
         toLoading() {
             this.loading = true;
+            sessionStorage.removeItem('current');
             let id = JSON.parse(sessionStorage.getItem('id'));
             this.$axios.post('/api/front/record/reject.json', {
                 id: id,

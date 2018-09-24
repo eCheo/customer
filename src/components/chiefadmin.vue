@@ -218,7 +218,7 @@
                     </li>
 
                     <li @click="hidesUpdate = true" v-if="recordStatus.name === 'A_updateTime'">
-                        <div class="div_but" @click="hides=true">
+                        <div class="div_but">
                             <img src="/static/img/button_03.png">
                             <span>
                                 更新时间
@@ -301,7 +301,7 @@
 
                     <Row>
                         <Col span="4" offset="14">
-                        <Button type="ghost">取消</Button>
+                        <Button type="ghost" @click="hides = false">取消</Button>
                         </Col>
                         <Col span="6">
                         <Button type="primary" :loading="loading" @click="toLoading">
@@ -326,25 +326,26 @@
                     </a>
 
                     <Input type="text" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)" readonly></Input>
-                    <!--<div style="height:20px;">
+                    <div style="height:20px;">
                                         <p style="color:#FA150A;" v-show="isHides">
                                             该项目已备案
                                         </p>
-                                    </div>-->
-
+                                    </div>
+                     
                     <Input type="text" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)" readonly></Input>
-                    <!--<div style="height:20px;">
+                    <div style="height:20px;">
                                         <p style="color:#FA150A;" v-show="isHides1">
                                             该项目已备案
                                         </p>
-                                    </div>-->
+                                    </div>
+                             
                     <Input type="text" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)" readonly></Input>
-                    <!--<div style="height:20px;">
+                    <div style="height:20px;">
                                         <p style="color:#FA150A;" v-show="isHides2">
                                             该项目已备案
                                         </p>
-                                    </div>-->
-
+                                    </div>
+ 
                     <Row>
                         <Col span="4" offset="14">
                         <Button type="ghost" @click="hide">取消</Button>
@@ -1165,7 +1166,6 @@ export default {
             }).then(res => {
                 if (res.data.success = true) {
                     this.$Message.success("审批成功");
-
                     this.$router.push({
                         path: '/chief'
                     })

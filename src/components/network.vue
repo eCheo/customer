@@ -456,7 +456,7 @@ export default {
             sessionStorage.setItem('id', index.id);
             sessionStorage.setItem('isUpdate', index.isUpdate);
             this.$router.push({
-                path: '/record'
+                path: '/networkAdmin'
 
             })
           
@@ -464,12 +464,12 @@ export default {
         to() {
             sessionStorage.removeItem('id');
             this.$router.push({
-                path: '/record'
+                path: '/networkAdmin'
             })
         },
         rowClassName(row, index) {
             sessionStorage.setItem('state', row.recordStatus.name)
-
+        
             if (row.earlyWarning.name == "gules") {
                 return 'demo-table-info-row';
             }

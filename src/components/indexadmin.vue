@@ -13,7 +13,7 @@
                                 </li>
                                 <li class="a_item">
                                     <Select size="small" v-model="departmentName" style="border-bottom:2px solid #01C675;" placeholder="部门名称">
-                                        <Option v-for="item in departmentList" :value="item.name" :key="item.id">{{ item.name}}</Option>
+                                        <Option v-for="item in departmentList" :value="item.id" :key="item.id">{{ item.name}}</Option>
                                     </Select>
                                 </li>
                                 <li class="a_item">
@@ -29,7 +29,7 @@
                                 </li>
                                 <li class="a_item">
                                     <Select size="small" v-model="EQ_recordStatus" style="border-bottom:2px solid #01C675;" placeholder="状态">
-                                        <Option v-for="item in statusList" :value="item.name" :key="item.code">{{ item.message }}</Option>
+                                        <Option v-for="item in statusList" :value="item.name" :key="item.name">{{ item.message }}</Option>
                                     </Select>
                                 </li>
                               
@@ -470,6 +470,7 @@ export default {
                 // console.log(response);
 
             });
+               console.log(this.EQ_recordStatus);
             this.$axios.get('/api/front/record/findByConditionAdminPage.json', {
                 params: {
                     page:this.current,
@@ -479,7 +480,7 @@ export default {
                     EQ_recordStatus: this.EQ_recordStatus == "unselected" ?  '' : this.EQ_recordStatus,
                     LIKE_entryName: this.LIKE_entryName,
                     LIKE_name: this.staffName,
-                    LIKE_departmentName: this.departmentName == "请选择" ? "" : this.departmentName,
+                    LIKE_departmentName: this.departmentName == "unselected" ? "" : this.departmentName,
                     IN_recordStatus: "A_trial,E_deal,E_recordSuccess,A_shareTrial",
                     sort: 'recordStatus,asc'
                 }
@@ -494,12 +495,9 @@ export default {
             this.$axios.get('/api/metadata/getByEnumClassSimpleName.json', {
                 params: {
                     enumClassSimpleName: "MediaForm"
-
                 }
             }).then(res => {
-
                 this.mediaForm = res.data.data;
-              
                 // console.log(this.mediaForm);
             })
         },
@@ -529,7 +527,6 @@ export default {
                 this.statusList.splice(3, 1);
                 this.statusList.unshift({
                     name: "unselected",
-                    code: "unselected",
                     message: "请选择"
                 })
             })
@@ -538,7 +535,6 @@ export default {
             sessionStorage.setItem('id', index.id);
             this.$router.push({
                 path: '/recordadmin'
-
             })
         },
         remove(index, dId) {
@@ -572,14 +568,15 @@ export default {
             })
         },
         excel() {
+         
             this.$axios.get('/api/front/record/excelExport.json', {
                 responseType: 'arraybuffer', //下载必须设置请求头
                 params: {
                     corporateName: this.LIKE_corporateName,
-                    mediaForm: this.EQ_mediaForm,
-                    recordStatus: this.EQ_recordStatus,
+                    mediaForm: this.EQ_mediaForm ,
+                    recordStatus: this.EQ_recordStatus == 'unselected'?'':this.EQ_recordStatus,
                     name: this.staffName,
-                    departmentName: this.departmentName,
+                    departmentName: this.departmentName == 'unselected'?'':this.departmentName,
                     entryName:this.LIKE_entryName
                 }
             }).then(res => {
@@ -686,7 +683,7 @@ export default {
     },
     created () {
          this.current = Number(sessionStorage.getItem('current')) == 0 ? 1 : Number(sessionStorage.getItem('current'));
-        console.log(this.current+'create');
+         this.condition(1);    
     }
 }
 </script>

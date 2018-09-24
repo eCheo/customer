@@ -8,6 +8,7 @@
                         <img src="../../static/img/home.png">
                     </div>
                 </router-link>
+                <!--<div style="color:blur>备案人:</div>-->
                 <div class="left_font">
                     <div style="width:20px;font-size: 16px;margin-left:30px;">
                         {{customerName}}
@@ -26,20 +27,20 @@
                     <div class="r_top1">
                         <div class="r_one">
                             <div class="one_left">
-                                <Input v-model="time" readonly>
+                                <Input v-model="time" >
                                 <span slot="prepend">{{timeType===2?'合同生效':'备案'}}时间</span>
                                 </Input>
                             </div>
                             <div class="one_right">
                                 <label>{{timeType===2?'合同到期':'到期'}}时间</label>
-                                <DatePicker readonly v-model="overdueTime" type="datetime" format="yyyy-MM-dd" style="float:left;width:58%;"></DatePicker>
+                                <DatePicker    v-model="overdueTime" :options="options3" type="datetime" format="yyyy-MM-dd" style="float:left;width:58%;"></DatePicker>
                             </div>
                         </div>
                     </div>
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName" @on-blur="addContract('corporateName')" readonly>
+                                <Input v-model="recordDto.corporateName" @on-blur="addContract('corporateName')" >
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -53,7 +54,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" @on-blur="addContract('entryName')" readonly>
+                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" @on-blur="addContract('entryName')" >
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
@@ -76,7 +77,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateAddress" @on-blur="addContract('corporateAddress')" readonly>
+                                <Input v-model="recordDto.corporateAddress" @on-blur="addContract('corporateAddress')" >
                                 <span slot="prepend">公司地址</span>
                                 </Input>
                             </div>
@@ -88,7 +89,7 @@
 
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.projectAddress" @on-focus="hides2 = true" @on-blur="addContract('projectAddress')" readonly>
+                                <Input v-model="recordDto.projectAddress" @on-focus="hides2 = true" @on-blur="addContract('projectAddress')" >
                                 <span slot="prepend">项目地址</span>
                                 </Input>
                             </div>
@@ -104,7 +105,7 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" @on-blur='addContract("contactName")' :readonly="readonly1">
+                                    <Input v-model="contract.contactName" @on-blur='addContract("contactName")' >
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
@@ -115,7 +116,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" @on-blur='addContract("position")' :readonly="readonly1">
+                                    <Input v-model="contract.position" @on-blur='addContract("position")' >
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
@@ -126,7 +127,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" @on-blur='addContract("phone")' :readonly="readonly1">
+                                    <Input v-model="contract.phone" @on-blur='addContract("phone")' >
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
@@ -137,7 +138,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.qq" @on-blur='addContract("QQ")' :readonly="readonly1">
+                                    <Input v-model="contract.qq" @on-blur='addContract("QQ")' >
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
@@ -148,14 +149,14 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weiXin" @on-blur='addContract("weiXin")' :readonly="readonly1">
+                                    <Input v-model="contract.weiXin" @on-blur='addContract("weiXin")' >
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" @on-blur='addContract("landLine")' :readonly="readonly1">
+                                    <Input v-model="contract.landLine" @on-blur='addContract("landLine")'>
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -181,11 +182,12 @@
                     </div>
                     <!--            对接部门                  -->
                     <div class="r_top1">
-                        <div class="r_one1">
-                            <div class="one_left1">
-                                <Input v-model="recordDto.pickUp" @on-blur="addContract('pickUp')" readonly>
-                                <span slot="prepend">网络对接人</span>
-                                </Input>
+                            <div class="r_one1">
+                            <div class="one_left2">
+                                <label>网络对接人</label>
+                                <Select v-model="recordDto.pickUp" filterable :loading="loading1" :disabled="disabled1" @on-blur='addContract("pickUp")'>
+                                    <Option v-for="(option, index) in networkList" :value="option.name" :key="index">{{option.name}}</Option>
+                                </Select>
                             </div>
                             <div class="span_da" v-show="span11">
                                 <div class="arrow"></div>
@@ -193,10 +195,11 @@
                             </div>
                         </div>
                         <div class="r_one1">
-                            <div class="one_left1">
-                                <Input v-model="recordDto.docking" @on-blur="addContract('docking')" readonly>
-                                <span slot="prepend">网络对接部门</span>
-                                </Input>
+                            <div class="one_left2">
+                                <label>网络对接部门</label>
+                                <Select v-model="recordDto.docking" filterable :loading="loading2" :disabled="disabled1" @on-blur='addContract("docking")'>
+                                    <Option v-for="(option, index) in networkList2" :value="option.name" :key="index">{{option.name}}</Option>
+                                </Select>
                             </div>
                             <div class="span_da" v-show="span12">
                                 <div class="arrow"></div>
@@ -278,7 +281,7 @@
                 </div>
 
                 <div class="textarea">
-                    <Input v-model="recordDto.remarks" maxLength="500" style="width:360px;" type="textarea" readonly :rows="8"></Input>
+                    <Input v-model="recordDto.remarks" maxLength="500" style="width:360px;" type="textarea"  :rows="8"></Input>
                 </div>
                 <div class="pen">
                     <img src="/static/img/pen_X_03.png">
@@ -330,20 +333,20 @@
                         <Icon type="android-close"></Icon>
                     </a>
 
-                    <Input type="text" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)" readonly></Input>
+                    <Input type="text" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)" ></Input>
                     <div style="height:20px;">
                         <p style="color:#FA150A;" v-show="isHides">
                             该项目已备案
                         </p>
                     </div>
 
-                    <Input type="text" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)" readonly></Input>
+                    <Input type="text" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)" ></Input>
                     <div style="height:20px;">
                         <p style="color:#FA150A;" v-show="isHides1">
                             该项目已备案
                         </p>
                     </div>
-                    <Input type="text" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)" readonly></Input>
+                    <Input type="text" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)" ></Input>
                     <div style="height:20px;">
                         <p style="color:#FA150A;" v-show="isHides2">
                             该项目已备案
@@ -355,7 +358,7 @@
                         <Button type="ghost" @click="hide">取消</Button>
                         </Col>
                         <Col span="6">
-                        <Button type="primary" :loading="loading" @click="entryNameSubmit" disabled>
+                        <Button type="primary" :loading="loading" @click="entryNameSubmit" >
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
                         </Button>
@@ -376,19 +379,19 @@
                         <Icon type="android-close"></Icon>
                     </a>
 
-                    <Input type="text" placeholder="项目地址1" v-model="corporateAddress1" readonly></Input>
+                    <Input type="text" placeholder="项目地址1" v-model="corporateAddress1" ></Input>
                     <br> <br>
 
-                    <Input type="text" placeholder="项目地址2" v-model="corporateAddress2" readonly></Input>
+                    <Input type="text" placeholder="项目地址2" v-model="corporateAddress2" ></Input>
                     <br> <br>
-                    <Input type="text" placeholder="项目地址3" v-model="corporateAddress3" readonly></Input>
+                    <Input type="text" placeholder="项目地址3" v-model="corporateAddress3" ></Input>
                     <br><br>
                     <Row>
                         <Col span="4" offset="14">
                         <Button type="ghost" @click="hide">取消</Button>
                         </Col>
                         <Col span="6">
-                        <Button type="primary" :loading="loading" @click="corporateAddressSubmit" disabled>
+                        <Button type="primary" :loading="loading" @click="corporateAddressSubmit">
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
                         </Button>
@@ -459,6 +462,9 @@ export default {
             terminationTime: '',
             timeType: 0,
             hides: false,
+              isHides: false,
+            isHides1: false,
+            isHides2: false,
             loading: false,
             reject: '',
             rejectList: [],
@@ -516,7 +522,14 @@ export default {
             corporateAddress2: '',
             corporateAddress3: '',
             hides3: false,
-            hides2: false
+            hides2: false,
+              options3: {
+                    disabledDate (date) {
+                        return date && date.valueOf() < Date.now() - 86400000;
+                    }
+                },
+              networkList:[],
+              networkList2:[]  
         };
     },
     mounted() {
@@ -525,6 +538,8 @@ export default {
              * 职位
              * 部门
              */
+            this.remoteMethod1();
+        this.remoteMethod2();
         this.customerName = sessionStorage.getItem("name");
         this.roleName = sessionStorage.getItem("role");
         this.dtoName = sessionStorage.getItem("dto");
@@ -536,6 +551,7 @@ export default {
             this.findByIdView();
         }
     },
+    
     beforeUpdate() {
         let id = sessionStorage.getItem("id");
         if (id) {
@@ -569,6 +585,127 @@ export default {
                     this.contractList.push({});
                     this.clearValue();//清空數據
                 }
+            }
+        },
+          entryNameSubmit() { // 验证项目名字是否有重复
+            var corporateName = this.recordDto.corporateName,
+                entryName = this.recordDto.entryName;
+            let name = "";
+            if (this.isHides == true || this.isHides1 == true || this.isHides2 == true) {
+                return;
+            }
+            let entryNames = (this.entryName1 + ',' + this.entryName2 + "," + this.entryName3).split(",");
+            // console.log(entryNames);
+            for (var i = 0; i < entryNames.length; i++) {
+                if (entryNames[i] != "" && entryNames[i] != "undefined" && entryNames[i] != undefined) {
+                    name += entryNames[i] + ",";
+                }
+            }
+            if (name != "") {
+                name = (name.substring(name.length - 1) == ',') ? name.substring(0, name.length - 1) : name
+            }
+
+            this.recordDto.entryName = name;
+            let arrvail = ["entryName"];
+            this.vail(arrvail);
+            if (corporateName != "" && this.recordDto.entryName != "") {
+                this.isShow = false;
+                this.buttonShow1 = true;
+                this.buttonShowAdd = true;
+                this.buttonShowSubmit = true;
+                this.disabled = false;
+             
+            } else {
+                this.isShow = false;
+                this.buttonShow1 = false;
+                this.buttonShowAdd = false;
+                this.disabled = true;
+            
+            }
+            this.hides3 = false;
+        },
+            corporateAddressSubmit() {
+            let name = "";
+            let addressName = (this.corporateAddress1 + ',' + this.corporateAddress2 + ',' + this.corporateAddress3).split(",");
+            for (let i = 0; i < addressName.length; i++) {
+                if (addressName[i] != "" && addressName[i] != 'undefined' && addressName[i] != undefined) {
+                    name += addressName[i] + ',';
+                }
+            }
+            if (name != "") {
+                name = (name.substring(name.length - 1) == ',') ? name.substring(0, name.length - 1) : name
+            }
+            this.recordDto.projectAddress = name;
+            let arrvail = ["projectAddress"];
+            this.vail(arrvail);
+            this.hides2 = false;
+        },
+                entryNameSelect(value) {
+
+            this.isTrue = true;
+            var corporateName = this.recordDto.corporateName;
+            this.$axios.get('/api/front/record/findRepeat.json', {
+                params: {
+                    entryName: value,//项目名称
+                    corporateName: corporateName //公司名称
+                }
+            }).then(res => {
+                if (this.entryName1 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
+                    this.isHides = true;
+
+
+                } else {
+                    this.isHides = false;
+                }
+                this.buttonIsShow();
+            })
+        },
+        entryNameSelect1(value) {
+            this.isTrue = true;
+            var corporateName = this.recordDto.corporateName;
+            this.$axios.get('/api/front/record/findRepeat.json', {
+                params: {
+                    entryName: value,//项目名称
+                    corporateName: corporateName //公司名称
+                }
+            }).then(res => {
+
+                if (this.entryName2 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
+                    this.isHides1 = true;
+
+                } else {
+                    this.isHides1 = false;
+
+                }
+                this.buttonIsShow();
+            })
+        },
+        entryNameSelect2(value) {
+            this.isTrue = true;
+            var corporateName = this.recordDto.corporateName;
+            this.$axios.get('/api/front/record/findRepeat.json', {
+                params: {
+                    entryName: value,//项目名称
+                    corporateName: corporateName //公司名称
+                }
+            }).then(res => {
+
+                if (this.entryName3 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
+                    this.isHides2 = true;
+                } else {
+                    this.isHides2 = false;
+                }
+                this.buttonIsShow();
+
+            })
+        },
+        buttonIsShow() {
+            if (this.isHides == true || this.isHides1 == true || this.isHides2 == true) {
+                this.isTrue = true;
+            } else if (this.entryName1 == "" && this.entryName2 == "" && this.entryName3 == "") {
+                this.isTrue = true;
+            } else {
+                this.isTrue = false;
             }
         },
         vail(values) {
@@ -767,6 +904,57 @@ export default {
             }
             return check;
         },
+          remoteMethod1(query) {
+            this.loading1 = true;
+            this.$axios.get('/api/front/member/findByMemberList.json',
+                {
+                    params: {
+                        LIKE_name: query,
+                        NEQ_name: 'admin'
+                    }
+
+                }).then(res => {
+                    if (res.data.success) {
+                        let netList = res.data.data;
+                        setTimeout(() => {
+                            const list = netList.map(item => {
+                                return {
+                                    name: item.name,
+
+                                };
+                            });
+                            this.networkList = list;
+                            this.loading1 = false;
+                        }, 200);
+                    }
+
+                })
+
+        },
+        remoteMethod2(query) {
+            this.loading2 = true;
+            this.$axios.get('/api/front/member/findDepartmentList.json',
+                {
+                    params: {
+                        LIKE_name: query
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        let netList = res.data.data;
+                        setTimeout(() => {
+                            const list2 = netList.map(item => {
+                                return {
+                                    name: item.name,
+                                };
+                            });
+
+                            this.networkList2 = list2;
+                            this.loading2 = false;
+                        }, 200);
+                    }
+                })
+
+        },
         findByIdView() {
             //详情
             var id = sessionStorage.getItem("id");
@@ -923,10 +1111,12 @@ export default {
                     this.dtoDetailDtoList.dtoDetailDto.insertList.push(this.contractList[i]);
                 } else {//否则就是updae
                     this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
+                    this.dtoDetailDtoList.expireTime =  this.overdueTime;
+                    console.log(this.overdueTime);
                 }
             }
 
-            this.$axios.post('/api/front/record/update.json',
+            this.$axios.post('/api/front/record/adminUpdate.json',
                 this.dtoDetailDtoList
             ).then(res => {
                 if (res.data.success == false) {

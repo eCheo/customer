@@ -3,6 +3,11 @@
         <div class="total">
             <div class="r_left">
                 <img src="/static/img/i_book_02.png">
+                <router-link to="/network">
+                    <div class="home_img">
+                        <img src="../../static/img/home.png">
+                    </div>
+                </router-link>
                 <div class="left_font">
                     <div style="width:20px;font-size: 16px;margin-left:30px;">
                         {{customerName}}
@@ -16,7 +21,7 @@
                 </div>
                 <div style="position:absolute;top:0;left:12%;width:30%;height:93%;margin-top:1%;">
                     <div class="r_log">
-                        <img src="/static/img/logo.png">
+                        <img src="/static/img/logo.jpg">
                     </div>
                     <div class="r_top1">
                         <div class="r_one">
@@ -27,14 +32,15 @@
                             </div>
                             <div class="one_right">
                                 <label>{{timeType===2?'合同到期':'到期'}}时间</label>
-                                <DatePicker v-model="overdueTime" type="date" format="yyyy-MM-dd" style="float:left;width:58%;" :readonly="true"></DatePicker>
+                                <DatePicker v-model="overdueTime"  type="date" format="yyyy-MM-dd" style="float:left;width:58%;" :readonly="true"></DatePicker>
                             </div>
                         </div>
+
                     </div>
                     <div class="r_top1">
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.corporateName" @on-change="inputChange" @on-blur="addContract('corporateName')" :readonly="readonly3">
+                                <Input v-model="recordDto.corporateName" @on-change="onChange" @on-blur="addContract('corporateName')" :readonly="readonly3">
                                 <span slot="prepend">公司名称</span>
                                 </Input>
                             </div>
@@ -49,7 +55,7 @@
                         </div>
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" :readonly="true" :disabled="disabledEn">
+                                <Input v-model="recordDto.entryName" @on-focus="hides3 = true" @on-blur="addContract('entryName')" :readonly="true" :disabled="disabledEn">
                                 <span slot="prepend">品牌或项目名</span>
                                 </Input>
                             </div>
@@ -61,7 +67,7 @@
                         <div class="r_one1">
                             <div class="one_left1">
                                 <label>媒体形式</label>
-                                <Select :disabled="disabled1" size="small" @on-change="addContract('mediaForm')" v-model="recordDto.mediaForm" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
+                                <Select :disabled="disabled1" multiple size="small" @on-change="addContract('mediaForm')" v-model="mediaFormRecord" style="width:83.5%;height:28px;margin-bottom:5px;border:1px solid #01C675;border-radius:5px;margin-left:-5px;">
                                     <Option v-for="item in mediaFormList" :value="item.name" :key="item.code">{{ item.message }}</Option>
                                 </Select>
                             </div>
@@ -84,7 +90,7 @@
 
                         <div class="r_one1">
                             <div class="one_left1">
-                                <Input v-model="recordDto.projectAddress" :disabled="disabled" @on-focus="hides2 = true" @on-blur='addContract("projectAddress")' :readonly="readonly">
+                                <Input v-model="recordDto.projectAddress" :disabled="disabled" @on-focus="hides2 = true" @on-blur='addContract("projectAddress")' :readonly="true">
                                 <span slot="prepend">项目地址</span>
                                 </Input>
                             </div>
@@ -99,7 +105,7 @@
                         <div class="r_top2">
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.contactName" :disabled="disabled" @on-blur='addContract("contactName")' :readonly="readonly">
+                                    <Input v-model="contract.contactName" :disabled="disabled" @on-blur='addContract("contactName")' :readonly="readonlyCon">
                                     <span slot="prepend">联系人</span>
                                     </Input>
                                 </div>
@@ -110,7 +116,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.position" :disabled="disabled" @on-blur='addContract("position")' :readonly="readonly">
+                                    <Input v-model="contract.position" :disabled="disabled" @on-blur='addContract("position")' :readonly="readonlyCon">
                                     <span slot="prepend">职位</span>
                                     </Input>
                                 </div>
@@ -122,7 +128,7 @@
 
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.phone" :disabled="disabled" @on-blur="addContract('phone')" :readonly="readonly">
+                                    <Input v-model="contract.phone" :disabled="disabled" @on-blur="addContract('phone')" :readonly="readonlyCon">
                                     <span slot="prepend">手机</span>
                                     </Input>
                                 </div>
@@ -136,7 +142,7 @@
 
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.qq" :disabled="disabled" @on-blur='addContract("QQ")' :readonly="readonly">
+                                    <Input v-model="contract.qq" :disabled="disabled" @on-blur='addContract("QQ")' :readonly="readonlyCon">
                                     <span slot="prepend">QQ</span>
                                     </Input>
                                 </div>
@@ -147,7 +153,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.weiXin" :disabled="disabled" @on-blur='addContract("weiXin")' :readonly="readonly">
+                                    <Input v-model="contract.weiXin" :disabled="disabled" @on-blur='addContract("weiXin")' :readonly="readonlyCon">
                                     <span slot="prepend">微信</span>
                                     </Input>
                                 </div>
@@ -159,7 +165,7 @@
                             </div>
                             <div class="r_one1">
                                 <div class="one_left1">
-                                    <Input v-model="contract.landLine" :disabled="disabled" @on-blur='addContract("landLine")' :readonly="readonly">
+                                    <Input v-model="contract.landLine" :disabled="disabled" @on-blur='addContract("landLine")' :readonly="readonlyCon">
                                     <span slot="prepend">座机</span>
                                     </Input>
                                 </div>
@@ -175,7 +181,7 @@
                                 </div>
                             </li>
                             <li class="r_item">
-                                <div class="item_img" @click="addList" v-show="buttonShow1">
+                                <div class="item_img" @click="addList" v-show="buttonShowAdd">
                                 </div>
                             </li>
                             <li class="r_item1" v-for="(item,i) in navList" :key="i">
@@ -192,7 +198,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接人</label>
-                                <Select v-model="recordDto.pickUp" filterable remote :remote-method="remoteMethod1" :loading="loading1" :disabled="disabled" @on-blur='addContract("pickUp")'>
+                                <Select v-model="recordDto.pickUp"  filterable :loading="loading1"  @on-change='addContract("pickUp")'>
                                     <Option v-for="(option, index) in networkList" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -204,7 +210,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接部门</label>
-                                <Select v-model="recordDto.docking" filterable remote :remote-method="remoteMethod2" :loading="loading2" :disabled="disabled" @on-blur='addContract("docking")'>
+                                <Select v-model="recordDto.docking"  filterable :loading="loading2"  @on-change='addContract("docking")'>
                                     <Option v-for="(option, index) in networkList2" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -225,7 +231,15 @@
                         </div>
                     </li>
                     <li>
-                        <div class="div_but" @click="state" v-show="buttonShow1">
+                        <div class="div_but" @click="hidesUpdate = true" v-if="recordStatus === 'E_recordSuccess' || recordStatus === 'A_updateTime' || isApply">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                延期申请
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="div_but" @click="state" v-show="buttonShowSubmit">
                             <img src="/static/img/button_03.png">
                             <span>
                                 提交Filling
@@ -240,12 +254,20 @@
                             </span>
                         </div>
                     </li>
+                    <li>
+                        <div class="div_but" @click="update" v-show="buttonShowUpdate">
+                            <img src="/static/img/button_03.png">
+                            <span>
+                                保存
+                            </span>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <!--         右边内容     -->
             <div style="padding-top:3%">
                 <div class="cord">
-                    <div class="album">
+                    <div :class="isCord?'album2':'album'">
                         <div class="demo-upload-list" v-for="item in uploadList" :key="item.name">
                             <template v-if="item.status=='finished'">
                                 <img :src="'/api/obs/view.json?id='+item.response.data.id">
@@ -304,25 +326,19 @@
                     <a href="#" slot="extra" title="关闭" @click.prevent="hide">
                         <Icon type="android-close"></Icon>
                     </a>
-
-                    <Input type="text" :readonly="readonly" placeholder="项目名称1" v-model="entryName1" @on-change="entryNameSelect(entryName1)"></Input>
-                    <div style="height:20px;">
-                        <p style="color:#FA150A;" v-show="isHides">
-                            该项目已备案
-                        </p>
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName1,1)" placeholder="项目名称1" v-model="entryName1"></Input>
+                        <p v-if="textHide1==1" style="color:red">该公司已备案</p>
                     </div>
 
-                    <Input type="text" :readonly="readonly" placeholder="项目名称2" v-model="entryName2" @on-change="entryNameSelect1(entryName2)"></Input>
-                    <div style="height:20px;">
-                        <p style="color:#FA150A;" v-show="isHides1">
-                            该项目已备案
-                        </p>
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName2,2)" placeholder="项目名称2" v-model="entryName2"></Input>
+                        <p v-if="textHide2==2" style="color:red">该公司已备案</p>
                     </div>
-                    <Input type="text" :readonly="readonly" placeholder="项目名称3" v-model="entryName3" @on-change="entryNameSelect2(entryName3)"></Input>
-                    <div style="height:20px;">
-                        <p style="color:#FA150A;" v-show="isHides2">
-                            该项目已备案
-                        </p>
+
+                    <div style="height:53px;">
+                        <Input type="text" :readonly="readonly" @on-blur="onChange(entryName3,3)" placeholder="项目名称3" v-model="entryName3"></Input>
+                        <p v-if="textHide3==3" style="color:red">该公司已备案</p>
                     </div>
 
                     <Row>
@@ -330,7 +346,7 @@
                         <Button type="ghost" @click="hide">取消</Button>
                         </Col>
                         <Col span="6">
-                        <Button type="primary" :loading="loading" @click="entryNameSubmit" :disabled="isTrue">
+                        <Button type="primary" :loading="loading" @click="entryNameSubmit" :disabled="textDisabled">
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
                         </Button>
@@ -363,9 +379,41 @@
                         <Button type="ghost" @click="hide">取消</Button>
                         </Col>
                         <Col span="6">
-                        <Button type="primary" :loading="loading" @click="corporateAddressSubmit" :disabled="isTrue">
+                        <Button type="primary" :loading="loading" @click="corporateAddressSubmit">
                             <span v-if="!loading">提交</span>
                             <span v-else>提交中...</span>
+                        </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        </div>
+
+        <!-- 更新备案时间弹出框  -->
+        <div class="v-transfer-dom" v-show="hidesUpdate">
+
+            <div class="ivu-modal-mask">
+                <Card dis-hover class="hide_div">
+                    <p slot="title">
+                        更新备案时间
+                    </p>
+                    <a href="#" slot="extra" title="关闭" @click.prevent="hidesUpdate = fasle">
+                        <Icon type="android-close"></Icon>
+                    </a>
+
+                    <Row>
+                        <Col>
+                        <Input v-model="timeReason" :readonly="timeDis" placeholder="更新原因" style="width:100%;" type="textarea" :rows="5"></Input>
+                        </Col>
+                    </Row>
+                    <br>
+                    <Row>
+                        <Col span="4" offset="14">
+                        <Button type="ghost" @click="hidesUpdate = fasle">取消</Button>
+                        </Col>
+                        <Col span="6">
+                        <Button type="primary" @click="updateTime" :disabled="timeDis">
+                            <span>提交</span>
                         </Button>
                         </Col>
                     </Row>
@@ -380,19 +428,27 @@
 export default {
     data() {
         return {
+            textHide1: 0,//隐藏公司是否备案文字
+            textHide2: 0,//隐藏公司是否备案文字
+            textHide3: 0,//隐藏公司是否备案文字
+            textDisabled:false,//是否禁用项目名称提交按钮
+            timeReason: '',//更新备案原因
+            timeDis: false,//更新备案为更新时禁用
             loading: false,
             loading1: false,
             loading2: false,
             value: '',
             svalue: '',
-            isTrue: true,
+            buttonShowUpdate: false,
             isHides: false,
             isHides1: false,
             isHides2: false,
             disabledEn: true,
+            hidesUpdate: false,
             corporateAddress1: '',
             corporateAddress2: '',
             corporateAddress3: '',
+            readonlyCon: false,
             navList: [{
                 img1: '/static/img/numGreen.png',
                 img2: '/static/img/numBack.png'
@@ -407,7 +463,8 @@ export default {
                 position: "",
                 contactName: "",
                 landLine: "",
-                id: ""
+                id: "",
+                isTrue: true
             },
             mediaFormList: [],
             recordDto: {    //接收表单的数据
@@ -423,6 +480,7 @@ export default {
                 remarks: '',            //备注
                 contactNumberDtos: []   //联系方式集合
             },
+            mediaFormRecord: [],
             customerCardList: [],
             time: '',       //备案时间
             overdueTime: '',    //到期时间
@@ -456,6 +514,7 @@ export default {
             readonly: false,
             buttonShow: true,
             buttonShow1: true,
+            buttonShowAdd: true,
             rejectList: [],
             hides: false,
             hides2: false,
@@ -492,7 +551,10 @@ export default {
             timeType: 0,
             buttonShow3: false,
             networkList: [],
-            networkList2: []
+            networkList2: [],
+            buttonShowSubmit: false,
+            isCord: false,
+            isApply:false
         }
     },
     mounted() {
@@ -508,76 +570,159 @@ export default {
         this.getMediaForm();
         this.remoteMethod1();
         this.remoteMethod2();
+        let recordStatus = sessionStorage.getItem('recordStatus');
 
-        this.getTime();
+        if (recordStatus === "E_recordSuccess") {
+
+            this.readonlyCon = true;
+        } else {
+
+            this.readonlyCon = false;
+        }
+
         this.uploadList = this.$refs.upload.fileList;
         let id = sessionStorage.getItem("id");
         if (id) {
             this.findByIdView();
         }
         if (id == null) {
+
+            this.getTime();
             this.buttonShow1 = false;
+            this.buttonShowAdd = false;
+            this.buttonShowSubmit = false;
             this.disabled = true;
             this.disabled1 = true;
             this.isShow = false;
             return;
         }
 
-        
+
+
     },
     beforeUpdate() {
         let id = sessionStorage.getItem("id");
+
+        let isUpdate = sessionStorage.getItem('isUpdate');
         if (id) {
             this.isShow = false;
             this.disabledEn = false;
         } else {
+            sessionStorage.removeItem('isUpdate');
             this.buttonShow = false;
+            return;
         }
+        if (isUpdate == 'false') {
 
-        if (this.recordStatus == "A_trial" || this.recordStatus == "A_review") {
+            this.buttonShow1 = false;
+
+            this.buttonShowAdd = false;
             this.readonly = true;
-            this.isTrue = true;
+            this.readonlyCon = true;
+            this.readonly3 = true;
+            this.disabled1 = true;
+            this.buttonShow = false;
+            this.buttonShowSubmit = false;
+            this.isCord = true;
+        } else if (this.recordStatus == "A_trial" || this.recordStatus == "A_review") {
+            this.readonly = true;
+            this.readonlyCon = true;
+            this.buttonShowAdd = false;
             this.buttonShow = false;
             this.buttonShow1 = false;
+            this.buttonShowSubmit = false;
             this.disabledEn = false;
             this.disabled1 = true;
             this.readonly3 = true;
-        }
-        if (this.recordStatus == "G_onRecord") {
-            this.buttonShow = false;
-        }
-        if (this.recordStatus == "E_recordSuccess" || this.recordStatus == "E_deal") {
-            this.readonly = true;
-            this.isTrue = true;
+            this.buttonShow3 = false;
+
+
+        } else if (this.recordStatus == "G_onRecord") {
             this.buttonShow1 = false;
+            this.buttonShowAdd = false;
+            this.readonly = true;
+            this.readonlyCon = true;
+            this.readonly3 = true;
+            this.disabled1 = true;
+            this.buttonShow = false;
+            this.buttonShow3 = true;
+            this.buttonShowSubmit = true;
+            this.isCord = true;
+        } else if (this.recordStatus == "E_recordSuccess" || this.recordStatus == "E_deal") {
+            this.readonly = true;
+
+
+            this.buttonShowUpdate = true;
+            this.buttonShow1 = false;
+            this.buttonShowSubmit = false;
             this.disabled1 = true;
             this.readonly3 = true;
-        }
-        if (this.recordStatus == "C_shareReject") {
-            this.buttonShow3 = true;
 
+        } else if (this.recordStatus == "") {
+            this.readonly = false;
+            this.readonly3 = false;
+        } else if (this.recordStatus == "C_reject") {
+            this.buttonShowSubmit = true;
+        } else if (this.recordStatus == "C_shareReject") {
+            this.buttonShowSubmit = true;
+            this.buttonShow3 = true;
+            this.readonly3 = true;
+            this.readonly = true;
+            this.readonlyCon = true;
+            this.disabled1 = true;
+            this.buttonShow1 = false;
+            this.buttonShowAdd = false;
+            this.isCord = true;
+        } else if (this.recordStatus == "A_shareTrial" || this.recordStatus == "A_shareReview") {
+            this.readonly = true;
+            this.readonlyCon = true;
+            this.buttonShow = false;
+            this.buttonShow1 = false;
+            this.buttonShowAdd = false;
+            this.buttonShowSubmit = false;
+            this.disabledEn = false;
+            this.disabled1 = true;
+            this.readonly3 = true;
+            this.buttonShow3 = false;
+            this.isCord = true;
+        } else if (this.recordStatus == "A_updateTime") {
+            this.timeDis = true;
+            this.readonly = true;
+            this.readonlyCon = true;
+            this.buttonShowAdd = false;
+            this.buttonShow = false;
+            this.buttonShow1 = false;
+            this.buttonShowSubmit = false;
+            this.disabledEn = false;
+            this.disabled1 = true;
+            this.readonly3 = true;
+            this.buttonShow3 = false;
         }
+
 
     },
     methods: {
         addList() {
-            if (this.contractList[this.contractList.length - 1] != null && (this.contractList[this.contractList.length - 1].phone == null || this.contractList[this.contractList.length - 1].phone == "")) {
+            if (this.contractList[this.contractList.length - 1] != null) {
                 this.chenge(this.contractList.length - 1);
+
             }
             var lists = ["contactName", "QQ", "position", "phone"]
             if (this.vail(lists)) {
                 if (this.navList.length == 5) {
                     this.$Message.error("臣妾只能添加5个哦！ _(:3」∠)_");
-                    return
+                    return;
                 } else {
                     this.navList.push({
                         img1: '/static/img/numGreen.png',
                         img2: '/static/img/numBack.png'
                     });
                     this.index = this.navList.length - 1;
+                    this.readonlyCon = false;
                     this.contractList.push({});
                     this.clearValue();//清空數據
                 }
+
             }
         },
         vail(values) {
@@ -585,18 +730,8 @@ export default {
             for (var i = 0; i < values.length; i++) {
                 var value = values[i];
                 var phone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-                var position = /^[\u0391-\uFFE5]+$/;
                 var QQ = /^[0-9]*$/
-                if (value == "phone") {
-                    if (!phone.test(this.contract.phone)) {
-                        this.span = true;
-                        this.spanText = "电话号码不正确";
-                        isvalilPass = false;
-                    } else {
-                        this.span = false;
-                    }
 
-                }
                 if (value == "corporateName") {
                     if (this.recordDto.corporateName == "") {
                         this.span1 = true;
@@ -606,36 +741,50 @@ export default {
                         this.span1 = false;
                     }
                 }
-                if (value == "position") {
-                    if (this.contract.position == "" || this.contract.position == undefined) {
-                        this.span7 = true;
-                        this.spanText7 = "职位不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span7 = false;
+
+                let isUpdate = sessionStorage.getItem("isUpdate");
+                if (isUpdate != 'false' && this.recordStatus != "G_onRecord" && this.recordStatus != "A_shareTrial" && this.recordStatus != "C_shareReject" && this.recordStatus != "A_shareReview") {
+                    if (value == "QQ") {
+                        if ((this.contract.qq != "" && this.contract.qq != undefined) && !QQ.test(this.contract.qq)) {
+                            this.span8 = true;
+                            this.spanText8 = "QQ只能为数字";
+                            isvalilPass = false;
+                        } else {
+                            this.span8 = false;
+                        }
                     }
+                    if (value == "position") {
+                        if (this.contract.position == "" || this.contract.position == undefined) {
+                            this.span7 = true;
+                            this.spanText7 = "职位不能为空";
+                            isvalilPass = false;
+                        } else {
+                            this.span7 = false;
+                        }
+                    }
+                    if (value == "contactName") {
+                        if (this.contract.contactName == "" || this.contract.contactName == undefined) {
+                            this.span6 = true;
+                            this.spanText6 = "联系人不能为空";
+                            isvalilPass = false;
+                        } else {
+                            this.span6 = false;
+                        }
+
+                    }
+                    if (value == "phone") {
+                        if (!phone.test(this.contract.phone)) {
+                            this.span = true;
+                            this.spanText = "电话号码不正确";
+                            isvalilPass = false;
+                        } else {
+                            this.span = false;
+                        }
+
+                    }
+
                 }
 
-                if (value == "QQ") {
-                    if ((this.contract.qq != "" && this.contract.qq != undefined) && !QQ.test(this.contract.qq)) {
-                        this.span8 = true;
-                        this.spanText8 = "QQ只能为数字";
-                        isvalilPass = false;
-                    } else {
-                        this.span8 = false;
-                    }
-                }
-
-                if (value == "contactName") {
-                    if (this.contract.contactName == "" || this.contract.contactName == undefined) {
-                        this.span6 = true;
-                        this.spanText6 = "联系人不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span6 = false;
-                    }
-
-                }
                 if (value == "projectAddress") {
                     if (this.recordDto.projectAddress == "") {
                         this.span5 = true;
@@ -644,8 +793,8 @@ export default {
                     } else {
                         this.span5 = false;
                     }
-
                 }
+
                 if (value == "entryName") {
                     if (this.recordDto.entryName == "") {
                         this.span2 = true;
@@ -666,28 +815,31 @@ export default {
                     }
 
                 }
+               
+                
+                                if (value == "docking") {
+                                    if (this.recordDto.docking == "") {
+                                        this.span12 = true;
+                                        this.spanText12 = "对接部门不能为空";
+                                        isvalilPass = false;
+                                    } else {
+                                        this.span12 = false;
+                                    }
+                                }
 
-                if (value == "docking") {
-                    if (this.recordDto.docking == "") {
-                        this.span12 = true;
-                        this.spanText12 = "对接部门不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span12 = false;
-                    }
-                }
+                                if (value == "pickUp") {
+                                    if (this.recordDto.pickUp == "") {
+                                        this.span11 = true;
+                                        this.spanText11 = "对接人不能为空";
+                                        isvalilPass = false;
+                                    } else {
+                                        this.span11 = false;
+                                    }
+                                }
+                            
 
-                if (value == "pickUp") {
-                    if (this.recordDto.pickUp == "") {
-                        this.span11 = true;
-                        this.spanText11 = "对接人不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span11 = false;
-                    }
-                }
                 if (value == "mediaForm") {
-                    if (this.recordDto.mediaForm == "") {
+                    if (this.mediaFormRecord != undefined && this.mediaFormRecord.length == 0) {
                         this.span3 = true;
                         this.spanText3 = "媒体形式不能为空";
                         isvalilPass = false;
@@ -710,9 +862,19 @@ export default {
             var lists = ["contactName", "QQ", "position", "phone"];
             if (this.vail(lists)) {
                 this.index = index;
-                this.contract = this.contractList[index];
-            }
 
+                this.contract = this.contractList[index];
+
+                if (this.recordStatus === 'E_recordSuccess') {
+
+
+                    if (this.contractList[index].isTrue === undefined || this.contractList[index].isTrue === "undefined") {
+                        this.readonlyCon = false;
+                    } else {
+                        this.readonlyCon = true;
+                    }
+                }
+            }
         },
         getTime() {
             this.$axios.get('/api/front/record/getTime.json', {
@@ -720,10 +882,11 @@ export default {
             }).then(res => {
                 this.time = res.data.data.time;
                 this.overdueTime = res.data.data.overdueTime;
+
             })
         },
         create() {
-
+            var admin = sessionStorage.getItem("admin");
             let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
             var isvali = this.vail(arry);
 
@@ -746,22 +909,36 @@ export default {
                 }
 
             }
+            this.recordDto.mediaForm = "";
+            for (let i = 0; i < this.mediaFormRecord.length; i++) {
+                if (i < (this.mediaFormRecord.length - 1)) {
+                    this.recordDto.mediaForm += this.mediaFormRecord[i] + ',';
+                } else {
+                    this.recordDto.mediaForm += this.mediaFormRecord[i];
+                }
+                if (this.mediaFormRecord[i] == undefined) {
+                    this.mediaFormRecord.splice(i, 1);
+                    i = i - 1;
+                }
+            }
+
             this.recordDto.customerCard = customerCard;
             this.recordDto.contactNumberDtos = this.contractList;
+
             this.handleSpinCustom();
             this.$axios.post('/api/front/record/create.json',
                 this.recordDto
             ).then(res => {
+
                 if (!res.data.success) {
                     this.$Spin.hide();
                     this.$Message.error(res.data.message + "_(:3」∠)_");
                 } else if (res.data.success) {
                     this.$Spin.hide();
                     this.$Message.success('提交成功');
-                    this.$router.push({
-                        path: '/index'
-                    })
-
+                        this.$router.push({
+                            path: '/network'
+                        })
                 } else {
                     this.$Message.error(res.data.message);
                 }
@@ -805,102 +982,96 @@ export default {
             }
             return check;
         },
-        inputChange() {
+        inputChange(entryNameS, number) {
+            var corporateName = this.recordDto.corporateName,
+                entryName = this.recordDto.entryName;
+            if ((corporateName == "" || entryName == "") || (corporateName != "" || entryName != "")) {// 公司名字和项目名字空不空都要调接口
+                this.$axios.get('/api/front/record/findRepeatAll.json', {
+                    params: {
+                        corporateName: corporateName,
+                        entryName: entryNameS
+                    }
+                }).then(res => {
+                    if (res.data.data == 0 || res.data.data == null) {
+                        if (number == 1)
+                            this.textHide1 = 0;
+                        if (number == 2)
+                            this.textHide2 = 0;
+                        if (number == 3)
+                            this.textHide3 = 0;
+                         if(this.textHide2 ==0 && this.textHide1 ==0 && this.textHide3 ==0){
+                              this.textDisabled = false; 
+                         } 
+                    } else {
+                        if (number == 1)
+                            this.textHide1 = 1;
+                        if (number == 2)
+                            this.textHide2 = 2;
+                        if (number == 3)
+                            this.textHide3 = 3;
+                            this.textDisabled = true;
+                    }
+                    //    alert(this.recordDto.corporateName + "......" +res.data.data.content[0].corporateName );自己写的傻逼代码，输入的值传过去没有相匹配的肯定是没有corporateName的撒
+                    if (this.recordDto.corporateName == "") {//公司名字和项目名称有一个为空都等于false
+                        this.isShow = false;
+                        this.disabledEn = false;
+                    } else { //什么时候都是false和除了两个能填的其他都不能填
 
+                        this.isShow = false;
+                        this.disabledEn = false;
+                    }
+                })
+            }
+        },
+        inputBlur(entryNameS, number) {
             var corporateName = this.recordDto.corporateName,
                 entryName = this.recordDto.entryName;
             if ((corporateName == "" || entryName == "") || (corporateName != "" || entryName != "")) {// 公司名字和项目名字空不空都要调接口
                 this.$axios.get('/api/front/record/findRepeat.json', {
                     params: {
                         corporateName: corporateName,
-                        entryName: entryName
+                        entryName: entryNameS
                     }
                 }).then(res => {
+                     if (res.data.data == 0 || res.data.data == null) {
+                        if (number == 1)
+                            this.textHide1 = 0;
+                        if (number == 2)
+                            this.textHide2 = 0;
+                        if (number == 3)
+                            this.textHide3 = 0;
+                             if(this.textHide2 ==0 && this.textHide1 ==0 && this.textHide3 ==0){
+                              this.textDisabled = false; 
+                         } 
+                    } else {
+                        if (number == 1)
+                            this.textHide1 = 1;
+                        if (number == 2)
+                            this.textHide2 = 2;
+                        if (number == 3)
+                            this.textHide3 = 3;
+                    }
                     //    alert(this.recordDto.corporateName + "......" +res.data.data.content[0].corporateName );自己写的傻逼代码，输入的值传过去没有相匹配的肯定是没有corporateName的撒
-
                     if (this.recordDto.corporateName == "") {//公司名字和项目名称有一个为空都等于false
                         this.isShow = false;
-
-                        this.disabledEn = true;
+                        this.disabledEn = false;
                     } else { //什么时候都是false和除了两个能填的其他都不能填
-                        this.isShow = false;
 
+                        this.isShow = false;
                         this.disabledEn = false;
                     }
                 })
             }
         },
-        entryNameSelect(value) {
-
-            this.isTrue = true;
-            var corporateName = this.recordDto.corporateName;
-            this.$axios.get('/api/front/record/findRepeat.json', {
-                params: {
-                    entryName: value,//项目名称
-                    corporateName: corporateName //公司名称
-                }
-            }).then(res => {
-
-
-
-                if (this.entryName1 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
-                    this.isHides = true;
-
-
-                } else {
-                    this.isHides = false;
-                }
-                this.buttonIsShow();
-            })
-        },
-        entryNameSelect1(value) {
-            this.isTrue = true;
-            var corporateName = this.recordDto.corporateName;
-            this.$axios.get('/api/front/record/findRepeat.json', {
-                params: {
-                    entryName: value,//项目名称
-                    corporateName: corporateName //公司名称
-                }
-            }).then(res => {
-
-                if (this.entryName2 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
-                    this.isHides1 = true;
-
-                } else {
-                    this.isHides1 = false;
-
-                }
-                this.buttonIsShow();
-            })
-        },
-        entryNameSelect2(value) {
-            this.isTrue = true;
-            var corporateName = this.recordDto.corporateName;
-            this.$axios.get('/api/front/record/findRepeat.json', {
-                params: {
-                    entryName: value,//项目名称
-                    corporateName: corporateName //公司名称
-                }
-            }).then(res => {
-
-                if (this.entryName3 != "" && res.data.data > 0) { //项目名称1如果不为空和有数据就出现已备案
-                    this.isHides2 = true;
-                } else {
-                    this.isHides2 = false;
-                }
-                this.buttonIsShow();
-
-            })
-        },
-        buttonIsShow() {
-            if (this.isHides == true || this.isHides1 == true || this.isHides2 == true) {
-                this.isTrue = true;
-            } else if(this.entryName1 == "" && this.entryName2 == "" && this.entryName3 == "") {
-                this.isTrue = true;
-            }else{
-                this.isTrue=false;
+        onChange(entryNameS, number) {
+            let state = sessionStorage.getItem('state');
+            if (state == undefined || state == 'A_trial' || state == 'undefined') {
+                this.inputChange(entryNameS, number);
+            } else {
+                this.inputBlur(entryNameS, number);
             }
         },
+    
         entryNameSubmit() { // 验证项目名字是否有重复
             var corporateName = this.recordDto.corporateName,
                 entryName = this.recordDto.entryName;
@@ -909,8 +1080,9 @@ export default {
                 return;
             }
             let entryNames = (this.entryName1 + ',' + this.entryName2 + "," + this.entryName3).split(",");
+            // console.log(entryNames);
             for (var i = 0; i < entryNames.length; i++) {
-                if (entryNames[i] != "") {
+                if (entryNames[i] != "" && entryNames[i] != "undefined" && entryNames[i] != undefined) {
                     name += entryNames[i] + ",";
                 }
             }
@@ -921,14 +1093,17 @@ export default {
             this.recordDto.entryName = name;
             let arrvail = ["entryName"];
             this.vail(arrvail);
-            if (corporateName != "") {
+            if (corporateName != "" && this.recordDto.entryName != "") {
                 this.isShow = false;
                 this.buttonShow1 = true;
+                this.buttonShowAdd = true;
+                this.buttonShowSubmit = true;
                 this.disabled = false;
                 this.disabled1 = false;
             } else {
                 this.isShow = false;
                 this.buttonShow1 = false;
+                this.buttonShowAdd = false;
                 this.disabled = true;
                 this.disabled1 = true;
             }
@@ -938,7 +1113,7 @@ export default {
             let name = "";
             let addressName = (this.corporateAddress1 + ',' + this.corporateAddress2 + ',' + this.corporateAddress3).split(",");
             for (let i = 0; i < addressName.length; i++) {
-                if (addressName[i] != "") {
+                if (addressName[i] != "" && addressName[i] != 'undefined' && addressName[i] != undefined) {
                     name += addressName[i] + ',';
                 }
             }
@@ -969,34 +1144,59 @@ export default {
                     })
                 }
 
-                //赋值默认联系人
-                this.contract.contactName =
-                    res.data.data.contactNumberDtos[0].contactName;
-                this.contract.position = res.data.data.contactNumberDtos[0].position;
-                this.contract.phone = res.data.data.contactNumberDtos[0].phone;
-                this.contract.qq = res.data.data.contactNumberDtos[0].qq;
-                this.contract.id = res.data.data.contactNumberDtos[0].id;
-                this.contract.weiXin = res.data.data.contactNumberDtos[0].weiXin;
-                this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
+
                 this.recordStatus = res.data.data.recordStatus.name;
+
                 //复制联系人集合
+
+
                 this.recordDto = res.data.data;
 
-                this.recordDto.mediaForm = res.data.data.mediaForm.name;
+                this.mediaFormRecord = res.data.data.mediaForm.split(',');
+
                 this.contractList = res.data.data.contactNumberDtos;
                 this.overdueTime = res.data.data.expireTime;
 
+                this.timeReason = res.data.data.timeRemarks;
 
                 var relut = res.data.data.projectAddress.split(",");
                 this.corporateAddress1 = relut[0];
                 this.corporateAddress2 = relut[1];
                 this.corporateAddress3 = relut[2];
-
+                    this.isApply = res.data.data.isApply;
+                    console.log(this.isApply);
                 var relut2 = res.data.data.entryName.split(',');
                 this.entryName1 = relut2[0];
                 this.entryName2 = relut2[1];
                 this.entryName3 = relut2[2];
-
+                let isUpdate = sessionStorage.getItem("isUpdate");
+                if (isUpdate == 'false' || this.recordStatus == "G_onRecord" || this.recordStatus == "A_shareTrial" || this.recordStatus == "C_shareReject" || this.recordStatus == "A_shareReview") {
+                    this.contract = {};
+                    this.contractList = undefined;
+                } else {
+                    if (this.recordStatus === "E_recordSuccess") {
+                        this.contract.contactName =
+                            res.data.data.contactNumberDtos[0].contactName;
+                        this.contract.position = res.data.data.contactNumberDtos[0].position;
+                        this.contract.phone = res.data.data.contactNumberDtos[0].phone;
+                        this.contract.qq = res.data.data.contactNumberDtos[0].qq;
+                        this.contract.id = res.data.data.contactNumberDtos[0].id;
+                        this.contract.weiXin = res.data.data.contactNumberDtos[0].weiXin;
+                        this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
+                        for (let i = 0; i < res.data.data.contactNumberDtos.length; i++) {
+                            res.data.data.contactNumberDtos[i].isTrue = true;
+                        }
+                    } else {
+                        this.contract.contactName =
+                            res.data.data.contactNumberDtos[0].contactName;
+                        this.contract.position = res.data.data.contactNumberDtos[0].position;
+                        this.contract.phone = res.data.data.contactNumberDtos[0].phone;
+                        this.contract.qq = res.data.data.contactNumberDtos[0].qq;
+                        this.contract.id = res.data.data.contactNumberDtos[0].id;
+                        this.contract.weiXin = res.data.data.contactNumberDtos[0].weiXin;
+                        this.contract.landLine = res.data.data.contactNumberDtos[0].landLine;
+                    }
+                }
                 if (this.recordStatus == "E_deal") {
                     this.timeType = 2;
                     var date = res.data.data.contractEffectTime;
@@ -1009,6 +1209,7 @@ export default {
                     var h = date.getHours();
                     var time = y + '-' + m + '-' + d
                     this.time = time;
+
                 } else {
                     this.timeType = 1;
                     var date = res.data.data.time;
@@ -1021,6 +1222,7 @@ export default {
                     var h = date.getHours();
                     var time = y + '-' + m + '-' + d
                     this.time = time;
+
                 }
                 var arry = res.data.data.customerCard;
                 if (arry != null && arry.length > 0) {
@@ -1060,16 +1262,32 @@ export default {
                 this.$Message.error("名片和备注不能同时为空！ _(:3」∠)_");
                 return;
             }
-            // if (this.contractList[this.contractList.length - 1].phone == "" || this.contractList[this.contractList.length - 1].phone == undefined) {
-            //     this.$Message.error("联系电话不能空！ _(:3」∠)_");
-            //     this.chenge(this.contractList.length - 1);
-            //     return;
-            // }
+            if (this.recordStatus === "E_recordSuccess") {
+                for (let i = 0; i < this.contractList.length; i++) {
+
+                    this.contractList[i].isTrue = true;
+
+                }
+
+            }
+            this.dtoDetailDtoList.mediaForm = "";
+            for (let i = 0; i < this.mediaFormRecord.length; i++) {
+                if (i < (this.mediaFormRecord.length - 1)) {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i] + ',';
+                } else {
+                    this.dtoDetailDtoList.mediaForm += this.mediaFormRecord[i];
+                }
+                if (this.mediaFormRecord[i] == undefined) {
+                    this.mediaFormRecord.splice(i, 1);
+                    i = i - 1;
+                }
+            }
+
             this.dtoDetailDtoList.corporateName = this.recordDto.corporateName;
             this.dtoDetailDtoList.corporateAddress = this.recordDto.corporateAddress;
             this.dtoDetailDtoList.entryName = this.recordDto.entryName;
             this.dtoDetailDtoList.projectAddress = this.recordDto.projectAddress;
-            this.dtoDetailDtoList.mediaForm = this.recordDto.mediaForm;
+
             this.dtoDetailDtoList.docking = this.recordDto.docking;
             this.dtoDetailDtoList.pickUp = this.recordDto.pickUp;
             this.dtoDetailDtoList.remarks = this.recordDto.remarks;
@@ -1084,13 +1302,14 @@ export default {
 
             }
             this.dtoDetailDtoList.customerCard = customerCard;
-            for (var i = 0; i < this.contractList.length; i++) {
-                //如果是空就是insert
-
-                if (this.contractList[i].id == undefined) {
-                    this.dtoDetailDtoList.dtoDetailDto.insertList.push(this.contractList[i]);
-                } else {//否则就是updae
-                    this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
+            if (this.contractList != undefined) {
+                for (var i = 0; i < this.contractList.length; i++) {
+                    //如果是空就是insert
+                    if (this.contractList != undefined && this.contractList[i].id == undefined) {
+                        this.dtoDetailDtoList.dtoDetailDto.insertList.push(this.contractList[i]);
+                    } else if (this.contractList != undefined && this.contractList[i].id != undefined) {//否则就是updae
+                        this.dtoDetailDtoList.dtoDetailDto.updateList.push(this.contractList[i]);
+                    }
                 }
             }
             this.handleSpinCustom();
@@ -1102,15 +1321,15 @@ export default {
                     this.$Message.error(res.data.message);
                 } else {
                     this.$Spin.hide();
-                    this.$Message.success("备案成功");
+                    this.$Message.success("提交成功");
                     this.$router.push({
-                        path: '/index'
+                        path: '/network'
                     })
                 }
             })
         },
         state() {
-            if (this.recordStatus == "C_reject" || this.recordStatus == "G_onRecord") {
+            if (this.recordStatus == "C_reject" || this.recordStatus == "G_onRecord" || this.recordStatus == "C_shareReject") {
                 this.update();
             } else {
                 this.create();
@@ -1168,19 +1387,35 @@ export default {
                 }
             });
         },
+        updateTime() {
+            let updateTimeID = sessionStorage.getItem("id");
+            this.$axios.post('/api/front/record/updateTimeApply.json', {
+                id: updateTimeID,
+                timeRemarks: this.timeReason
+            }).then(res => {
+                if (res.data.success) {
+                    this.$Message.success("提交更新申请成功");
+                    this.hidesUpdate = false;
+
+                } else {
+                    this.$Message.error(res.data.message);
+                    this.hidesUpdate = false;
+                }
+            })
+        },
         giveUp() {
-            let gId = sessionStorage.getItem("id");
             this.$Modal.confirm({
                 title: '放弃',
                 content: '<p>是否放弃该备案信息</p>',
                 onOk: () => {
-                    this.$axios('/api/front/record/shareRecord.json', {
+                    let gId = sessionStorage.getItem("id");
+                    this.$axios.post('/api/front/record/shareRecord.json', {
                         id: gId
                     }).then(res => {
                         if (res.data.success == true) {
                             this.$Message.success("您已成功放弃该备案");
                             this.$router.push({
-                                path: '/index'
+                                path: '/network'
                             })
                         } else {
                             this.$Message.error(res.data.message);
@@ -1190,16 +1425,16 @@ export default {
             });
         },
         remoteMethod1(query) {
+            this.loading1 = true;
+            this.$axios.get('/api/front/member/findByMemberList.json',
+                {
+                    params: {
+                        LIKE_name: query,
+                        NEQ_name: 'admin'
+                    }
 
-            if (query !== "") {
-                this.loading1 = true;
-                this.$axios.get('/api/front/member/findByMemberList.json',
-                    {
-                        params: {
-                            LIKE_name: query
-                        }
-
-                    }).then(res => {
+                }).then(res => {
+                    if (res.data.success) {
                         let netList = res.data.data;
                         setTimeout(() => {
                             const list = netList.map(item => {
@@ -1208,29 +1443,24 @@ export default {
 
                                 };
                             });
-
                             this.networkList = list;
-                            console.log(this.networkList);
                             this.loading1 = false;
                         }, 200);
-                    })
+                    }
 
-            } else {
-                this.networkList = [];
-            }
+                })
 
         },
         remoteMethod2(query) {
-            if (query !== "") {
-                this.loading2 = true;
-                this.$axios.get('/api/front/member/findDepartmentList.json',
-                    {
-                        params: {
-                            LIKE_name: query
-                        }
-                    }).then(res => {
+            this.loading2 = true;
+            this.$axios.get('/api/front/member/findDepartmentList.json',
+                {
+                    params: {
+                        LIKE_name: query
+                    }
+                }).then(res => {
+                    if (res.data.success) {
                         let netList = res.data.data;
-
                         setTimeout(() => {
                             const list2 = netList.map(item => {
                                 return {
@@ -1239,14 +1469,10 @@ export default {
                             });
 
                             this.networkList2 = list2;
-                            console.log(this.networkList2)
                             this.loading2 = false;
                         }, 200);
-                    })
-
-            } else {
-                this.networkList2 = [];
-            }
+                    }
+                })
 
         }
 

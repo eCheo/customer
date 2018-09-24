@@ -31,7 +31,7 @@
                 <br>
                 <Row class-name="p_table">
                     <Col span="23" offset="1">
-                    <Table  :loading="loading" :columns="columns1" :data="data1"></Table>
+                    <Table  :loading="loading" :columns="columns1" :data="data1" @on-row-dblclick="findById"></Table>
                     </Col>
                 </Row>
                 <br>
@@ -131,8 +131,14 @@ export default {
             if(admin == 'examiner'){
                  this.$router.push({path:'/chief'})
             }
-        }
-    },
+        },
+          findById(index) {
+            sessionStorage.setItem('id', index.id);
+            this.$router.push({
+                path: '/poolRecord'
+            })
+         }
+    },  
     mounted() {
         this.condit(this.current);
         this.JmediaForm();

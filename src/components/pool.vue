@@ -98,7 +98,7 @@ export default {
                                         
                                     }
                                 }
-                            }, '申请'),
+                            }, '查看'),
 
                         ])
                     }
@@ -163,9 +163,15 @@ export default {
                         }).then(res =>{
                             if(res.data.success == true){
                                 this.$Message.success("申请成功");
-                                this.$router.push({
-                                    path:'/index'
-                                })
+                                if(sessionStorage.getItem('admin') == 'network'){
+                                     this.$router.push({
+                                        path:'/network'
+                                    })
+                                }else{
+                                    this.$router.push({
+                                        path:'/index'
+                                    })
+                                }
                             }else{
                                 this.$Message.error(res.data.message);
                             }

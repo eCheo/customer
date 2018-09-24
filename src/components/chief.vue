@@ -470,7 +470,7 @@ export default {
     },
      created () {
          this.current = Number(sessionStorage.getItem('current')) == 0 ? 1 : Number(sessionStorage.getItem('current'));
-        console.log(this.current+'create');
+          this.condition(1);    
     }
 }
 </script>

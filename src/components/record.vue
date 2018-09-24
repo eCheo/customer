@@ -32,7 +32,7 @@
                             </div>
                             <div class="one_right">
                                 <label>{{timeType===2?'合同到期':'到期'}}时间</label>
-                                <DatePicker v-model="overdueTime" type="date" format="yyyy-MM-dd" style="float:left;width:58%;" :readonly="true"></DatePicker>
+                                <DatePicker v-model="overdueTime"  type="date" format="yyyy-MM-dd" style="float:left;width:58%;" :readonly="true"></DatePicker>
                             </div>
                         </div>
 
@@ -231,10 +231,10 @@
                         </div>
                     </li>
                     <li>
-                        <div class="div_but" @click="hidesUpdate = true" v-if="recordStatus === 'E_recordSuccess' || recordStatus === 'A_updateTime'">
+                        <div class="div_but" @click="hidesUpdate = true" v-if="recordStatus === 'E_recordSuccess' || recordStatus === 'A_updateTime' || isApply">
                             <img src="/static/img/button_03.png">
                             <span>
-                                更新时间
+                                延期申请
                             </span>
                         </div>
                     </li>
@@ -553,7 +553,8 @@ export default {
             networkList: [],
             networkList2: [],
             buttonShowSubmit: false,
-            isCord: false
+            isCord: false,
+            isApply:false
         }
     },
     mounted() {
@@ -814,28 +815,7 @@ export default {
                     }
 
                 }
-                let admins = sessionStorage.getItem('admin');
-                if (admins == 'network') {
-                    if (value == "docking") {
-                        if (this.recordDto.docking == "") {
-                            this.span12 = true;
-                            this.spanText12 = "对接部门不能为空";
-                            isvalilPass = false;
-                        } else {
-                            this.span12 = false;
-                        }
-                    }
-
-                    if (value == "pickUp") {
-                        if (this.recordDto.pickUp == "") {
-                            this.span11 = true;
-                            this.spanText11 = "对接人不能为空";
-                            isvalilPass = false;
-                        } else {
-                            this.span11 = false;
-                        }
-                    }
-                }
+               
 
 
                 if (value == "mediaForm") {
@@ -1238,7 +1218,8 @@ export default {
                 this.corporateAddress1 = relut[0];
                 this.corporateAddress2 = relut[1];
                 this.corporateAddress3 = relut[2];
-
+                    this.isApply = res.data.data.isApply;
+                    console.log(this.isApply);
                 var relut2 = res.data.data.entryName.split(',');
                 this.entryName1 = relut2[0];
                 this.entryName2 = relut2[1];

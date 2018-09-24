@@ -421,7 +421,6 @@ export default {
                     EQ_recordStatus: this.EQ_recordStatus == "unselected" ? "" : this.EQ_recordStatus,
                     NEQ_recordStatus: 'H_share',
                     sort: "recordStatus,desc"
-
                 }
             }).then(res => {
                 this.total = res.data.data.totalElements;
@@ -565,6 +564,9 @@ export default {
         this.getRecordStatus();
         this.login();
         this.condition(this.current);
+    },
+    created () {
+         this.condition(1);
     }
 }
 </script>

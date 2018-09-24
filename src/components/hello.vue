@@ -66,8 +66,8 @@ export default {
                     }
                 }, {
                     }).then(response => {
+                        console.log(response.data.data.roleDto.code);
                         if (response.data.success) {
-
                             sessionStorage.setItem('userInfo', this.name);
                             sessionStorage.setItem('admin', response.data.data.roleDto.code)
                             if (response.data.data.roleDto.code == 'administrators') {
@@ -83,7 +83,6 @@ export default {
                                 this.$router.push({path:'/network'})
                             }
                             sessionStorage.setItem('sex',response.data.data.sex.code);
-                            console.log(sessionStorage.getItem("sex"));
                         } else {
                             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;
                             this.$Message.error(response.data.message);

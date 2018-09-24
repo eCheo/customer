@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import index from '../components/index.vue'
 import indexadmin from '../components/indexadmin.vue'
+import poolRecord from '../components/poolRecord.vue'
 
 
 Vue.use(Router)
@@ -84,6 +85,11 @@ const routes = [
     path:'/networkAdmin',
     name:'networkAdmin',
      component:resolve => require(['@/components/networkAdmin.vue'],resolve)
+  },
+  {
+    path:'/poolRecord',
+    name:'poolRecord',
+    component:resolve => require(['@/components/poolRecord.vue'],resolve)
   }
 ]
 

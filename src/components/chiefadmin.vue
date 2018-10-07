@@ -690,25 +690,7 @@ export default {
 
                 }
 
-                if (value == "docking") {
-                    if (this.recordDto.docking == "") {
-                        this.span12 = true;
-                        this.spanText12 = "对接人不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span12 = false;
-                    }
-                }
-
-                if (value == "pickUp") {
-                    if (this.recordDto.pickUp == "") {
-                        this.span11 = true;
-                        this.spanText11 = "对接部门不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span11 = false;
-                    }
-                }
+            
                 if (value == "mediaForm") {
                     if (this.mediaFormRecord!=undefined &&this.mediaFormRecord.length==0) {
                         this.span3 = true;
@@ -1014,20 +996,7 @@ export default {
         //     });
         // },
 
-        pass() {
-            var id = JSON.parse(sessionStorage.getItem("id"));
-            this.$axios.post('/api/front/record/adopt.json', {
-                id: id
-            }).then(res => {
-                if (res.data.success === "true") {
-                    this.$Message.success("通过请求");
-                    history.go(-1);
-                } else {
-                    this.$Message.error(res.data.message);
-                }
 
-            })
-        },
         delect() {
             if (this.navList.length == 1) {
                 this.$Message.error("还是留一个吧");

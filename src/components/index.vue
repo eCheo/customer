@@ -364,7 +364,7 @@ export default {
 
                 },
                   {
-                    title: '备案状态',
+                    title: '媒体形式',
                     key: 'mediaForm',
                     width: 90,
                     render: (h, params) => {
@@ -372,7 +372,7 @@ export default {
                     }
                 },
                 {
-                    title: '媒体形式',
+                    title: '备案状态',
                     key: 'recordStatus',
                     width: 90,
                     render: (h, params) => {
@@ -447,7 +447,7 @@ export default {
                 //     code: "unselected",
                 //     message: "请选择"
                 // })
-                //  console.log(this.mediaList);
+              
             })
         },
         getRecordStatus() {

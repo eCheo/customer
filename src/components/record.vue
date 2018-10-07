@@ -198,7 +198,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接人</label>
-                                <Select v-model="recordDto.pickUp" filterable :loading="loading1" :disabled="disabled1" @on-blur='addContract("pickUp")'>
+                                <Select v-model="recordDto.pickUp" filterable :loading="loading1" :disabled="disabled1" >
                                     <Option v-for="(option, index) in networkList" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -210,7 +210,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接部门</label>
-                                <Select v-model="recordDto.docking" filterable :loading="loading2" :disabled="disabled1" @on-blur='addContract("docking")'>
+                                <Select v-model="recordDto.docking" filterable :loading="loading2" :disabled="disabled1">
                                     <Option v-for="(option, index) in networkList2" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -867,7 +867,7 @@ export default {
         },
         create() {
             var admin = sessionStorage.getItem("admin");
-            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
+            let arry = [ "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
             var isvali = this.vail(arry);
 
             if (!isvali) {
@@ -1135,7 +1135,7 @@ export default {
                 return;
             }
             let entryNames = (this.entryName1 + ',' + this.entryName2 + "," + this.entryName3).split(",");
-            // console.log(entryNames);
+           
             for (var i = 0; i < entryNames.length; i++) {
                 if (entryNames[i] != "" && entryNames[i] != "undefined" && entryNames[i] != undefined) {
                     name += entryNames[i] + ",";
@@ -1219,7 +1219,7 @@ export default {
                 this.corporateAddress2 = relut[1];
                 this.corporateAddress3 = relut[2];
                     this.isApply = res.data.data.isApply;
-                    console.log(this.isApply);
+                  
                 var relut2 = res.data.data.entryName.split(',');
                 this.entryName1 = relut2[0];
                 this.entryName2 = relut2[1];

@@ -65,8 +65,8 @@ export default {
                         code: this.code
                     }
                 }, {
-                    }).then(response => {
-                        console.log(response.data.data.roleDto.code);
+                }).then(response => {
+                
                         if (response.data.success) {
                             sessionStorage.setItem('userInfo', this.name);
                             sessionStorage.setItem('admin', response.data.data.roleDto.code)
@@ -82,6 +82,7 @@ export default {
                             if(response.data.data.roleDto.code == 'network'){
                                 this.$router.push({path:'/network'})
                             }
+                            this.$Message.success('登录成功');
                             sessionStorage.setItem('sex',response.data.data.sex.code);
                         } else {
                             this.src = '/api/code/valicode.json?id=' + Math.random() * 100000;

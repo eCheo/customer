@@ -198,7 +198,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接人</label>
-                                <Select v-model="recordDto.pickUp"  filterable :loading="loading1"  @on-change='addContract("pickUp")'>
+                                <Select v-model="recordDto.pickUp"  filterable :loading="loading1"  >
                                     <Option v-for="(option, index) in networkList" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -210,7 +210,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接部门</label>
-                                <Select v-model="recordDto.docking"  filterable :loading="loading2"  @on-change='addContract("docking")'>
+                                <Select v-model="recordDto.docking"  filterable :loading="loading2" >
                                     <Option v-for="(option, index) in networkList2" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -816,27 +816,6 @@ export default {
 
                 }
                
-                
-                                if (value == "docking") {
-                                    if (this.recordDto.docking == "") {
-                                        this.span12 = true;
-                                        this.spanText12 = "对接部门不能为空";
-                                        isvalilPass = false;
-                                    } else {
-                                        this.span12 = false;
-                                    }
-                                }
-
-                                if (value == "pickUp") {
-                                    if (this.recordDto.pickUp == "") {
-                                        this.span11 = true;
-                                        this.spanText11 = "对接人不能为空";
-                                        isvalilPass = false;
-                                    } else {
-                                        this.span11 = false;
-                                    }
-                                }
-                            
 
                 if (value == "mediaForm") {
                     if (this.mediaFormRecord != undefined && this.mediaFormRecord.length == 0) {
@@ -887,7 +866,7 @@ export default {
         },
         create() {
             var admin = sessionStorage.getItem("admin");
-            let arry = ["pickUp", "docking", "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
+            let arry = [ "corporateAddress", "entryName", "mediaForm", "projectAddress", "contactName", "position", "corporateName", "phone", "QQ"];
             var isvali = this.vail(arry);
 
             if (!isvali) {

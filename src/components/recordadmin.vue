@@ -185,7 +185,7 @@
                             <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接人</label>
-                                <Select v-model="recordDto.pickUp" filterable :loading="loading1" :disabled="disabled1" @on-blur='addContract("pickUp")'>
+                                <Select v-model="recordDto.pickUp" filterable :loading="loading1"  >
                                     <Option v-for="(option, index) in networkList" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -197,7 +197,7 @@
                         <div class="r_one1">
                             <div class="one_left2">
                                 <label>网络对接部门</label>
-                                <Select v-model="recordDto.docking" filterable :loading="loading2" :disabled="disabled1" @on-blur='addContract("docking")'>
+                                <Select v-model="recordDto.docking" filterable :loading="loading2">
                                     <Option v-for="(option, index) in networkList2" :value="option.name" :key="index">{{option.name}}</Option>
                                 </Select>
                             </div>
@@ -521,6 +521,8 @@ export default {
             corporateAddress1: '',
             corporateAddress2: '',
             corporateAddress3: '',
+            loading2:false,
+            loading1:false,
             hides3: false,
             hides2: false,
               options3: {
@@ -795,25 +797,6 @@ export default {
 
                 }
 
-                if (value == "docking") {
-                    if (this.recordDto.docking == "") {
-                        this.span12 = true;
-                        this.spanText12 = "对接部门不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span12 = false;
-                    }
-                }
-
-                if (value == "pickUp") {
-                    if (this.recordDto.pickUp == "") {
-                        this.span11 = true;
-                        this.spanText11 = "对接人不能为空";
-                        isvalilPass = false;
-                    } else {
-                        this.span11 = false;
-                    }
-                }
                 if (value == "mediaForm") {
                     if (this.mediaFormRecord != undefined && this.mediaFormRecord.length == 0) {
                         this.span3 = true;
@@ -850,7 +833,6 @@ export default {
                 })
                 .then(res => {
                     this.mediaFormList = res.data.data;
-                    // console.log(this.mediaForm);
                 });
         },
         handleSuccess(res) {
@@ -1156,7 +1138,7 @@ export default {
                 if (res.data.success == true) {
                     this.$Message.success("转交成功");
                     sessionStorage.removeItem('current');
-                    history.go(-1);
+                     this.$router.push({path:'/indexadmin'});
                 } else {
                     this.$Message.error(res.data.message);
                 }
@@ -1233,7 +1215,7 @@ export default {
                         })
                     ])
                 },
-                onOk() {
+                onOk:()=> {
                     var id = JSON.parse(sessionStorage.getItem("id"));
                     this.$axios.post('/api/front/record/deal.json', {
                         contractEffectTime: effectTime,
@@ -1241,8 +1223,8 @@ export default {
                         id: id
                     }).then(res => {
                         if (res.data.success == true) {
+                            this.$router.push({path:'/indexadmin'});
                             this.$Message.success("通过成交请求");
-                          this.$router.push({path:'/indexadmin'});
                         } else {
                             this.$Message.error(res.data.message);
                         }
